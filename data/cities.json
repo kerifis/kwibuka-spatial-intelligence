@@ -1,0 +1,19 @@
+[
+  {"n":"KIGALI","lat":-1.9441,"lng":30.0619,"major":true},
+  {"n":"Butare","lat":-2.5978,"lng":29.7394,"major":true},
+  {"n":"Gisenyi","lat":-1.6800,"lng":29.2600,"major":true},
+  {"n":"Kibuye","lat":-2.0622,"lng":29.3472,"major":true},
+  {"n":"Byumba","lat":-1.5764,"lng":30.0597,"major":true},
+  {"n":"Rwamagana","lat":-1.9500,"lng":30.4300,"major":true},
+  {"n":"Nyanza","lat":-2.3500,"lng":29.7500,"major":false},
+  {"n":"Ruhengeri","lat":-1.4999,"lng":29.6353,"major":false},
+  {"n":"Cyangugu","lat":-2.4847,"lng":28.9079,"major":false},
+  {"n":"Gitarama","lat":-2.0800,"lng":29.7500,"major":false},
+  {"n":"Kibungo","lat":-2.1592,"lng":30.5427,"major":false},
+  {"n":"Gikongoro","lat":-2.4700,"lng":29.5700,"major":false},
+  {"n":"Nyagatare","lat":-1.2978,"lng":30.3250,"major":false},
+  {"n":"Kabuga","lat":-1.9350,"lng":30.0500,"major":false},
+  {"n":"Rusumo","lat":-2.3800,"lng":30.7800,"major":false},
+  {"n":"Kinigi","lat":-1.4300,"lng":29.6000,"major":false},
+  {"n":"Rilima","lat":-2.1800,"lng":30.1500,"major":false}
+]

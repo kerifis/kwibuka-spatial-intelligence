@@ -1,0 +1,21 @@
+{
+  "name": "kwibuka-spatial-intelligence",
+  "version": "1.0.0",
+  "description": "Spatial intelligence dashboard visualizing the 1994 Genocide against the Tutsi in Rwanda — 100-day timeline, sigmoid distribution model, 16 memorial sites with testimony",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "topojson-client": "^3.1.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  },
+  "license": "MIT",
+  "author": "",
+  "keywords": ["rwanda", "genocide", "memorial", "spatial-intelligence", "d3", "visualization"]
+}

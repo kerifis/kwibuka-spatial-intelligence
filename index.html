@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KWIBUKA // Spatial Intelligence — Rwanda 1994</title>
+  <meta name="description" content="Interactive spatial intelligence dashboard visualizing the 1994 Genocide against the Tutsi in Rwanda. 100-day timeline, sigmoid distribution model, 16 memorial sites with survivor testimony." />
+</head>
+<body>
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-title"><b>KWIBUKA</b> // SPATIAL INTELLIGENCE // 1994</div>
+    <div class="hdr-date" id="hDate">1994-04-06</div>
+    <div class="hdr-phase" id="hPhase">-</div>
+    <div class="hdr-day" id="hDay">DAY 0 / 100</div>
+    <div class="hdr-spacer"></div>
+    <div class="fgrp">
+      <button class="fbtn on" data-m="std" onclick="setMode('std')">STD</button>
+      <button class="fbtn" data-m="nvg" onclick="setMode('nvg')">NVG</button>
+      <button class="fbtn" data-m="crt" onclick="setMode('crt')">CRT</button>
+      <button class="fbtn" data-m="flir" onclick="setMode('flir')">FLIR</button>
+    </div>
+    <div class="mem-toggle">
+      <div class="mem-sw on" id="memSw" onclick="toggleMemorials()"></div>
+      <label onclick="toggleMemorials()">MEMORIALS</label>
+    </div>
+  </div>
+
+  <div class="map-wrap" id="mapWrap">
+    <div class="loading" id="ldg">INITIALIZING SPATIAL ENGINE</div>
+    <svg id="mSvg"></svg>
+    <div class="counter-big" id="bigCount">0</div>
+    <div class="counter-label">estimated lives lost</div>
+    <div class="rate-bar" id="rateBar">
+      <div class="rb-t">Killing rate</div>
+      <div class="rb-v" id="rateVal">0</div>
+      <div class="rb-s">lives per day</div>
+    </div>
+    <div class="legend">
+      <div class="legend-t">Intensity</div>
+      <div class="legend-bar" style="background:linear-gradient(90deg,rgba(255,34,68,.1),rgba(255,34,68,.4),rgba(255,34,68,.8),#ff2244)"></div>
+      <div class="legend-l"><span>Low</span><span>Extreme</span></div>
+    </div>
+    <div class="coord" id="coordD">-1.9403 S, 29.8739 E</div>
+    <div class="scan-ov" id="scanOv"></div>
+    <div class="vig-ov" id="vigOv"></div>
+    <div class="flk-ov" id="flkOv"></div>
+    <div class="icard" id="icard">
+      <div class="icard-h"><h3 id="icT">-</h3><button class="icard-x" onclick="closeIC()">x</button></div>
+      <div class="ic-tabs" id="icTabs" style="display:none">
+        <button class="ic-tab on" onclick="showTab('overview')">Overview</button>
+        <button class="ic-tab" onclick="showTab('testimony')">Testimony</button>
+        <button class="ic-tab" onclick="showTab('resources')">Resources</button>
+      </div>
+      <div class="icard-b">
+        <div class="ic-pane on" id="pane-overview">
+          <div id="icBadge"></div>
+          <div class="icard-m">
+            <div class="mi"><div class="ml">Date</div><div class="mv" id="icDt">-</div></div>
+            <div class="mi"><div class="ml">Lives lost</div><div class="mv r" id="icLv">-</div></div>
+            <div class="mi"><div class="ml">Type</div><div class="mv" id="icTp">-</div></div>
+            <div class="mi"><div class="ml">Province</div><div class="mv" id="icPr">-</div></div>
+          </div>
+          <div class="icard-d" id="icDs">-</div>
+        </div>
+        <div class="ic-pane" id="pane-testimony">
+          <div class="ic-testimony" id="icTestimony">
+            <div class="ict-q" id="icTQ">-</div>
+            <div class="ict-a" id="icTA">-</div>
+          </div>
+          <div class="ic-context" id="icCtx">-</div>
+        </div>
+        <div class="ic-pane" id="pane-resources">
+          <div class="ic-established" id="icEst"></div>
+          <div class="ic-resources" id="icRes"></div>
+        </div>
+      </div>
+    </div>
+    <div class="tt" id="ttip"></div>
+  </div>
+
+  <div class="stat-pan" id="sPan">
+    <div class="slbl">Situation overview</div>
+    <div class="scard"><div class="sl">Cumulative lives lost</div><div class="sv r" id="sLives">0</div><div class="ss">sigmoid model // 1,000,000 total</div></div>
+    <div class="scard"><div class="sl">Documented event sites</div><div class="sv g" id="sSites">0</div></div>
+    <div class="scard"><div class="sl">Provinces affected</div><div class="sv a" id="sProv">0</div></div>
+    <div class="scard"><div class="sl">Memorial sites mapped</div><div class="sv" id="sMem" style="color:rgba(255,255,255,.6)">16</div><div class="ss">Click diamond markers on map</div></div>
+    <div class="slbl" style="margin-top:2px">Provincial distribution</div>
+    <div id="provBars"></div>
+    <div class="slbl" style="margin-top:2px">Active events</div>
+    <div class="evlist" id="evList"><div style="text-align:center;padding:12px;color:var(--tx3);font-size:9px;letter-spacing:1px">Advance timeline</div></div>
+  </div>
+
+  <div class="tbar">
+    <div class="tctrl">
+      <button class="pbtn" id="pBtn" onclick="togglePlay()">&#9654;</button>
+      <button class="sbtn on" data-s="1" onclick="setSpd(1)">1x</button>
+      <button class="sbtn" data-s="2" onclick="setSpd(2)">2x</button>
+      <button class="sbtn" data-s="4" onclick="setSpd(4)">4x</button>
+      <button class="sbtn" data-s="8" onclick="setSpd(8)">8x</button>
+      <div style="flex:1"></div>
+      <div style="font-size:8px;color:var(--tx3);letter-spacing:2px">APRIL 6 — JULY 15, 1994 // SIGMOID MODEL // 16 MEMORIAL SITES WITH TESTIMONY</div>
+    </div>
+    <div class="ttrack" id="tTrack">
+      <div class="tbg"></div>
+      <div class="tprog" id="tProg"></div>
+      <div id="tMarkers"></div>
+      <div class="thandle" id="tHandle"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
