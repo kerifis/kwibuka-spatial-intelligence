@@ -125,9 +125,9 @@ export function togglePlay(onTick, getCurrentDay) {
     if (day >= TOTAL_DAYS) day = 0;
     interval = setInterval(() => {
       day++;
-      if (day > TOTAL_DAYS) { day = TOTAL_DAYS; togglePlay(onTick, getCurrentDay); return; }
+      if (day > TOTAL_DAYS) { day = 0; }
       onTick(day);
-    }, 600 / speed);
+    }, 1000 / speed);
   } else {
     clearInterval(interval);
   }
@@ -146,8 +146,8 @@ export function setSpeed(s, onTick, getCurrentDay) {
     let day = getCurrentDay();
     interval = setInterval(() => {
       day++;
-      if (day > TOTAL_DAYS) { day = TOTAL_DAYS; togglePlay(onTick, getCurrentDay); return; }
+      if (day > TOTAL_DAYS) { day = 0; }
       onTick(day);
-    }, 600 / speed);
+    }, 1000 / speed);
   }
 }

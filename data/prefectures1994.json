@@ -1,0 +1,112 @@
+[
+  {
+    "id": "gs",
+    "name": "GISENYI",
+    "capital": "Gisenyi",
+    "note": "Organized killings under military coordination. Tutsi massacred along Lake Kivu shore and in surrounding hills from mid-April.",
+    "lat": -1.46, "lng": 29.17,
+    "capLat": -1.68, "capLng": 29.26,
+    "color": "#4a8fd4",
+    "poly": [[29.02,-1.06],[29.38,-1.06],[29.38,-1.73],[29.10,-1.73],[28.98,-1.25],[29.02,-1.06]]
+  },
+  {
+    "id": "rh",
+    "name": "RUHENGERI",
+    "capital": "Ruhengeri",
+    "note": "Killings organized in highland sectors surrounding the Virunga volcanoes. Remote terrain provided brief refuge before systematic searches.",
+    "lat": -1.42, "lng": 29.64,
+    "capLat": -1.4999, "capLng": 29.6353,
+    "color": "#66b294",
+    "poly": [[29.38,-1.06],[29.90,-1.07],[29.90,-1.73],[29.38,-1.73],[29.38,-1.06]]
+  },
+  {
+    "id": "bm",
+    "name": "BYUMBA",
+    "capital": "Byumba",
+    "note": "Genocide overlapped with RPF military advance from Uganda. Complex violence across northeastern highlands and border zones.",
+    "lat": -1.40, "lng": 30.24,
+    "capLat": -1.5764, "capLng": 30.0597,
+    "color": "#b094d4",
+    "poly": [[29.90,-1.07],[30.47,-1.07],[30.53,-1.40],[30.82,-1.60],[30.82,-1.73],[29.90,-1.73],[29.90,-1.07]]
+  },
+  {
+    "id": "kv",
+    "name": "KIGALI-VILLE",
+    "capital": "Kigali",
+    "note": "Ground zero. Roadblocks established within hours of April 6. PM Uwilingiyimana killed April 7. 10 Belgian peacekeepers murdered. ETO/Kicukiro: 4,000 abandoned by UNAMIR.",
+    "lat": -1.945, "lng": 30.025,
+    "capLat": -1.9441, "capLng": 30.0619,
+    "color": "#d46094",
+    "poly": [[29.87,-1.87],[30.18,-1.87],[30.18,-2.03],[29.87,-2.03],[29.87,-1.87]]
+  },
+  {
+    "id": "kg",
+    "name": "KIGALI PREF.",
+    "capital": null,
+    "note": "Prefecture surrounding the capital. Roadblocks intercepted civilians fleeing Kigali. Systematic house-to-house searches. Kabuga and eastern suburbs targeted early.",
+    "lat": -1.82, "lng": 30.25,
+    "capLat": null, "capLng": null,
+    "color": "#d47a3c",
+    "poly": [[29.88,-1.73],[30.45,-1.73],[30.45,-2.22],[29.88,-2.22],[29.88,-1.73]]
+  },
+  {
+    "id": "gt",
+    "name": "GITARAMA",
+    "capital": "Gitarama",
+    "note": "Interim genocidal government relocated here April 12. Their presence accelerated killings throughout the prefecture. Among the most intense provincial violence.",
+    "lat": -1.97, "lng": 29.70,
+    "capLat": -2.08, "capLng": 29.75,
+    "color": "#d4b43c",
+    "poly": [[29.52,-1.73],[29.88,-1.73],[29.88,-2.22],[29.52,-2.22],[29.52,-1.73]]
+  },
+  {
+    "id": "kb",
+    "name": "KIBUYE",
+    "capital": "Kibuye",
+    "note": "Among the highest proportional death tolls. 12,000+ killed at Gatwaro Stadium. Authorities directed civilians to gather points under false promises of safety.",
+    "lat": -1.96, "lng": 29.27,
+    "capLat": -2.0622, "capLng": 29.3472,
+    "color": "#9470d4",
+    "poly": [[29.10,-1.73],[29.52,-1.73],[29.52,-2.22],[29.22,-2.22],[29.05,-2.12],[28.95,-2.20],[28.88,-2.15],[28.85,-2.05],[28.90,-1.92],[28.95,-1.82],[29.00,-1.73],[29.10,-1.73]]
+  },
+  {
+    "id": "cy",
+    "name": "CYANGUGU",
+    "capital": "Cyangugu",
+    "note": "Systematic killings near DRC border. Bodies disposed of in Lake Kivu. Operation Turquoise (French) established its humanitarian zone partly here in late June.",
+    "lat": -2.50, "lng": 28.98,
+    "capLat": -2.4847, "capLng": 28.9079,
+    "color": "#5480c4",
+    "poly": [[28.86,-2.25],[29.22,-2.22],[29.22,-2.70],[29.20,-2.70],[29.00,-2.35],[28.86,-2.25]]
+  },
+  {
+    "id": "gk",
+    "name": "GIKONGORO",
+    "capital": "Gikongoro",
+    "note": "Site of Murambi Technical School: ~45,000 killed in a single night, April 21. One of the highest per-site death tolls of the genocide.",
+    "lat": -2.43, "lng": 29.42,
+    "capLat": -2.47, "capLng": 29.57,
+    "color": "#3caa9c",
+    "poly": [[29.22,-2.22],[29.68,-2.22],[29.68,-2.72],[29.50,-2.80],[29.35,-2.80],[29.22,-2.70],[29.22,-2.22]]
+  },
+  {
+    "id": "bt",
+    "name": "BUTARE",
+    "capital": "Butare",
+    "note": "Last prefecture to begin. Tutsi prefect Habyarimana (no relation) was removed and killed April 19. Killings then among the most intense. National University targeted.",
+    "lat": -2.60, "lng": 29.88,
+    "capLat": -2.5978, "capLng": 29.7394,
+    "color": "#3cb450",
+    "poly": [[29.68,-2.22],[30.12,-2.22],[30.12,-2.65],[29.70,-2.80],[29.50,-2.80],[29.68,-2.72],[29.68,-2.22]]
+  },
+  {
+    "id": "kn",
+    "name": "KIBUNGO",
+    "capital": "Kibungo",
+    "note": "Nyarubuye: ~20,000 killed at the parish. Bodies thrown into the Kagera River, flowing to Lake Victoria, visible to the world weeks before any intervention.",
+    "lat": -2.02, "lng": 30.60,
+    "capLat": -2.1592, "capLng": 30.5427,
+    "color": "#c4a43c",
+    "poly": [[30.45,-1.73],[30.82,-1.73],[30.90,-1.80],[30.89,-2.00],[30.82,-2.30],[30.55,-2.40],[30.42,-2.60],[30.12,-2.65],[30.12,-2.22],[30.45,-2.22],[30.45,-1.73]]
+  }
+]

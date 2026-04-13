@@ -29,8 +29,18 @@ const PROV_CENTERS = [
 
 const NEIGHBORS = ['180', '800', '834', '108']; // DRC, Uganda, Tanzania, Burundi
 
+// GeoJSON Feature used to auto-fit the projection to Rwanda's extent
+const RWANDA_FIT_GEOM = {
+  type: 'Feature',
+  geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] }
+};
+
 export let projection, pathGen, svg;
-export let gGrid, gMap, gHeat, gMark, gLbl;
+export let gGrid, gMap, gPref, gHeat, gMark, gLbl;
+
+// Clip path path element — updated when Rwanda geometry is known and on resize
+let rwClipPathEl = null;
+let rwGeoFeature  = null;
 
 /**
  * Initialize the D3 map: projection, SVG layers, topology loading.
@@ -46,13 +56,11 @@ export async function initMap(container) {
     .attr('preserveAspectRatio', 'xMidYMid meet');
 
   projection = d3.geoMercator()
-    .center([29.87, -1.94])
-    .scale(Math.min(W, H) * 14)
-    .translate([W / 2, H / 2]);
+    .fitExtent([[0, 0], [W, H]], RWANDA_FIT_GEOM);
 
   pathGen = d3.geoPath().projection(projection);
 
-  // SVG defs for heatmap gradients
+  // SVG defs — heatmap gradients + Rwanda clip path
   const defs = svg.append('defs');
   [
     { id: 'heat',  color: '#ff2244' },
@@ -65,12 +73,16 @@ export async function initMap(container) {
     g.append('stop').attr('offset', '100%').attr('stop-color', color).attr('stop-opacity', 0);
   });
 
+  // Rwanda clip path — geometry filled in after topology loads
+  rwClipPathEl = defs.append('clipPath').attr('id', 'rwanda-clip').append('path');
+
   // Create layer groups (order = z-index)
   gGrid = svg.append('g').attr('class', 'grid-layer');
-  gMap = svg.append('g').attr('class', 'map-layer');
-  gHeat = svg.append('g').attr('class', 'heat-layer');
+  gMap  = svg.append('g').attr('class', 'map-layer');
+  gPref = svg.append('g').attr('class', 'pref-layer').attr('clip-path', 'url(#rwanda-clip)');
+  gHeat = svg.append('g').attr('class', 'heat-layer').attr('clip-path', 'url(#rwanda-clip)');
   gMark = svg.append('g').attr('class', 'marker-layer');
-  gLbl = svg.append('g').attr('class', 'label-layer');
+  gLbl  = svg.append('g').attr('class', 'label-layer');
 
   // Grid lines
   for (let la = -3; la <= -1; la += 0.25) {
@@ -95,15 +107,17 @@ export async function initMap(container) {
     if (world?.objects?.countries) {
       const countries = topojson.feature(world, world.objects.countries);
 
-      // Neighbor countries (faded)
+      // Neighbor countries (very faint — zoomed mostly out of frame)
       gMap.selectAll('.neighbor')
         .data(countries.features.filter(f => NEIGHBORS.includes(f.id)))
         .enter().append('path')
         .attr('d', pathGen).attr('class', 'c-fill c-bdr');
 
-      // Rwanda (highlighted)
+      // Rwanda
       const rw = countries.features.find(f => f.id === '646');
       if (rw) {
+        rwGeoFeature = rw;
+        rwClipPathEl.datum(rw).attr('d', pathGen);
         gMap.append('path').datum(rw).attr('d', pathGen).attr('class', 'rw-fill');
         rwandaLoaded = true;
       }
@@ -118,6 +132,8 @@ export async function initMap(container) {
       type: 'Feature',
       geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] },
     };
+    rwGeoFeature = geo;
+    rwClipPathEl.datum(geo).attr('d', pathGen);
     gMap.append('path').datum(geo).attr('d', pathGen).attr('class', 'rw-fill');
   }
 
@@ -156,6 +172,10 @@ export function handleResize(container) {
   const W = container.clientWidth;
   const H = container.clientHeight;
   svg.attr('viewBox', `0 0 ${W} ${H}`);
-  projection.scale(Math.min(W, H) * 14).translate([W / 2, H / 2]);
+  projection.fitExtent([[0, 0], [W, H]], RWANDA_FIT_GEOM);
   gMap.selectAll('path').attr('d', pathGen);
+  // Re-project clip path so it stays aligned with the new scale
+  if (rwClipPathEl && rwGeoFeature) {
+    rwClipPathEl.datum(rwGeoFeature).attr('d', pathGen);
+  }
 }

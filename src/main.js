@@ -10,6 +10,7 @@ import { initMap, projection, handleResize } from './map.js';
 import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
+import { togglePrefectures, initPrefectures, updatePrefLives } from './prefectures.js';
 import { showInfoCard, closeInfoCard, showTab } from './infocard.js';
 import { setMode, currentMode } from './filters.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
@@ -47,6 +48,7 @@ function update(day) {
   renderHeatmap(active, day, mode);
   renderMarkers(active, day, mode);
   renderMemorialMarkers(mode);
+  updatePrefLives(day);
   renderEventList(active);
 }
 
@@ -60,7 +62,9 @@ async function init() {
   buildProvinceBars();
   buildTimeline();
   bindTimelineEvents(day => update(day));
+  initPrefectures();
   update(0);
+  togglePlay(day => update(day), () => currentDay);
 
   // Coordinate display on mouse move
   container.addEventListener('mousemove', e => {
@@ -92,6 +96,7 @@ window.setMode = (mode) => setMode(mode, () => update(currentDay));
 window.togglePlay = () => togglePlay(day => update(day), () => currentDay);
 window.setSpd = (s) => setSpeed(s, day => update(day), () => currentDay);
 window.toggleMemorials = () => { toggleMemLayer(); update(currentDay); };
+window.togglePref1994  = () => togglePrefectures();
 window.closeIC = () => closeInfoCard();
 window.showTab = (t) => showTab(t);
 

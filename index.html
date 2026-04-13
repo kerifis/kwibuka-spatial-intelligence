@@ -24,9 +24,26 @@
       <div class="mem-sw on" id="memSw" onclick="toggleMemorials()"></div>
       <label onclick="toggleMemorials()">MEMORIALS</label>
     </div>
+    <div class="mem-toggle">
+      <div class="mem-sw" id="pref94Sw" onclick="togglePref1994()"></div>
+      <label onclick="togglePref1994()" style="white-space:nowrap">1994 PRÉFS</label>
+    </div>
+  </div>
+
+  <div class="stat-pan" id="sPan">
+    <div class="slbl">Situation overview</div>
+    <div class="scard"><div class="sl">Cumulative lives lost</div><div class="sv r" id="sLives">0</div><div class="ss">sigmoid model // 1,000,000 total</div></div>
+    <div class="scard"><div class="sl">Documented event sites</div><div class="sv g" id="sSites">0</div></div>
+    <div class="scard"><div class="sl">Provinces affected</div><div class="sv a" id="sProv">0</div></div>
+    <div class="scard"><div class="sl">Memorial sites mapped</div><div class="sv" id="sMem" style="color:rgba(255,255,255,.6)">16</div><div class="ss">Click diamond markers on map</div></div>
+    <div class="slbl" style="margin-top:2px">Provincial distribution</div>
+    <div id="provBars"></div>
+    <div class="slbl" style="margin-top:2px">Active events</div>
+    <div class="evlist" id="evList"><div style="text-align:center;padding:12px;color:var(--tx3);font-size:9px;letter-spacing:1px">Advance timeline</div></div>
   </div>
 
   <div class="map-wrap" id="mapWrap">
+    <div class="pref94-banner" id="pref94Banner">1994 PRÉFECTURES // PRE-REFORM ADMINISTRATIVE DIVISIONS // HOVER FOR HISTORICAL CONTEXT</div>
     <div class="loading" id="ldg">INITIALIZING SPATIAL ENGINE</div>
     <svg id="mSvg"></svg>
     <div class="counter-big" id="bigCount">0</div>
@@ -55,6 +72,9 @@
       <div class="icard-b">
         <div class="ic-pane on" id="pane-overview">
           <div id="icBadge"></div>
+          <div class="ic-img-wrap" id="icImgWrap" style="display:none">
+            <img id="icImg" class="ic-img" src="" alt="" />
+          </div>
           <div class="icard-m">
             <div class="mi"><div class="ml">Date</div><div class="mv" id="icDt">-</div></div>
             <div class="mi"><div class="ml">Lives lost</div><div class="mv r" id="icLv">-</div></div>
@@ -77,18 +97,6 @@
       </div>
     </div>
     <div class="tt" id="ttip"></div>
-  </div>
-
-  <div class="stat-pan" id="sPan">
-    <div class="slbl">Situation overview</div>
-    <div class="scard"><div class="sl">Cumulative lives lost</div><div class="sv r" id="sLives">0</div><div class="ss">sigmoid model // 1,000,000 total</div></div>
-    <div class="scard"><div class="sl">Documented event sites</div><div class="sv g" id="sSites">0</div></div>
-    <div class="scard"><div class="sl">Provinces affected</div><div class="sv a" id="sProv">0</div></div>
-    <div class="scard"><div class="sl">Memorial sites mapped</div><div class="sv" id="sMem" style="color:rgba(255,255,255,.6)">16</div><div class="ss">Click diamond markers on map</div></div>
-    <div class="slbl" style="margin-top:2px">Provincial distribution</div>
-    <div id="provBars"></div>
-    <div class="slbl" style="margin-top:2px">Active events</div>
-    <div class="evlist" id="evList"><div style="text-align:center;padding:12px;color:var(--tx3);font-size:9px;letter-spacing:1px">Advance timeline</div></div>
   </div>
 
   <div class="tbar">

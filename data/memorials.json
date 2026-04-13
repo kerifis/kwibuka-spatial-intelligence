@@ -1,18 +1,537 @@
 [
-  {"id":"m1","name":"Kigali Genocide Memorial (Gisozi)","lat":-1.9277,"lng":30.0540,"prov":"Kigali","lives":250000,"est":2004,"badge":"unesco","type":"National Memorial & UNESCO World Heritage Site","desc":"The principal national memorial and final resting place for over 250,000 victims. Three permanent exhibitions document the genocide, a children's memorial, and a comparative exhibition on global genocidal violence.","testimony":{"text":"We hid for weeks. When it was finally over and we emerged, the streets were silent. Everyone was gone. I walked through neighborhoods I had known my whole life and recognized nothing. The memorial gives them a place — a name, a grave, dignity. Without it, the world would forget them. I will not let them be forgotten.","attribution":"Based on documented survivor testimony, Kigali Genocide Memorial archives","source":"Genocide Archive Rwanda / Aegis Trust"},"context":"Opened on the tenth anniversary of the genocide in April 2004, the memorial was established through a partnership between the Kigali City Council and the Aegis Trust. Remains were brought from across the capital — from streets, rivers, and shallow graves — and interred in mass graves in lots of 100,000. The memorial includes a Wall of Names that continues to grow as victims are identified. Inscribed as a UNESCO World Heritage Site in 2023.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"Aegis Trust","url":"https://www.aegistrust.org/"},{"label":"UNESCO World Heritage","url":"https://whc.unesco.org/en/list/1586/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"},{"label":"Visit Rwanda","url":"https://visitrwanda.com/interests/kigali-genocide-memorial/"}]},
-  {"id":"m2","name":"Murambi Genocide Memorial","lat":-2.4892,"lng":29.5783,"prov":"Southern","lives":45000,"est":1995,"badge":"unesco","type":"National Memorial & UNESCO World Heritage Site","desc":"A former technical school where an estimated 45,000–65,000 Tutsi were directed by authorities under false promises of French military protection. Water and food were cut off before the attack. Preserved mummified remains bear witness to the scale of the atrocity.","testimony":{"text":"They told us the French soldiers would protect us at the school. Thousands walked for hours to reach it. When we arrived, there was no water. No food. We grew weaker every day. Then on the night of the twenty-first, they came. I survived because I was buried under others. I carry them with me in every breath.","attribution":"Based on documented survivor accounts, Murambi memorial records","source":"Genocide Archive Rwanda"},"context":"The Murambi Technical School was still under construction in April 1994 when local officials directed Tutsi civilians there, claiming French troops would provide protection. After days without provisions, soldiers and Interahamwe militia attacked on the night of April 21. The memorial, founded in 1995, displays preserved remains in the former classrooms. UNESCO World Heritage Site since 2023.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"UNESCO World Heritage","url":"https://whc.unesco.org/en/list/1586/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m3","name":"Bisesero Genocide Memorial","lat":-2.2833,"lng":29.2500,"prov":"Western","lives":50000,"est":1998,"badge":"unesco","type":"Memorial of Resistance & UNESCO World Heritage Site","desc":"Known as the \"Memorial of Resistance,\" honoring the Tutsi community of Bisesero who organized armed defense of the hills for over two months before being overwhelmed. Of an original community exceeding 50,000, approximately 1,500 survived.","testimony":{"text":"We fought with stones, with sticks, with anything we could find. Every day they came, and every day we fought. For sixty-two days we held the hills. When the French soldiers finally arrived, they said they would return to help. They came back three days later. In those three days, thousands more of us died. We were the Hill of Resistance. We are still standing.","attribution":"Based on documented accounts of Bisesero resistance, multiple survivor testimonies","source":"Genocide Archive Rwanda / CNLG archives"},"context":"Bisesero's hills saw the longest sustained resistance of the genocide. The Tutsi community, with a historical tradition of self-defense, organized themselves against militia and military forces from April through late June. French forces from Operation Turquoise made initial contact on June 27 but delayed their return, during which thousands more were killed. The memorial has nine buildings representing the nine former communes of Kibuye Province. UNESCO World Heritage Site since 2023.","resources":[{"label":"UNESCO World Heritage","url":"https://whc.unesco.org/en/list/1586/"},{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m4","name":"Nyamata Genocide Memorial","lat":-2.1453,"lng":30.0892,"prov":"Eastern","lives":10000,"est":1997,"badge":"unesco","type":"National Memorial & UNESCO World Heritage Site","desc":"A Catholic church in Bugesera district, 35 km from Kigali, where over 10,000 people seeking sanctuary were killed. The church preserves bloodstained clothing, personal belongings, and human remains. The iron door still bears machete scars.","testimony":{"text":"I was a child when we ran to the church. My mother told me that God would protect us in His house. When they broke through the iron door, I hid under the bodies. I could hear everything. I lay there for two days before I moved. The clothes hanging in that church — those were worn by people I knew. By my family. This church is their voice now.","attribution":"Based on documented child survivor testimony, Nyamata memorial records","source":"Genocide Archive Rwanda"},"context":"The Nyamata Catholic Church served as a traditional place of refuge for the Tutsi community of Bugesera, which had experienced periodic persecution since 1959. When the genocide began, thousands gathered at the church. On April 14–15, 1994, militia and soldiers broke through the reinforced iron doors and massacred those inside and in the surrounding grounds. The memorial, preserving the church as it was found, was established in 1997. UNESCO World Heritage Site since 2023.","resources":[{"label":"UNESCO World Heritage","url":"https://whc.unesco.org/en/list/1586/"},{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m5","name":"Ntarama Genocide Memorial","lat":-2.1594,"lng":30.0461,"prov":"Eastern","lives":5000,"est":1995,"badge":"natl","type":"National Memorial Site","desc":"A former Catholic church 1 km from Nyamata, preserved exactly as it was found. The floor contains bones intermingled with clothing, shoes, and personal items. Approximately 5,000 people were killed here.","testimony":{"text":"The church at Ntarama was small, but we believed we would be safe inside. They came with grenades first, then machetes. When you walk in today, you walk on the floor where we fell. The bones you see were people who sang hymns on Sunday. People who shared food with their neighbors. Do not look away. They deserve to be seen.","attribution":"Based on documented survivor accounts, Ntarama memorial records","source":"Genocide Archive Rwanda / Ibuka"},"context":"Ntarama Church, located in Bugesera district just 1 km from Nyamata, was one of the first genocide memorials established in Rwanda in 1995, with the support of the genocide survivors' organization Ibuka. The memorial preserves the church interior as it was found after the massacre, including human remains, clothing, and personal effects.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m6","name":"Nyarubuye Genocide Memorial","lat":-2.2231,"lng":30.5389,"prov":"Eastern","lives":20000,"est":1996,"badge":"natl","type":"National Memorial Site","desc":"A former Catholic church, convent, and school of the Benebikira Sisters. Approximately 20,000 people were killed at this site, making it one of the largest individual massacre locations.","testimony":{"text":"Nyarubuye was supposed to be different. The parish had always been a safe place. When the killing started, people came from every direction — from the hills, from the valleys. By the time the journalists arrived weeks later and showed the world what happened here, there was no one left to tell them. I tell it now because I am one of the few who can.","attribution":"Based on documented witness accounts, Nyarubuye memorial archives","source":"Genocide Archive Rwanda"},"context":"Nyarubuye parish in the Eastern Province became one of the first massacre sites documented by international media, when journalists arrived weeks after the killings. The compound held an estimated 20,000 people who had gathered from the surrounding hills. The attack began on April 15 and continued for several days.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m7","name":"Nyange Genocide Memorial","lat":-2.1500,"lng":29.4000,"prov":"Western","lives":3000,"est":2000,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Western Province, a site where Tutsi sought refuge before being attacked. The memorial honors those who perished and serves as a place for community remembrance.","testimony":{"text":"At Nyange, we had no weapons. We had only each other and our faith. When they demolished the walls onto us, we held hands. I felt the weight of the building and the weight of every person I had ever known. Some of us were pulled out. Most were not.","attribution":"Based on documented accounts, CNLG memorial records","source":"MINUBUMWE / CNLG"},"context":"The Nyange memorial site commemorates one of many massacres in the Western Province where Tutsi civilians gathered at churches and public buildings.","resources":[{"label":"MINUBUMWE Rwanda","url":"https://www.minubumwe.gov.rw/"},{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m8","name":"Kibuye Genocide Memorial","lat":-2.0622,"lng":29.3472,"prov":"Western","lives":12000,"est":1999,"badge":"regional","type":"Regional Memorial Site","desc":"Near Lake Kivu, honoring the estimated 12,000 victims killed at Gatwaro Stadium and surrounding sites in Kibuye prefecture.","testimony":{"text":"Kibuye was beautiful. The lake, the hills, the churches. They used our trust in these places against us. When the prefect told us to gather at the stadium for our own safety, we believed him. We had always believed the authorities. That belief killed us.","attribution":"Based on documented survivor testimony, Kibuye region","source":"Genocide Archive Rwanda"},"context":"Kibuye prefecture in the Western Province experienced among the highest proportional death tolls during the genocide. Local authorities directed Tutsi civilians to gather at Gatwaro Stadium and churches, claiming it was for their protection.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"}]},
-  {"id":"m9","name":"Rebero Genocide Memorial","lat":-1.9700,"lng":30.0800,"prov":"Kigali","lives":14400,"est":2000,"badge":"regional","type":"Regional Memorial Site","desc":"Located on Rebero hill in Kigali, this memorial commemorates both Tutsi civilians and political figures who were targeted or who bravely opposed the genocide.","testimony":{"text":"On Rebero hill, they killed politicians who refused to participate. They killed leaders who said no. These were people with the power to run, to hide, to leave the country. They stayed. They said no. And they were killed for it. We remember their courage here.","attribution":"Based on documented historical records, Rebero memorial","source":"CNLG / Government of Rwanda"},"context":"The Rebero memorial uniquely honors both civilian victims and political figures who resisted the genocide. An estimated 14,400 people are interred at the site.","resources":[{"label":"Google Arts & Culture","url":"https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ"}]},
-  {"id":"m10","name":"Nyanza Genocide Memorial (Kicukiro)","lat":-1.9780,"lng":30.0700,"prov":"Kigali","lives":4000,"est":1997,"badge":"regional","type":"Regional Memorial Site","desc":"Located at the former ETO school in Kicukiro district. When UN peacekeepers withdrew on April 11, thousands of civilians were marched to Nyanza hill and massacred.","testimony":{"text":"The soldiers — the blue helmets — they were our only hope. When they started packing their vehicles, a silence fell over all of us. Mothers stopped singing to their children. We watched them drive away. Then we were marched to the hill. On April 11th every year, I stand on that hill and I remember what it means to be abandoned by the world.","attribution":"Based on documented accounts of the ETO/Kicukiro withdrawal","source":"Genocide Archive Rwanda / UNAMIR records"},"context":"The Nyanza memorial at the ETO (École Technique Officielle) in Kicukiro commemorates one of the most documented failures of international intervention. Belgian UNAMIR peacekeepers were ordered to withdraw on April 11, abandoning approximately 4,000 civilians.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"}]},
-  {"id":"m11","name":"Mugombwa Genocide Memorial","lat":-2.5500,"lng":29.5500,"prov":"Southern","lives":2000,"est":2004,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Southern Province, commemorating victims from the Gisagara district area.","testimony":{"text":"In Mugombwa, the hills that had fed us became the hills that hid us. But they searched every hill. Every valley. Every home. The memorial stands where we could not.","attribution":"Based on community memorial records, Southern Province","source":"CNLG"},"context":"The Mugombwa memorial commemorates victims from the Gisagara district, part of the former Butare prefecture. Killings intensified after the replacement of the moderate Tutsi prefect in mid-April 1994.","resources":[{"label":"CNLG Rwanda","url":"https://www.minubumwe.gov.rw/"}]},
-  {"id":"m12","name":"Bigogwe Genocide Memorial","lat":-1.6200,"lng":29.3500,"prov":"Western","lives":1500,"est":2002,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Nyabihu district near the Virunga mountains, this memorial honors victims from the highlands region.","testimony":{"text":"We lived in the shadow of the volcanoes. The mountains that had always protected us could not protect us from our neighbors. At Bigogwe, we remember that geography cannot save you from ideology.","attribution":"Based on community records, Bigogwe area","source":"CNLG"},"context":"Bigogwe, in the highlands near the Virunga volcanoes, was a site where Tutsi communities in the remote mountainous region were systematically targeted.","resources":[{"label":"CNLG Rwanda","url":"https://www.minubumwe.gov.rw/"}]},
-  {"id":"m13","name":"Busogo Genocide Memorial","lat":-1.5000,"lng":29.5500,"prov":"Northern","lives":1000,"est":2003,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Northern Province near Musanze, commemorating victims from the northern highlands.","testimony":{"text":"In the north, near the mountains, people thought the killing would not reach us. It reached us. It reached everywhere.","attribution":"Based on community memorial records, Northern Province","source":"CNLG"},"context":"The Busogo memorial commemorates victims from the northern highlands near Musanze district.","resources":[{"label":"CNLG Rwanda","url":"https://www.minubumwe.gov.rw/"}]},
-  {"id":"m14","name":"Butare University Memorial","lat":-2.6000,"lng":29.7400,"prov":"Southern","lives":800,"est":2004,"badge":"regional","type":"Regional Memorial Site","desc":"At the National University of Rwanda in Butare, commemorating students, faculty, and intellectuals who were targeted.","testimony":{"text":"The university was where we came to build Rwanda's future. Tutsi professors, Tutsi students — we studied together, we ate together. Then they were told to separate us. Our classmates pointed us out. Knowledge could not save us. But remembering them honors what they were building.","attribution":"Based on documented accounts from the National University of Rwanda","source":"Genocide Archive Rwanda"},"context":"The National University of Rwanda in Butare was the country's premier academic institution. When the genocide reached Butare after the prefect's replacement on April 19, Tutsi faculty and students were specifically targeted.","resources":[{"label":"Genocide Archive Rwanda","url":"https://genocidearchiverwanda.org.rw/"}]},
-  {"id":"m15","name":"Muyumbu Genocide Memorial","lat":-1.9500,"lng":30.1500,"prov":"Eastern","lives":1500,"est":2002,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Rwamagana district, commemorating victims killed along the main eastern road corridor from Kigali.","testimony":{"text":"Muyumbu was on the road east from Kigali. The roadblocks caught everyone trying to flee the capital. There was nowhere to run that did not have a checkpoint, a barrier, a list.","attribution":"Based on documented accounts, Eastern Province records","source":"CNLG"},"context":"Muyumbu, along the main road east from Kigali toward Rwamagana, was a site where roadblocks intercepted Tutsi civilians fleeing the capital.","resources":[{"label":"CNLG Rwanda","url":"https://www.minubumwe.gov.rw/"}]},
-  {"id":"m16","name":"Mutete Genocide Memorial","lat":-2.2000,"lng":29.3500,"prov":"Western","lives":2000,"est":2001,"badge":"regional","type":"Regional Memorial Site","desc":"Located in the Western Province hills, commemorating victims from the Karongi district area.","testimony":{"text":"In the hills of Mutete, people tried to organize resistance like in Bisesero. But we were fewer. We had less time. The memorial marks where ordinary people tried to become heroes and were cut down.","attribution":"Based on documented accounts, Western Province records","source":"CNLG"},"context":"The Mutete memorial commemorates victims from the Karongi district area. Killings were coordinated with the broader Kibuye prefecture massacres.","resources":[{"label":"CNLG Rwanda","url":"https://www.minubumwe.gov.rw/"}]}
+  {
+    "id": "m1",
+    "name": "Kigali Genocide Memorial (Gisozi)",
+    "lat": -1.9309, "lng": 30.0607,
+    "prov": "Kigali", "lives": 250000, "est": 2004,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Genocide_Memorial_site_of_Gisozi_Kigali_Genocide_Memorial_021.jpg",
+    "desc": "The principal national memorial and final resting place for over 250,000 victims. Three permanent exhibitions document the genocide, a children's memorial, and a comparative exhibition on global genocidal violence. Inscribed UNESCO World Heritage 2023.",
+    "testimony": {
+      "text": "We hid for weeks. When it was finally over and we emerged, the streets were silent. Everyone was gone. I walked through neighborhoods I had known my whole life and recognized nothing. The memorial gives them a place — a name, a grave, dignity. Without it, the world would forget them. I will not let them be forgotten.",
+      "attribution": "Based on documented survivor testimony, Kigali Genocide Memorial archives",
+      "source": "Genocide Archive Rwanda / Aegis Trust"
+    },
+    "context": "Opened on the tenth anniversary of the genocide in April 2004, the memorial was established through a partnership between the Kigali City Council and the Aegis Trust. Remains were brought from across the capital — from streets, rivers, and shallow graves — and interred in mass graves. The memorial includes a Wall of Names that continues to grow as victims are identified. Inscribed as a UNESCO World Heritage Site in 2023.",
+    "resources": [
+      {"label": "Kigali Genocide Memorial", "url": "https://kgm.rw/"},
+      {"label": "Aegis Trust", "url": "https://www.aegistrust.org/"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"},
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"}
+    ]
+  },
+  {
+    "id": "m2",
+    "name": "Murambi Genocide Memorial",
+    "lat": -2.4544, "lng": 29.5684,
+    "prov": "Southern", "lives": 50000, "est": 1995,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Panorama_of_Schoolgrounds_Murambi_Genocide_Memorial_Site.jpg",
+    "desc": "A former technical school where an estimated 45,000–65,000 Tutsi were directed under false promises of French military protection. Preserved mummified remains in the former classrooms bear witness to the scale of the atrocity. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "They told us the French soldiers would protect us at the school. Thousands walked for hours to reach it. When we arrived, there was no water. No food. We grew weaker every day. Then on the night of the twenty-first, they came. I survived because I was buried under others. I carry them with me in every breath.",
+      "attribution": "Based on documented survivor accounts, Murambi memorial records",
+      "source": "Genocide Archive Rwanda"
+    },
+    "context": "The Murambi Technical School was still under construction in April 1994 when local officials directed Tutsi civilians there. After days without provisions, soldiers and Interahamwe militia attacked on the night of April 21. The memorial displays preserved remains in the former classrooms. UNESCO World Heritage Site since 2023.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Murambi", "url": "https://genocidearchiverwanda.org.rw/Murambi_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m3",
+    "name": "Bisesero Genocide Memorial",
+    "lat": -2.1920, "lng": 29.3380,
+    "prov": "Western", "lives": 40000, "est": 1998,
+    "badge": "unesco", "type": "Memorial of Resistance & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Bisesero_Genocide_Memorial_Centre_01.jpg",
+    "desc": "Known as the 'Memorial of Resistance,' honoring the Tutsi community of Bisesero who organized armed defense of the hills for over two months before being overwhelmed. Of an original community exceeding 50,000, approximately 1,500 survived. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "We fought with stones, with sticks, with anything we could find. Every day they came, and every day we fought. For sixty-two days we held the hills. When the French soldiers finally arrived, they said they would return to help. They came back three days later. In those three days, thousands more of us died. We were the Hill of Resistance. We are still standing.",
+      "attribution": "Based on documented accounts of Bisesero resistance, multiple survivor testimonies",
+      "source": "Genocide Archive Rwanda / CNLG archives"
+    },
+    "context": "Bisesero's hills saw the longest sustained resistance of the genocide. The Tutsi community organized themselves against militia and military forces from April through late June. French forces from Operation Turquoise made initial contact on June 27 but delayed their return, during which thousands more were killed. The memorial has nine buildings representing the nine former communes of Kibuye Province.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Bisesero", "url": "https://genocidearchiverwanda.org.rw/Bisesero_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m4",
+    "name": "Nyamata Genocide Memorial",
+    "lat": -2.1489, "lng": 30.0938,
+    "prov": "Eastern", "lives": 50000, "est": 1996,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Nyamata_Genocide_Memorial_Church_-_Flickr_-_Dave_Proffer_(11).jpg",
+    "desc": "A Catholic church in Bugesera district where over 10,000 people seeking sanctuary were killed. The church preserves bloodstained clothing, personal belongings, and human remains. The iron door still bears machete scars. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "I was a child when we ran to the church. My mother told me that God would protect us in His house. When they broke through the iron door, I hid under the bodies. I could hear everything. I lay there for two days before I moved. The clothes hanging in that church — those were worn by people I knew. By my family. This church is their voice now.",
+      "attribution": "Based on documented child survivor testimony, Nyamata memorial records",
+      "source": "Genocide Archive Rwanda"
+    },
+    "context": "The Nyamata Catholic Church served as a traditional place of refuge for the Tutsi community of Bugesera. When the genocide began, thousands gathered at the church. On April 14–15, 1994, militia and soldiers broke through the reinforced iron doors and massacred those inside. The memorial preserves the church as it was found. UNESCO World Heritage Site since 2023.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyamata", "url": "https://genocidearchiverwanda.org.rw/Nyamata_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m5",
+    "name": "Ntarama Genocide Memorial",
+    "lat": -2.1126, "lng": 30.0501,
+    "prov": "Eastern", "lives": 5000, "est": 1995,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Exterior_of_Ntarama_Genocide_Memorial_Site_-_Rwanda_-_01.jpg",
+    "desc": "A former Catholic church 1 km from Nyamata, preserved exactly as it was found. The floor contains bones intermingled with clothing, shoes, and personal items. Approximately 5,000 people were killed here. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "The church at Ntarama was small, but we believed we would be safe inside. They came with grenades first, then machetes. When you walk in today, you walk on the floor where we fell. The bones you see were people who sang hymns on Sunday. People who shared food with their neighbors. Do not look away. They deserve to be seen.",
+      "attribution": "Based on documented survivor accounts, Ntarama memorial records",
+      "source": "Genocide Archive Rwanda / Ibuka"
+    },
+    "context": "Ntarama Church, located in Bugesera district just 1 km from Nyamata, was one of the first genocide memorials established in Rwanda in 1995, with the support of the survivors' organization Ibuka. The memorial preserves the church interior as it was found after the massacre.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Ntarama", "url": "https://genocidearchiverwanda.org.rw/Ntarama_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m6",
+    "name": "Nyarubuye Genocide Memorial",
+    "lat": -2.2794, "lng": 30.7114,
+    "prov": "Eastern", "lives": 51000, "est": 1995,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/NyarubuyeGenocideMemorial01.jpg",
+    "desc": "A former Catholic church, convent, and school where approximately 20,000–51,000 people were killed. One of the first massacre sites documented by international media. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "Nyarubuye was supposed to be different. The parish had always been a safe place. When the killing started, people came from every direction — from the hills, from the valleys. By the time the journalists arrived weeks later and showed the world what happened here, there was no one left to tell them. I tell it now because I am one of the few who can.",
+      "attribution": "Based on documented witness accounts, Nyarubuye memorial archives",
+      "source": "Genocide Archive Rwanda"
+    },
+    "context": "Nyarubuye parish in Kirehe district became one of the first massacre sites documented by international media. The compound held an estimated 20,000+ people who had gathered from the surrounding hills. The attack began on April 15 and continued for several days. Remains of victims and their belongings are preserved at the site.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyarubuye", "url": "https://genocidearchiverwanda.org.rw/Nyarubuye_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m7",
+    "name": "Nyanza-Kicukiro Genocide Memorial",
+    "lat": -2.0017, "lng": 30.0924,
+    "prov": "Kigali", "lives": 10000, "est": 1994,
+    "badge": "unesco", "type": "National Memorial & UNESCO World Heritage Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Nyanza-KicuciroGenocideMemorial30.jpg",
+    "desc": "Located at the former ETO school in Kicukiro. When UN peacekeepers withdrew on April 11, thousands of civilians were marched to Nyanza hill and massacred. One of the most documented failures of international intervention. UNESCO World Heritage Site 2023.",
+    "testimony": {
+      "text": "The soldiers — the blue helmets — they were our only hope. When they started packing their vehicles, a silence fell over all of us. Mothers stopped singing to their children. We watched them drive away. Then we were marched to the hill. On April 11th every year, I stand on that hill and I remember what it means to be abandoned by the world.",
+      "attribution": "Based on documented accounts of the ETO/Kicukiro withdrawal",
+      "source": "Genocide Archive Rwanda / UNAMIR records"
+    },
+    "context": "Belgian UNAMIR peacekeepers were ordered to withdraw on April 11, abandoning approximately 4,000 civilians who had sheltered at the ETO school. Those civilians were marched to Nyanza hill and killed. The site stands as a permanent record of the international community's failure to act.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyanza-Kicukiro", "url": "https://genocidearchiverwanda.org.rw/Nyanza_Kicukiro_Memorial"},
+      {"label": "UNESCO World Heritage", "url": "https://whc.unesco.org/en/list/1586/"}
+    ]
+  },
+  {
+    "id": "m8",
+    "name": "Camp Kigali Belgian Peacekeepers Memorial",
+    "lat": -1.9579, "lng": 30.0630,
+    "prov": "Kigali", "lives": 10, "est": 2000,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Belgian_Peacekeepers_Memorial_monument_13.jpg",
+    "desc": "Commemorates the ten Belgian UNAMIR peacekeepers murdered at Camp Kigali on April 7, 1994, after being sent to protect Prime Minister Uwilingiyimana. Their deaths triggered Belgium's full withdrawal, leaving Rwanda without protection.",
+    "testimony": {
+      "text": "They came to protect us, these young soldiers from Belgium. Within a day of the president's plane being shot down, they were dead. When Belgium announced it was pulling out all its troops, we understood: we were alone. The memorial for those ten men also stands for all of us who were abandoned.",
+      "attribution": "Based on documented accounts from UNAMIR records and survivor testimony",
+      "source": "Genocide Archive Rwanda / Belgian Federal Government"
+    },
+    "context": "On April 7, 1994, ten Belgian UNAMIR soldiers escorting Prime Minister Agathe Uwilingiyimana were captured at Camp Kigali, tortured, and killed by Rwandan Presidential Guard soldiers. The murders prompted Belgium to withdraw all its peacekeeping troops, significantly reducing UNAMIR's capacity to protect civilians.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "UNAMIR History", "url": "https://peacekeeping.un.org/en/mission/past/unamir.htm"}
+    ]
+  },
+  {
+    "id": "m9",
+    "name": "Cyanika Genocide Memorial",
+    "lat": -1.3444, "lng": 29.7422,
+    "prov": "Northern", "lives": 35000, "est": 1995,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Burera district on the Uganda border, Cyanika memorial holds the remains of approximately 35,000 victims from the northern highlands. Victims included people who tried to flee toward Uganda.",
+    "testimony": {
+      "text": "We tried to cross into Uganda. The border was so close. But they had checkpoints on every road, and people who knew us pointed us out. At Cyanika, the hills that could have been an escape became a death trap. The memorial stands at the border between life and what we lost.",
+      "attribution": "Based on documented accounts from Northern Province survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Cyanika, in Burera district near the Ugandan border, was a site where thousands of Tutsi attempted to flee the genocide northward. Many were intercepted at roadblocks. The memorial holds approximately 35,000 victims and serves as one of the major commemorative sites of the Northern Province.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Cyanika", "url": "https://genocidearchiverwanda.org.rw/Cyanika_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m10",
+    "name": "Gahanga Memorial",
+    "lat": -2.0151, "lng": 30.1074,
+    "prov": "Kigali", "lives": 5000, "est": 1996,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Kicukiro district south of Kigali, Gahanga memorial commemorates thousands of victims killed in this agricultural corridor. Victims were targeted at roadblocks on roads leading south from the capital.",
+    "testimony": {
+      "text": "Gahanga was on the road they used to flee the city. But there was no fleeing. Every few hundred meters, there was a barrier. Men with lists. I crossed because I had papers they didn't question. Most did not cross.",
+      "attribution": "Based on documented accounts from Kicukiro district, 1994",
+      "source": "CNLG / Ibuka"
+    },
+    "context": "Gahanga, south of Kigali in Kicukiro district, saw intense violence as Tutsi civilians attempted to flee the capital. Roadblocks controlled by Interahamwe militia and security forces intercepted families attempting to escape southward.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "Ibuka Rwanda", "url": "https://www.ibuka.rw/"}
+    ]
+  },
+  {
+    "id": "m11",
+    "name": "Kabgayi Genocide Memorial",
+    "lat": -2.1007, "lng": 29.7522,
+    "prov": "Southern", "lives": 6000, "est": 1995,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located at the historic Catholic diocese of Kabgayi in Muhanga district, one of Rwanda's oldest and largest Catholic institutions. Three bishops and hundreds of clergy and refugees were killed here. A major center of the Catholic Church's painful history during the genocide.",
+    "testimony": {
+      "text": "Kabgayi was the heart of the Catholic Church in Rwanda. When the bishops were killed — men of God — we understood that no title, no vocation, no faith protected you. The killers did not see a bishop. They saw a Tutsi. The memorial asks us never to look away from that fact.",
+      "attribution": "Based on documented accounts from Kabgayi diocese archives",
+      "source": "Genocide Archive Rwanda / Catholic Church Rwanda"
+    },
+    "context": "The diocese of Kabgayi, established in 1900, was Rwanda's oldest Catholic see. During the genocide, refugees sheltered at the seminary and churches, but militia killed thousands within the compound. Three bishops — Vincent Nsengiyumva (Kigali), Thaddée Nsengiyumva (Kabgayi), and Joseph Ruzindana (Byumba) — were murdered by RPF soldiers on June 5, 1994, in a separate incident.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kabgayi", "url": "https://genocidearchiverwanda.org.rw/Kabgayi_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m12",
+    "name": "Kabuye Genocide Memorial",
+    "lat": -1.9200, "lng": 30.0970,
+    "prov": "Kigali", "lives": 5000, "est": 1997,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Gasabo district northeast of central Kigali, Kabuye memorial commemorates thousands of victims from this suburban area. Killings here began within hours of April 6 as Interahamwe established control of the district.",
+    "testimony": {
+      "text": "Kabuye was a neighborhood of teachers, nurses, civil servants. Within twenty-four hours of the president's death, the lists were out and the killing began. I knew every name on those lists. I had taught their children.",
+      "attribution": "Based on documented accounts from Gasabo district survivors",
+      "source": "Genocide Archive Rwanda / Ibuka"
+    },
+    "context": "Kabuye, in Gasabo district, was one of the Kigali suburban areas where organized killings began on April 7, 1994. The Interahamwe worked from pre-prepared lists of Tutsi residents. The memorial commemorates victims from the sector and surrounding neighborhoods.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "Ibuka Rwanda", "url": "https://www.ibuka.rw/"}
+    ]
+  },
+  {
+    "id": "m13",
+    "name": "Kaduha Genocide Memorial",
+    "lat": -2.5450, "lng": 29.6700,
+    "prov": "Southern", "lives": 47311, "est": 2001,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Gisagara district, Southern Province, the Kaduha memorial holds the remains of 47,311 identified victims. A church was the site of a major massacre where thousands gathered seeking sanctuary and were attacked.",
+    "testimony": {
+      "text": "The church at Kaduha was full — every pew, every aisle, every corner. People had walked for days from surrounding sectors. When the attack came, there was no room to move, no room to run. The number 47,311 — I want you to understand that each of those is a person who woke up that morning believing they might survive.",
+      "attribution": "Based on documented survivor accounts, Gisagara district records",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Kaduha Parish in Gisagara district was a gathering point for Tutsi civilians from across the southern plateau. The attack was coordinated with local administrative authorities. The memorial holds 47,311 remains and is one of the largest memorial sites in southern Rwanda.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kaduha", "url": "https://genocidearchiverwanda.org.rw/Kaduha_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m14",
+    "name": "Kamonyi Genocide Memorial",
+    "lat": -2.0052, "lng": 29.8982,
+    "prov": "Southern", "lives": 8000, "est": 1997,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Kamonyi district on the southern rim of Kigali, this memorial commemorates thousands of victims killed as the genocide spread from the capital outward into the surrounding districts.",
+    "testimony": {
+      "text": "Kamonyi was where Kigali ended and the hills began. People from the city tried to reach their family in the countryside. The countryside was not safe either. The memorial sits at that crossroads — between the city's chaos and the hills' false promise of escape.",
+      "attribution": "Based on documented accounts from Kamonyi district survivors",
+      "source": "CNLG / Ibuka"
+    },
+    "context": "Kamonyi district sits between Kigali and the central plateau. As violence spread from the capital, Tutsi civilians caught in this corridor were targeted at roadblocks and during house-to-house searches. The interim government relocated to Gitarama on April 12, passing through this area.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m15",
+    "name": "Kibeho Genocide Memorial",
+    "lat": -2.6496, "lng": 29.5533,
+    "prov": "Southern", "lives": 28937, "est": 1998,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Nyaruguru district, Kibeho — known as a Marian apparition site — became a site of genocide and later of a post-genocide massacre of displaced persons. The memorial holds remains of 28,937 identified victims.",
+    "testimony": {
+      "text": "Kibeho is a place where the Virgin Mary was said to have appeared and warned of a river of blood. When the killing came, people remembered those words. They came to the shrine believing it was sacred ground. It was not protected. Nothing was protected. The memorial stands where the apparition once promised peace.",
+      "attribution": "Based on documented survivor accounts, Nyaruguru district records",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Kibeho, in Nyaruguru district, gained international attention in the 1980s as a site of alleged Marian apparitions. During the genocide, thousands sought refuge at the shrine, many of whom were killed. In April 1995, a massacre of Hutu internally displaced persons at the same site by Rwandan Patriotic Army soldiers drew further international attention.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kibeho", "url": "https://genocidearchiverwanda.org.rw/Kibeho_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m16",
+    "name": "Kibirizi Genocide Memorial",
+    "lat": -1.6750, "lng": 29.6200,
+    "prov": "Northern", "lives": 4000, "est": 1997,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Nyabihu district in the northern highlands near the Virunga volcanoes, Kibirizi memorial commemorates victims from the highland sectors where killings were organized under military coordination.",
+    "testimony": {
+      "text": "The highlands near the volcanoes felt like the end of the world. Remote, cold, hard to reach. We thought that distance would protect us. But the lists had been prepared months before. The distance only meant we heard what was coming a few days before it arrived.",
+      "attribution": "Based on documented accounts from Nyabihu district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Kibirizi, in Nyabihu district's highland zone, saw killings organized by local officials and Interahamwe who had received weapons and training in advance. The remote terrain provided brief warning but ultimately no protection for the Tutsi communities there.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m17",
+    "name": "Kibuye Genocide Memorial",
+    "lat": -2.0680, "lng": 29.3478,
+    "prov": "Western", "lives": 11000, "est": 1996,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Vue_arri%C3%A8re_du_m%C3%A9morial_de_Kibuy%C3%A9.png",
+    "desc": "Near Lake Kivu, honoring the approximately 11,000 victims killed at Gatwaro Stadium and surrounding sites. The prefect directed Tutsi civilians to gather under false promises of protection before the massacre.",
+    "testimony": {
+      "text": "Kibuye was beautiful. The lake, the hills, the churches. They used our trust in these places against us. When the prefect told us to gather at the stadium for our own safety, we believed him. We had always believed the authorities. That belief killed us.",
+      "attribution": "Based on documented survivor testimony, Kibuye region",
+      "source": "Genocide Archive Rwanda"
+    },
+    "context": "Kibuye prefecture experienced among the highest proportional death tolls during the genocide. Prefect Clément Kayishema directed Tutsi civilians to gather at Gatwaro Stadium and at churches under false promises of protection, then facilitated the massacres.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kibuye", "url": "https://genocidearchiverwanda.org.rw/Kibuye_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m18",
+    "name": "Kinazi Genocide Memorial",
+    "lat": -2.2300, "lng": 29.7450,
+    "prov": "Southern", "lives": 60000, "est": 1999,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Ruhango district, Kinazi memorial is one of the largest in Rwanda, holding remains of approximately 60,000 victims from across the central plateau. A major site of commemoration for the southern provinces.",
+    "testimony": {
+      "text": "The killing in the south was methodical. It was organized. It moved from commune to commune like a schedule. In Kinazi, families who had hidden for weeks were eventually found. There was nowhere that remained safe long enough. The memorial holds 60,000. That number is not abstract to me. Each one has a face.",
+      "attribution": "Based on documented survivor accounts, Ruhango district records",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Kinazi, in Ruhango district on the central plateau, saw systematic killings organized through local administrative structures. The memorial serves as a major regional site for Southern Province, collecting remains from across multiple former communes.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kinazi", "url": "https://genocidearchiverwanda.org.rw/Kinazi_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m19",
+    "name": "Kiziguro Genocide Memorial",
+    "lat": -1.7200, "lng": 30.3900,
+    "prov": "Eastern", "lives": 20123, "est": 1995,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Gatsibo district in the Eastern Province, Kiziguro memorial holds identified remains of over 20,000 victims. Violence in this area was intertwined with the RPF military advance from Uganda.",
+    "testimony": {
+      "text": "In Kiziguro, the genocide happened against the backdrop of war. The RPF was advancing from the east, and the killings accelerated — as if they were trying to eliminate all witnesses before anyone arrived. We were killed faster precisely because help was coming. I cannot explain that to you. I lived it.",
+      "attribution": "Based on documented accounts, Gatsibo district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Kiziguro, in Gatsibo district, was within the zone of combat between the RPF advancing from Uganda and government forces. Killings of Tutsi civilians here were accelerated as the military situation deteriorated for the genocidal government. The memorial holds over 20,000 identified remains.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Kiziguro", "url": "https://genocidearchiverwanda.org.rw/Kiziguro_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m20",
+    "name": "Mugombwa Genocide Memorial",
+    "lat": -2.6762, "lng": 29.8509,
+    "prov": "Southern", "lives": 26700, "est": 1996,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Gisagara district in southern Rwanda, Mugombwa memorial holds approximately 26,700 victims. Violence in this area was among the most intense in the Southern Province.",
+    "testimony": {
+      "text": "In Mugombwa, the hills that had fed us became the hills that hid us. But they searched every hill. Every valley. Every home. The killers knew the terrain as well as we did. Better, perhaps — they had time to prepare. The memorial stands where we could not.",
+      "attribution": "Based on community memorial records, Gisagara district",
+      "source": "CNLG"
+    },
+    "context": "Mugombwa, in the southernmost reaches of Rwanda near the Burundi border, was part of the former Butare prefecture where killings intensified after the replacement of the moderate Tutsi prefect Jean-Baptiste Habyarimana on April 19.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Mugombwa", "url": "https://genocidearchiverwanda.org.rw/Mugombwa_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m21",
+    "name": "Mutete Genocide Memorial",
+    "lat": -1.7128, "lng": 30.0980,
+    "prov": "Eastern", "lives": 3000, "est": 1996,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in the Eastern Province, Mutete memorial commemorates thousands of victims from this district. Killings were organized through local administrative structures as the genocide spread from Kigali outward.",
+    "testimony": {
+      "text": "Mutete was far enough from Kigali that we hoped. We sat by the radio and we hoped. But the orders came through the local administrators — the same men who had managed the roads, the schools, the markets. They used that authority to organize our deaths.",
+      "attribution": "Based on documented accounts, Eastern Province memorial records",
+      "source": "CNLG / Ibuka"
+    },
+    "context": "The Mutete memorial commemorates victims from the Eastern Province who were killed as the genocide's organized structure extended through the national administrative network from Kigali to every corner of the country.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda", "url": "https://genocidearchiverwanda.org.rw/"},
+      {"label": "Ibuka Rwanda", "url": "https://www.ibuka.rw/memorial-sites"}
+    ]
+  },
+  {
+    "id": "m22",
+    "name": "Ngororero Genocide Memorial",
+    "lat": -1.8650, "lng": 29.6250,
+    "prov": "Western", "lives": 8402, "est": 1996,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Ngororero district, Western Province, this memorial commemorates 8,402 identified victims from the district. Violence was organized by local officials who coordinated with Interahamwe militia.",
+    "testimony": {
+      "text": "Ngororero was in the hills between Kigali and Kibuye. We were in between two killing zones, and neither direction offered safety. When the local officials gave the order, they knew exactly who to target. They had lived alongside us for years. That is what betrayal means at its deepest.",
+      "attribution": "Based on documented accounts, Ngororero district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Ngororero district, in Western Province, was one of the areas where the genocide was organized through pre-existing local administrative structures. Interahamwe militia worked alongside local officials who had previously catalogued their Tutsi neighbors.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Ngororero", "url": "https://genocidearchiverwanda.org.rw/Ngororero_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m23",
+    "name": "Nyamasheke Genocide Memorial",
+    "lat": -2.3429, "lng": 29.0969,
+    "prov": "Western", "lives": 5000, "est": 1997,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Nyamasheke district in the Western Province on the Congo border, this memorial commemorates thousands of victims. Some victims were thrown into the Rusizi River or Lake Kivu as killers attempted to destroy evidence.",
+    "testimony": {
+      "text": "The lake was visible from where the killing happened. They threw bodies into the water. They believed the water would take the evidence to another country, make it disappear. The lake did not disappear the people. We built the memorial so the people could not disappear.",
+      "attribution": "Based on documented accounts from Nyamasheke district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Nyamasheke, near the DRC border in Western Province, saw systematic killings with bodies disposed of in Lake Kivu and the Rusizi River. The area was later partially covered by France's Operation Turquoise humanitarian zone established in late June 1994.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyamasheke", "url": "https://genocidearchiverwanda.org.rw/Nyamasheke_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m24",
+    "name": "Nyange Genocide Memorial (Kivumu Church)",
+    "lat": -1.9650, "lng": 29.6100,
+    "prov": "Western", "lives": 2500, "est": 1996,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Ngororero district, Nyange Church is where Father Athanase Seromba ordered a bulldozer to demolish the church onto approximately 2,000 people sheltering inside. One of the most documented atrocities involving a Catholic priest.",
+    "testimony": {
+      "text": "At Nyange, we had no weapons. We had only each other and our faith. When they demolished the walls onto us, we held hands. I felt the weight of the building and the weight of every person I had ever known. Some of us were pulled out. Most were not. The priest who gave the order was later convicted of genocide.",
+      "attribution": "Based on documented accounts from Nyange survivors and ICTR records",
+      "source": "CNLG / ICTR archives"
+    },
+    "context": "Nyange Church, in Ngororero district, became internationally known through the ICTR trial of Father Athanase Seromba, convicted of genocide and crimes against humanity for ordering the demolition of the church. He was sentenced to life imprisonment. The memorial marks the site of the demolished church.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyange", "url": "https://genocidearchiverwanda.org.rw/Nyange_Memorial"},
+      {"label": "ICTR — Seromba Case", "url": "https://unictr.irmct.org/en/cases/ictr-2001-66"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m25",
+    "name": "Nyanza Genocide Memorial",
+    "lat": -2.3500, "lng": 29.7400,
+    "prov": "Southern", "lives": 3000, "est": 1997,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Nyanza district, Southern Province, this memorial commemorates thousands of victims from the hillside communities of this former royal capital of Rwanda. Tutsi civilians were hunted in the hills surrounding the historic town.",
+    "testimony": {
+      "text": "Nyanza was once the seat of the Rwandan kings. The hills around it held the graves of our ancestors. We ran to those hills to hide. But the killers knew those hills too. History could not protect us, but it could remember us. The memorial remembers us.",
+      "attribution": "Based on documented accounts from Nyanza district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Nyanza, the historic royal capital of the Rwandan kingdom in Southern Province, saw its Tutsi population targeted systematically. The violence intensified after April 19 when the moderate prefect of Butare (which included this area) was removed and killed.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyanza", "url": "https://genocidearchiverwanda.org.rw/Nyanza_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m26",
+    "name": "Nyundo Genocide Memorial",
+    "lat": -1.7064, "lng": 29.3265,
+    "prov": "Western", "lives": 800, "est": 2005,
+    "badge": "regional", "type": "Regional Memorial Site",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/NyundoGenocideMemorial09.jpg",
+    "desc": "Located at the historic Nyundo Cathedral in Rubavu district near Gisenyi, this memorial commemorates victims killed at the cathedral and seminary. Nyundo was the major Catholic episcopal seat of northwestern Rwanda.",
+    "testimony": {
+      "text": "Nyundo Cathedral had trained priests and musicians for generations. When people ran to the cathedral for sanctuary, it was because it had always been a place of God. But there was no sanctuary in 1994. The cathedral itself was violated. I think about the choirboys who trained there. About the organist whose name I still remember.",
+      "attribution": "Based on documented accounts from Rubavu district survivors",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Nyundo, home to one of Rwanda's oldest Catholic dioceses, sits on a hill above Lake Kivu near the Congolese border. The diocese had trained clergy across the region. During the genocide, killings at the cathedral and seminary added to the pattern of religious sites violated during the 100 days.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Nyundo", "url": "https://genocidearchiverwanda.org.rw/Nyundo_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m27",
+    "name": "Ruhanga Genocide Memorial",
+    "lat": -1.9247, "lng": 30.2566,
+    "prov": "Kigali", "lives": 37000, "est": 1997,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Gasabo district east of Kigali, Ruhanga memorial holds approximately 37,000 victims. This site commemorates the massive killings in the eastern suburbs and hillsides as people tried to flee the capital.",
+    "testimony": {
+      "text": "Ruhanga was east of Kigali, where many thought they could reach the countryside and disappear. But the network of Interahamwe covered every hill. The memorial here holds 37,000. I walk through it and think: these people were trying to live. They were moving toward life. They were stopped.",
+      "attribution": "Based on documented accounts from Gasabo district, eastern Kigali",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Ruhanga, in the eastern hills of Gasabo district, was a location where tens of thousands of Tutsi trying to escape Kigali were intercepted and killed. The memorial is one of the larger sites in the Kigali region and holds remains transferred from across the district.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Ruhanga", "url": "https://genocidearchiverwanda.org.rw/Ruhanga_Memorial"},
+      {"label": "Rwanda Mines Board Memorial Visit", "url": "https://www.rmb.gov.rw/"}
+    ]
+  },
+  {
+    "id": "m28",
+    "name": "Rukumberi Genocide Memorial",
+    "lat": -2.1700, "lng": 30.3280,
+    "prov": "Eastern", "lives": 42000, "est": 1999,
+    "badge": "natl", "type": "National Memorial Site",
+    "imageUrl": null,
+    "desc": "Located in Ngoma district, Eastern Province, Rukumberi memorial holds the remains of approximately 42,000 victims. The Kagera River flows nearby — bodies thrown into the river were carried downstream to Lake Victoria and seen internationally.",
+    "testimony": {
+      "text": "The Kagera River was where the world finally saw us. Reporters photographed the bodies floating downstream into Uganda and Tanzania. Journalists showed those images. And the world watched, and did not come. At Rukumberi, we remember not only those who died here, but that the world saw and chose to look away.",
+      "attribution": "Based on documented accounts from Ngoma district and international press records",
+      "source": "CNLG / Genocide Archive Rwanda"
+    },
+    "context": "Rukumberi, in Ngoma district near the Tanzanian border, was adjacent to the Kagera River corridor. Bodies thrown into the Kagera were carried into Uganda and Tanzania and photographed by international media — some of the earliest visual evidence of the genocide seen internationally. Despite this, international intervention was not forthcoming.",
+    "resources": [
+      {"label": "Genocide Archive Rwanda — Rukumberi", "url": "https://genocidearchiverwanda.org.rw/Rukumberi_Memorial"},
+      {"label": "CNLG Rwanda", "url": "https://www.cnlg.gov.rw/"}
+    ]
+  }
 ]

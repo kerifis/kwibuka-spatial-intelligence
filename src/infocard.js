@@ -48,6 +48,20 @@ export function showInfoCard(item, screenPos) {
       : badgeClass === 'natl' ? 'NATIONAL MEMORIAL' : 'REGIONAL MEMORIAL';
     badge.innerHTML = `<div class="ic-type-badge ${badgeClass}">${badgeLabel}</div>`;
 
+    // Image
+    const imgWrap = document.getElementById('icImgWrap');
+    const img = document.getElementById('icImg');
+    if (item.imageUrl) {
+      img.src = item.imageUrl;
+      img.alt = item.name;
+      img.onerror = () => { imgWrap.style.display = 'none'; };
+      img.onload = () => { imgWrap.style.display = 'block'; };
+      imgWrap.style.display = 'block';
+    } else {
+      imgWrap.style.display = 'none';
+      img.src = '';
+    }
+
     // Testimony tab
     const testimony = item.testimony;
     document.getElementById('icTQ').textContent =
@@ -69,6 +83,7 @@ export function showInfoCard(item, screenPos) {
   } else {
     tabs.style.display = 'none';
     badge.innerHTML = '';
+    document.getElementById('icImgWrap').style.display = 'none';
   }
 
   // Show overview tab by default
