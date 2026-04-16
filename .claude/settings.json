@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.rmb.gov.rw)",
+      "Bash(npx @anthropic-ai/claude-code plugins add vercel/vercel-plugin)"
+    ]
+  }
+}
