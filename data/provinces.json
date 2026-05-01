@@ -1,0 +1,7 @@
+{
+  "Kigali":   {"share": 0.18, "color": "#ff2244", "onset": 0,  "center": [-1.9403, 29.8739]},
+  "Eastern":  {"share": 0.20, "color": "#ff4466", "onset": 3,  "center": [-1.95, 30.45]},
+  "Northern": {"share": 0.15, "color": "#ff6644", "onset": 4,  "center": [-1.65, 29.75]},
+  "Western":  {"share": 0.22, "color": "#ff3355", "onset": 9,  "center": [-2.15, 29.25]},
+  "Southern": {"share": 0.25, "color": "#ff2244", "onset": 13, "center": [-2.45, 29.65]}
+}

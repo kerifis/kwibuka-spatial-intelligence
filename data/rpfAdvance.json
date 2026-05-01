@@ -1,0 +1,194 @@
+[
+  {
+    "id": "third-battalion-cnd",
+    "unit": "3rd Battalion (The 600)",
+    "commander": "Charles Kayonga",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Frank Mugambage",
+    "deputyPhoto": "",
+    "region": "Kigali / CND / Amahoro rescue corridor",
+    "livesSaved": 42000,
+    "type": "CND defensive breakout / rescue operations",
+    "color": "#00ff88",
+    "startDay": 1,
+    "endDay": 89,
+    "desc": "The 3rd Battalion was stationed at the CND, now Rwanda's Parliamentary Building, when the genocide began. It protected RPF politicians, held its position under attack, and conducted initial rescue missions in Kigali.",
+    "companies": [
+      "Eagle Company - George Rwigamba - rescued roughly 5,000 people from Amahoro National Stadium",
+      "Chui Company - Rugambwa - contained advancing presidential guards",
+      "Tiger Company - Andrew Kagame - confronted Gendarmerie units",
+      "Simba Company - Aloys Gapfizi - repulsed military police units"
+    ],
+    "points": [
+      { "day": 1, "lat": -1.953, "lng": 30.092, "label": "CND" },
+      { "day": 15, "lat": -1.950, "lng": 30.114, "label": "Amahoro Stadium" },
+      { "day": 47, "lat": -1.969, "lng": 30.140, "label": "Kanombe axis" },
+      { "day": 89, "lat": -1.940, "lng": 29.874, "label": "Kigali secured" }
+    ]
+  },
+  {
+    "id": "alpha-mobile-force",
+    "unit": "Alpha Mobile Force",
+    "commander": "Sam Kaka",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Ceasar Kayizari",
+    "deputyPhoto": "",
+    "region": "Northern-to-central axis",
+    "livesSaved": 38000,
+    "type": "Northern-to-central mobile advance",
+    "color": "#ff2255",
+    "startDay": 2,
+    "endDay": 89,
+    "desc": "Alpha Mobile Force is represented as part of the northern mobile advance from the RPF rear base toward Byumba and Kigali.",
+    "points": [
+      { "day": 2, "lat": -1.478, "lng": 30.070, "label": "Mulindi / RPF HQ" },
+      { "day": 15, "lat": -1.576, "lng": 30.059, "label": "Byumba" },
+      { "day": 60, "lat": -1.769, "lng": 30.110, "label": "Northern axis" },
+      { "day": 89, "lat": -1.940, "lng": 29.874, "label": "Kigali" }
+    ]
+  },
+  {
+    "id": "bravo-mobile-force",
+    "unit": "Bravo Mobile Force",
+    "commander": "Twahirwa Dodo",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. John Bagabo",
+    "deputyPhoto": "",
+    "region": "Eastern corridor / Rwamagana-Kigali axis",
+    "livesSaved": 32000,
+    "type": "Eastern mobile advance",
+    "color": "#ff2255",
+    "startDay": 21,
+    "endDay": 89,
+    "desc": "Bravo Mobile Force is represented along the eastern corridor, advancing through Rwamagana toward Kigali.",
+    "points": [
+      { "day": 21, "lat": -1.576, "lng": 30.059, "label": "Byumba" },
+      { "day": 22, "lat": -1.948, "lng": 30.434, "label": "Rwamagana" },
+      { "day": 84, "lat": -1.969, "lng": 30.140, "label": "Kanombe" },
+      { "day": 89, "lat": -1.940, "lng": 29.874, "label": "Kigali" }
+    ]
+  },
+  {
+    "id": "fifty-ninth-mobile-force",
+    "unit": "59th Mobile Force",
+    "commander": "Charles Ngoga",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Fred Nyamurangwa",
+    "deputyPhoto": "",
+    "region": "Eastern border / Kibungo-Rusumo axis",
+    "livesSaved": 28000,
+    "type": "Eastern border advance",
+    "color": "#ff2255",
+    "startDay": 23,
+    "endDay": 89,
+    "desc": "59th Mobile Force is represented along the eastern border and Kibungo/Rusumo axis.",
+    "points": [
+      { "day": 23, "lat": -1.948, "lng": 30.434, "label": "Rwamagana" },
+      { "day": 24, "lat": -2.159, "lng": 30.543, "label": "Kibungo" },
+      { "day": 24, "lat": -2.384, "lng": 30.780, "label": "Rusumo" },
+      { "day": 89, "lat": -1.940, "lng": 29.874, "label": "Kigali" }
+    ]
+  },
+  {
+    "id": "one-fifty-seventh-mobile-force",
+    "unit": "157th Mobile Force",
+    "commander": "Fred Ibingira",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Eric Murokore",
+    "deputyPhoto": "",
+    "region": "Southern-central axis / Gitarama-Nyanza-Butare",
+    "livesSaved": 45000,
+    "type": "Southern mobile advance",
+    "color": "#ff4aa0",
+    "startDay": 26,
+    "endDay": 88,
+    "desc": "157th Mobile Force is represented advancing through the southern-central corridor toward Kabgayi, Gitarama, Nyanza, and Butare.",
+    "points": [
+      { "day": 26, "lat": -2.080, "lng": 29.760, "label": "Kabgayi" },
+      { "day": 37, "lat": -2.074, "lng": 29.756, "label": "Gitarama" },
+      { "day": 53, "lat": -2.350, "lng": 29.750, "label": "Nyanza" },
+      { "day": 88, "lat": -2.597, "lng": 29.739, "label": "Butare" }
+    ]
+  },
+  {
+    "id": "seventh-mobile-force",
+    "unit": "7th Mobile Force",
+    "commander": "William Bagire",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. John Mugabo",
+    "deputyPhoto": "",
+    "region": "Central-western axis / Kibuye-Ruhengeri-Gisenyi",
+    "livesSaved": 36000,
+    "type": "Central-western mobile advance",
+    "color": "#ffb800",
+    "startDay": 37,
+    "endDay": 102,
+    "desc": "7th Mobile Force is represented moving through the central-western axis toward Kibuye, Ruhengeri, and Gisenyi.",
+    "points": [
+      { "day": 37, "lat": -2.074, "lng": 29.756, "label": "Gitarama" },
+      { "day": 75, "lat": -2.062, "lng": 29.347, "label": "Kibuye" },
+      { "day": 99, "lat": -1.499, "lng": 29.633, "label": "Ruhengeri" },
+      { "day": 102, "lat": -1.702, "lng": 29.257, "label": "Gisenyi" }
+    ]
+  },
+  {
+    "id": "twenty-first-mobile-force",
+    "unit": "21st Mobile Force",
+    "commander": "Charles Musitu",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Martin Nzaramba",
+    "deputyPhoto": "",
+    "region": "Central support axis / Kigali-Rural",
+    "livesSaved": 26000,
+    "type": "Central support advance",
+    "color": "#ffb800",
+    "startDay": 37,
+    "endDay": 89,
+    "desc": "21st Mobile Force is represented supporting the central advance toward Kigali.",
+    "points": [
+      { "day": 37, "lat": -2.074, "lng": 29.756, "label": "Gitarama" },
+      { "day": 68, "lat": -2.050, "lng": 29.930, "label": "Kigali-Rural" },
+      { "day": 89, "lat": -1.940, "lng": 29.874, "label": "Kigali" }
+    ]
+  },
+  {
+    "id": "one-oh-one-mobile-force",
+    "unit": "101st Mobile Force",
+    "commander": "Charles Muhire",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Douglas Kazintwari",
+    "deputyPhoto": "",
+    "region": "Southern consolidation axis / Nyanza-Butare",
+    "livesSaved": 27000,
+    "type": "Southern consolidation advance",
+    "color": "#ff4aa0",
+    "startDay": 53,
+    "endDay": 88,
+    "desc": "101st Mobile Force is represented on the Nyanza-Butare southern consolidation axis.",
+    "points": [
+      { "day": 53, "lat": -2.350, "lng": 29.750, "label": "Nyanza" },
+      { "day": 75, "lat": -2.470, "lng": 29.570, "label": "Gikongoro" },
+      { "day": 88, "lat": -2.597, "lng": 29.739, "label": "Butare" }
+    ]
+  },
+  {
+    "id": "charlie-mobile-force",
+    "unit": "Charlie Mobile Force",
+    "commander": "Thadee Gashumba",
+    "commanderPhoto": "",
+    "deputy": "Lt. Col. Alfred Kareba",
+    "deputyPhoto": "",
+    "region": "Western/southern axis / Kibuye-Gikongoro-Butare",
+    "livesSaved": 26000,
+    "type": "Western/southern mobile advance",
+    "color": "#ff4aa0",
+    "startDay": 53,
+    "endDay": 88,
+    "desc": "Charlie Mobile Force is represented on a western-southern mobile route moving through Kibuye, Gikongoro, and Butare.",
+    "points": [
+      { "day": 53, "lat": -2.062, "lng": 29.347, "label": "Kibuye" },
+      { "day": 75, "lat": -2.470, "lng": 29.570, "label": "Gikongoro" },
+      { "day": 88, "lat": -2.597, "lng": 29.739, "label": "Butare" }
+    ]
+  }
+]
