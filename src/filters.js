@@ -40,10 +40,18 @@ export function setMode(mode, onUpdate) {
   document.querySelectorAll('.city-lbl').forEach(c =>
     c.setAttribute('fill', labelColors[mode] || ''));
 
-  // Province labels
-  const provColors = { nvg: 'rgba(0,255,136,.15)', crt: 'rgba(255,184,0,.12)', flir: 'rgba(255,68,68,.12)' };
+  // Province overlay card colors (mode-aware)
+  const provNameColors = { nvg: 'rgba(0,255,136,.55)', crt: 'rgba(255,184,0,.5)', flir: 'rgba(255,100,80,.55)' };
+  const provCountColors = { nvg: 'var(--grn)', crt: 'var(--amb)', flir: 'var(--red)' };
+  const provBgStrokes = { nvg: 'rgba(0,255,136,.35)', crt: 'rgba(255,184,0,.3)', flir: 'rgba(255,34,68,.35)' };
+  document.querySelectorAll('.pov-name').forEach(c =>
+    c.setAttribute('fill', provNameColors[mode] || 'rgba(200,214,229,.55)'));
+  document.querySelectorAll('.pov-count').forEach(c =>
+    c.setAttribute('fill', provCountColors[mode] || 'var(--red)'));
+  document.querySelectorAll('.pov-bg').forEach(c =>
+    c.setAttribute('stroke', provBgStrokes[mode] || 'rgba(255,34,68,.45)'));
   document.querySelectorAll('.prov-lbl').forEach(c =>
-    c.setAttribute('fill', provColors[mode] || ''));
+    c.setAttribute('fill', provNameColors[mode] || ''));
 
   // Big counter color
   const bc = document.getElementById('bigCount');

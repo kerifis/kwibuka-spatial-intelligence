@@ -22,9 +22,10 @@
       <button class="fbtn" data-m="crt" onclick="setMode('crt')">CRT</button>
       <button class="fbtn" data-m="flir" onclick="setMode('flir')">FLIR</button>
       <button class="fbtn on-rpf" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
+      <button class="fbtn" id="countBtn" onclick="toggleDeathCount()">COUNT</button>
     </div>
     <div class="mem-toggle">
-      <div class="mem-sw on" id="memSw" onclick="toggleMemorials()"></div>
+      <div class="mem-sw" id="memSw" onclick="toggleMemorials()"></div>
       <label onclick="toggleMemorials()">MEMORIALS</label>
     </div>
   </div>
@@ -54,6 +55,12 @@
     <div class="scan-ov" id="scanOv"></div>
     <div class="vig-ov" id="vigOv"></div>
     <div class="flk-ov" id="flkOv"></div>
+    <div class="zoom-ctl">
+      <button class="zoom-btn" onclick="window.zoomIn()">+</button>
+      <input type="range" id="zoomSlider" min="1" max="8" step="0.1" value="1" oninput="window.setZoom(this.value)" />
+      <span class="zoom-val" id="zoomVal">1.0×</span>
+      <button class="zoom-btn" onclick="window.zoomOut()">−</button>
+    </div>
     <div class="tt" id="ttip"></div>
   </div>
 
@@ -129,8 +136,8 @@
   <div class="tbar">
     <div class="tctrl">
       <button class="pbtn" id="pBtn" onclick="togglePlay()">&#9654;</button>
-      <button class="sbtn" data-s="0.5" onclick="setSpd(0.5)">0.5x</button>
-      <button class="sbtn on" data-s="1" onclick="setSpd(1)">1x</button>
+      <button class="sbtn on" data-s="0.5" onclick="setSpd(0.5)">0.5x</button>
+      <button class="sbtn" data-s="1" onclick="setSpd(1)">1x</button>
       <button class="sbtn" data-s="2" onclick="setSpd(2)">2x</button>
       <button class="sbtn" data-s="4" onclick="setSpd(4)">4x</button>
       <button class="sbtn" data-s="8" onclick="setSpd(8)">8x</button>

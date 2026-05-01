@@ -4,6 +4,7 @@
  * Memorials show all four tabs.
  */
 import { dayToDate, formatDate } from './sigmoid.js';
+import { currentZoomTransform } from './map.js';
 
 // ── Video data ────────────────────────────────────────────
 // All IDs are confirmed real YouTube video IDs from verified search results.
@@ -253,7 +254,8 @@ function renderCommanderPhoto(item) {
       `</div>`;
   }
 
-  const cmdSlot = photoSlot('COL ' + item.commander, item.commanderPhoto || '', 'slot-cmd', 'CMD');
+  const cmdRank = item.commanderRank || 'COL';
+  const cmdSlot = photoSlot(cmdRank + ' ' + item.commander, item.commanderPhoto || '', 'slot-cmd', 'CMD');
   const depName = item.deputy || '—';
   const depSlot = photoSlot(depName, item.deputyPhoto || '', 'slot-2ic', '2IC');
 
@@ -312,11 +314,12 @@ export function showInfoCard(item, screenPos) {
     const wrap = document.getElementById('mapWrap');
     const rect = wrap.getBoundingClientRect();
     const cardWidth = item._isRpf ? 480 : 340;
-    // Convert SVG coords → viewport coords
-    let left = rect.left + screenPos[0] + 16;
-    let top = rect.top + screenPos[1] - 80;
+    // Apply zoom transform so card opens at the actual rendered position
+    const [zx, zy] = currentZoomTransform.apply(screenPos);
+    let left = rect.left + zx + 16;
+    let top = rect.top + zy - 80;
     // Clamp so card stays fully on screen
-    if (left + cardWidth > window.innerWidth - 8) left = rect.left + screenPos[0] - cardWidth - 16;
+    if (left + cardWidth > window.innerWidth - 8) left = rect.left + zx - cardWidth - 16;
     if (left < 8) left = 8;
     if (top < 8) top = 8;
     if (top + 320 > window.innerHeight) top = window.innerHeight - 320;

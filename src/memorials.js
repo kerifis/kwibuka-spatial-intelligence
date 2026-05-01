@@ -6,7 +6,7 @@ import { gMark, isPointInRwanda, projection } from './map.js';
 import { showInfoCard } from './infocard.js';
 import memorials from '../data/memorials.json';
 
-export let showMemorials = true;
+export let showMemorials = false;
 
 export function toggleMemorials() {
   showMemorials = !showMemorials;

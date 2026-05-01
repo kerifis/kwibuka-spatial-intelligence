@@ -25,6 +25,8 @@ const NEIGHBORS = ['180', '800', '834', '108']; // DRC, Uganda, Tanzania, Burund
 
 export let projection, pathGen, svg;
 export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv;
+export let currentZoomTransform = d3.zoomIdentity;
+let zoomBehavior, zoomRoot, mapContainer;
 let rwProvData = null;
 let rwandaFeature = {
   type: 'Feature',
@@ -46,6 +48,7 @@ export function isPointInRwanda(lng, lat) {
  * @returns {Promise<void>}
  */
 export async function initMap(container) {
+  mapContainer = container;
   const W = container.clientWidth;
   const H = container.clientHeight;
 
@@ -72,16 +75,31 @@ export async function initMap(container) {
     g.append('stop').attr('offset', '100%').attr('stop-color', color).attr('stop-opacity', 0);
   });
 
-  // Removed static bgImage. We will now load interactive modern provinces.
+  // Create zoom-root group — all layers live inside so D3 zoom transforms them together
+  zoomRoot = svg.append('g').attr('class', 'zoom-root');
 
   // Create layer groups (order = z-index)
-  gGrid = svg.append('g').attr('class', 'grid-layer');
-  gMap  = svg.append('g').attr('class', 'map-layer');
-  gHeat = svg.append('g').attr('class', 'heat-layer');
-  gRpf  = svg.append('g').attr('class', 'rpf-layer');
-  gProv = svg.append('g').attr('class', 'prov-layer');
-  gMark = svg.append('g').attr('class', 'marker-layer');
-  gLbl  = svg.append('g').attr('class', 'label-layer');
+  gGrid = zoomRoot.append('g').attr('class', 'grid-layer');
+  gMap  = zoomRoot.append('g').attr('class', 'map-layer');
+  gHeat = zoomRoot.append('g').attr('class', 'heat-layer');
+  gRpf  = zoomRoot.append('g').attr('class', 'rpf-layer');
+  gProv = zoomRoot.append('g').attr('class', 'prov-layer');
+  gMark = zoomRoot.append('g').attr('class', 'marker-layer');
+  gLbl  = zoomRoot.append('g').attr('class', 'label-layer');
+
+  // D3 zoom behavior (wheel + drag + programmatic)
+  zoomBehavior = d3.zoom()
+    .scaleExtent([1, 8])
+    .on('zoom', event => {
+      currentZoomTransform = event.transform;
+      zoomRoot.attr('transform', event.transform);
+      const slider = document.getElementById('zoomSlider');
+      if (slider) slider.value = event.transform.k;
+      const val = document.getElementById('zoomVal');
+      if (val) val.textContent = event.transform.k.toFixed(1) + '×';
+    });
+
+  svg.call(zoomBehavior);
 
   // Grid lines
   for (let la = -3; la <= -1; la += 0.25) {
@@ -225,6 +243,20 @@ export function renderProvLabels(day) {
 }
 
 /**
+ * Programmatically zoom to a scale level, centered on the map.
+ * @param {number} scale - Target scale (1–8)
+ */
+export function setMapZoom(scale) {
+  const k = Math.max(1, Math.min(8, +scale));
+  const W = mapContainer.clientWidth;
+  const H = mapContainer.clientHeight;
+  svg.transition().duration(220).call(
+    zoomBehavior.transform,
+    d3.zoomIdentity.translate(W / 2 * (1 - k), H / 2 * (1 - k)).scale(k)
+  );
+}
+
+/**
  * Handle window resize: update projection and re-render paths.
  */
 export function handleResize(container) {
@@ -233,6 +265,11 @@ export function handleResize(container) {
   svg.attr('viewBox', `0 0 ${W} ${H}`);
   const rwBounds = { type: 'Feature', geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] } };
   projection.fitExtent([[30, 30], [W - 30, H - 30]], rwBounds);
+  // Reset zoom on resize to avoid stale transform on re-projected coords
+  if (zoomBehavior) {
+    currentZoomTransform = d3.zoomIdentity;
+    svg.call(zoomBehavior.transform, d3.zoomIdentity);
+  }
 
   gMap.selectAll('.rw-prov-poly').attr('d', pathGen);
   gMap.selectAll('path').attr('d', pathGen);

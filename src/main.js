@@ -7,7 +7,7 @@ import './styles.css';
 import events from '../data/events.json';
 import { synthesizeMatrix } from './gemini.js';
 import { sigmoid, sigmoidRate, dayToDate, formatDate, TOTAL_DAYS } from './sigmoid.js';
-import { initMap, projection, handleResize, renderProvLabels } from './map.js';
+import { initMap, projection, handleResize, renderProvLabels, setMapZoom, currentZoomTransform } from './map.js';
 import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
@@ -79,13 +79,19 @@ async function init() {
   buildProvinceBars();
   buildTimeline();
   bindTimelineEvents(day => update(day));
+
+  // Initial UI state
+  document.querySelector('.prov-layer')?.classList.add('hidden');
+  setSpeed(0.5, day => update(day), () => currentDay);
+
   update(0);
   togglePlay(day => update(day), () => currentDay);
 
-  // Coordinate display on mouse move
+  // Coordinate display on mouse move — invert zoom transform before inverting projection
   container.addEventListener('mousemove', e => {
     const rect = container.getBoundingClientRect();
-    const coords = projection.invert([e.clientX - rect.left, e.clientY - rect.top]);
+    const [svgX, svgY] = currentZoomTransform.invert([e.clientX - rect.left, e.clientY - rect.top]);
+    const coords = projection.invert([svgX, svgY]);
     if (coords) {
       document.getElementById('coordD').textContent =
         `${Math.abs(coords[1]).toFixed(4)} ${coords[1] < 0 ? 'S' : 'N'}, ` +
@@ -151,8 +157,25 @@ window.closeAI = () => {
 };
 
 window.togglePanel = () => {
-  document.getElementById('sPan').classList.toggle('mob-open');
-  document.getElementById('mobBackdrop').classList.toggle('vis');
+  const mobile = window.innerWidth < 768;
+  if (mobile) {
+    document.getElementById('sPan').classList.toggle('mob-open');
+    document.getElementById('mobBackdrop').classList.toggle('vis');
+  } else {
+    document.getElementById('sPan').classList.toggle('panel-closed');
+  }
+};
+
+window.setZoom = v => setMapZoom(+v);
+window.zoomIn  = () => setMapZoom(Math.min(8, currentZoomTransform.k * 1.5));
+window.zoomOut = () => setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+
+window.toggleDeathCount = () => {
+  const layer = document.querySelector('.prov-layer');
+  const btn = document.getElementById('countBtn');
+  if (!layer) return;
+  const hidden = layer.classList.toggle('hidden');
+  btn.classList.toggle('on', !hidden);
 };
 
 // ── Boot ──────────────────────────────────────────────────

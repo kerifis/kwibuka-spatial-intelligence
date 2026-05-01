@@ -12,7 +12,7 @@ const PHASES = [
 ];
 
 let playing = false;
-let speed = 1;
+let speed = 0.5;
 let interval = null;
 
 function setPlayButtonState() {

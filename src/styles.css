@@ -53,8 +53,9 @@ body {
 #app {
   display: grid;
   grid-template-rows: 48px 1fr auto;
-  grid-template-columns: auto 1fr;
-  height: 100vh
+  grid-template-columns: 1fr;
+  height: 100vh;
+  position: relative
 }
 
 .hdr {
@@ -209,6 +210,15 @@ body {
   box-shadow: 0 0 10px rgba(255, 184, 0, .12)
 }
 
+.prov-layer {
+  transition: opacity .2s
+}
+
+.prov-layer.hidden {
+  opacity: 0;
+  pointer-events: none
+}
+
 .fgrp {
   display: flex;
   gap: 3px
@@ -218,7 +228,7 @@ body {
   position: relative;
   overflow: hidden;
   background: var(--bg0);
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 2
 }
 
@@ -282,8 +292,11 @@ body {
 }
 
 .stat-pan {
-  grid-row: 2;
-  grid-column: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 15;
   background: var(--bg1);
   border-right: 1px solid var(--bdr);
   padding: 6px 5px;
@@ -296,12 +309,14 @@ body {
   width: 270px;
   min-width: 200px;
   max-width: 50vw;
-  resize: horizontal
+  resize: horizontal;
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+  box-shadow: 4px 0 20px rgba(0,0,0,.5)
 }
 
-#provDistLbl,
-#provBars {
-  display: none
+.stat-pan.panel-closed {
+  transform: translateX(-100%)
 }
 
 .stat-pan::-webkit-scrollbar {
@@ -490,10 +505,11 @@ body {
 }
 
 .tbar {
-  grid-column: 1/-1;
+  grid-column: 1;
   background: var(--bg1);
   border-top: 1px solid var(--bdr);
-  padding: 8px 16px 12px
+  padding: 8px 16px 12px;
+  z-index: 20
 }
 
 .tctrl {
@@ -1657,7 +1673,7 @@ body {
 
 /* ── Mobile toggle + backdrop ── */
 .mobile-toggle {
-  display: none;
+  display: flex;
   background: transparent;
   border: 1px solid var(--bdr);
   color: var(--tx1);
@@ -1670,6 +1686,63 @@ body {
   justify-content: center;
   font-family: var(--mono);
   flex-shrink: 0
+}
+
+/* ── Zoom control ── */
+.zoom-ctl {
+  position: absolute;
+  bottom: 80px;
+  right: 16px;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: rgba(4, 8, 14, .88);
+  border: 1px solid var(--bdr);
+  padding: 8px 7px;
+  border-radius: 3px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.5)
+}
+
+.zoom-btn {
+  background: transparent;
+  border: 1px solid var(--bdr);
+  color: var(--tx1);
+  width: 22px;
+  height: 22px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0
+}
+
+.zoom-btn:hover {
+  color: var(--grn);
+  border-color: rgba(0, 255, 136, .3)
+}
+
+#zoomSlider {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 4px;
+  height: 100px;
+  cursor: pointer;
+  accent-color: var(--grn);
+  margin: 2px 0
+}
+
+.zoom-val {
+  font-size: 8px;
+  color: var(--tx2);
+  letter-spacing: 1px;
+  font-family: var(--mono)
 }
 
 .mob-backdrop {
@@ -1701,14 +1774,6 @@ body {
 
 /* ── 768px mobile breakpoint ── */
 @media (max-width: 767px) {
-  #app {
-    grid-template-columns: 1fr
-  }
-
-  .mobile-toggle {
-    display: flex
-  }
-
   .hdr-title {
     display: none
   }

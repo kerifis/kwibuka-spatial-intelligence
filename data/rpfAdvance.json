@@ -2,9 +2,10 @@
   {
     "id": "third-battalion-cnd",
     "unit": "3rd Battalion (The 600)",
-    "commander": "Charles Kayonga",
+    "commander": "Charles KAYONGA",
+    "commanderRank": "Lt. Col.",
     "commanderPhoto": "",
-    "deputy": "Lt. Col. Frank Mugambage",
+    "deputy": "Major John Wyllicliff KWIKIRIZA",
     "deputyPhoto": "",
     "region": "Kigali / CND / Amahoro rescue corridor",
     "livesSaved": 42000,
