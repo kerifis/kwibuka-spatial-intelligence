@@ -54,47 +54,48 @@
     <div class="scan-ov" id="scanOv"></div>
     <div class="vig-ov" id="vigOv"></div>
     <div class="flk-ov" id="flkOv"></div>
-    <div class="icard" id="icard">
-      <div class="icard-h"><h3 id="icT">-</h3><button class="icard-x" onclick="closeIC()">x</button></div>
-      <div class="ic-tabs" id="icTabs" style="display:none">
-        <button class="ic-tab on" onclick="showTab('overview')">Overview</button>
-        <button class="ic-tab mem-tab" onclick="showTab('testimony')">Testimony</button>
-        <button class="ic-tab mem-tab" onclick="showTab('resources')">Resources</button>
-        <button class="ic-tab" onclick="showTab('video')">Video</button>
+    <div class="tt" id="ttip"></div>
+  </div>
+
+  <div class="icard" id="icard">
+    <div class="icard-h"><h3 id="icT">-</h3><button class="icard-x" onclick="closeIC()">x</button></div>
+    <div class="ic-tabs" id="icTabs" style="display:none">
+      <button class="ic-tab on" onclick="showTab('overview')">Overview</button>
+      <button class="ic-tab mem-tab" onclick="showTab('testimony')">Testimony</button>
+      <button class="ic-tab mem-tab" onclick="showTab('resources')">Resources</button>
+      <button class="ic-tab" onclick="showTab('video')">Video</button>
+    </div>
+    <div class="icard-b">
+      <div class="ic-pane on" id="pane-overview">
+        <div id="icPhoto"></div>
+        <div id="icBadge"></div>
+        <div class="icard-m">
+          <div class="mi"><div class="ml">Date</div><div class="mv" id="icDt">-</div></div>
+          <div class="mi"><div class="ml" id="icLvLbl">Lives lost</div><div class="mv r" id="icLv">-</div></div>
+          <div class="mi"><div class="ml">Type</div><div class="mv" id="icTp">-</div></div>
+          <div class="mi"><div class="ml">Province</div><div class="mv" id="icPr">-</div></div>
+        </div>
+        <div class="icard-d" id="icDs">-</div>
       </div>
-      <div class="icard-b">
-        <div class="ic-pane on" id="pane-overview">
-          <div id="icPhoto"></div>
-          <div id="icBadge"></div>
-          <div class="icard-m">
-            <div class="mi"><div class="ml">Date</div><div class="mv" id="icDt">-</div></div>
-            <div class="mi"><div class="ml" id="icLvLbl">Lives lost</div><div class="mv r" id="icLv">-</div></div>
-            <div class="mi"><div class="ml">Type</div><div class="mv" id="icTp">-</div></div>
-            <div class="mi"><div class="ml">Province</div><div class="mv" id="icPr">-</div></div>
-          </div>
-          <div class="icard-d" id="icDs">-</div>
+      <div class="ic-pane" id="pane-testimony">
+        <div class="ic-testimony" id="icTestimony">
+          <div class="ict-q" id="icTQ">-</div>
+          <div class="ict-a" id="icTA">-</div>
         </div>
-        <div class="ic-pane" id="pane-testimony">
-          <div class="ic-testimony" id="icTestimony">
-            <div class="ict-q" id="icTQ">-</div>
-            <div class="ict-a" id="icTA">-</div>
-          </div>
-          <div class="ic-context" id="icCtx">-</div>
+        <div class="ic-context" id="icCtx">-</div>
+      </div>
+      <div class="ic-pane" id="pane-resources">
+        <div class="ic-established" id="icEst"></div>
+        <div class="ic-resources" id="icRes"></div>
+      </div>
+      <div class="ic-pane" id="pane-video">
+        <div class="ic-video-hdr">
+          <span class="ic-video-archive-lbl">▶ Genocide Archive Rwanda // Aegis Trust</span>
+          <a href="https://www.youtube.com/@AegisTrust/videos" target="_blank" rel="noopener" class="ic-video-channel-link">Full Channel ↗</a>
         </div>
-        <div class="ic-pane" id="pane-resources">
-          <div class="ic-established" id="icEst"></div>
-          <div class="ic-resources" id="icRes"></div>
-        </div>
-        <div class="ic-pane" id="pane-video">
-          <div class="ic-video-hdr">
-            <span class="ic-video-archive-lbl">▶ Genocide Archive Rwanda // Aegis Trust</span>
-            <a href="https://www.youtube.com/@AegisTrust/videos" target="_blank" rel="noopener" class="ic-video-channel-link">Full Channel ↗</a>
-          </div>
-          <div class="ic-videos" id="icVids"></div>
-        </div>
+        <div class="ic-videos" id="icVids"></div>
       </div>
     </div>
-    <div class="tt" id="ttip"></div>
   </div>
 
   <div class="mob-backdrop" id="mobBackdrop" onclick="togglePanel()"></div>

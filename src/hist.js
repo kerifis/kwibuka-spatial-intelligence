@@ -16,7 +16,8 @@ function setHistLayerVisible(visible) {
   const svg = document.getElementById('mSvg');
   const view = document.getElementById('histView');
   if (!svg || !view) return;
-  svg.style.display = histVisible ? 'none' : '';
+  // Keep SVG visible so RPF layer renders over the historical map image
+  svg.classList.toggle('hist-mode', histVisible);
   view.style.display = histVisible ? 'flex' : 'none';
   view.setAttribute('aria-hidden', histVisible ? 'false' : 'true');
   document.getElementById('mapWrap')?.classList.toggle('hist-active', histVisible);

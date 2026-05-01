@@ -154,9 +154,25 @@ body {
   background: #d8d0c1;
   align-items: center;
   justify-content: center;
-  z-index: 30;
+  z-index: 1;
   padding: 12px;
   box-sizing: border-box
+}
+
+/* SVG above hist-view so RPF layer renders over the historical map */
+.map-wrap svg {
+  position: relative;
+  z-index: 2
+}
+
+/* In hist mode hide everything except the RPF advance layer */
+#mSvg.hist-mode .grid-layer,
+#mSvg.hist-mode .map-layer,
+#mSvg.hist-mode .heat-layer,
+#mSvg.hist-mode .prov-layer,
+#mSvg.hist-mode .marker-layer,
+#mSvg.hist-mode .label-layer {
+  display: none
 }
 
 .hist-view img {
@@ -661,9 +677,11 @@ body {
 }
 
 .icard {
-  position: absolute;
-  z-index: 20;
+  position: fixed;
+  z-index: 200;
   width: 340px;
+  min-width: 260px;
+  min-height: 120px;
   background: var(--bg2);
   border: 1px solid var(--bdr2);
   border-radius: 3px;
@@ -671,8 +689,9 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity .2s;
-  max-height: 80vh;
-  overflow-y: auto
+  max-height: 85vh;
+  overflow: auto;
+  resize: both
 }
 
 .icard::-webkit-scrollbar {
@@ -694,7 +713,13 @@ body {
   border-bottom: 1px solid var(--bdr);
   display: flex;
   justify-content: space-between;
-  align-items: flex-start
+  align-items: flex-start;
+  cursor: grab;
+  user-select: none
+}
+
+.icard-h.dragging {
+  cursor: grabbing
 }
 
 .icard-h h3 {
@@ -895,7 +920,7 @@ body {
   right: 0;
   bottom: 0;
   padding: 3px 4px;
-  font-size: 7px;
+  font-size: 14px;
   line-height: 1.25;
   letter-spacing: .3px;
   text-align: center;
@@ -1727,15 +1752,15 @@ body {
     grid-row: 2
   }
 
-  /* Info card: bottom sheet */
+  /* Info card: bottom sheet on mobile */
   .icard {
-    position: fixed;
     bottom: 68px;
-    left: 8px;
+    left: 8px !important;
     right: 8px;
-    width: auto;
+    width: auto !important;
     max-height: 56vh;
-    top: auto
+    top: auto !important;
+    resize: none
   }
 
   .icard.rpf-card {

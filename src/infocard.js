@@ -253,32 +253,73 @@ function renderCommanderPhoto(item) {
       `</div>`;
   }
 
-  const cmdSlot = photoSlot(item.commander, item.commanderPhoto || '', 'slot-cmd', 'CMD');
+  const cmdSlot = photoSlot('COL ' + item.commander, item.commanderPhoto || '', 'slot-cmd', 'CMD');
   const depName = item.deputy || '—';
   const depSlot = photoSlot(depName, item.deputyPhoto || '', 'slot-2ic', '2IC');
 
   return `<div class="cmdr-pair">${cmdSlot}${depSlot}</div>`;
 }
 
+// ── Drag support ─────────────────────────────────────────
+function initDrag(card) {
+  if (card._dragInit) return;
+  card._dragInit = true;
+
+  const header = card.querySelector('.icard-h');
+  header.addEventListener('mousedown', e => {
+    if (e.target.closest('.icard-x')) return;
+    e.preventDefault();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const startL = parseInt(card.style.left) || 0;
+    const startT = parseInt(card.style.top) || 0;
+    header.classList.add('dragging');
+    card.style.transition = 'none';
+
+    const onMove = e => {
+      let l = startL + e.clientX - startX;
+      let t = startT + e.clientY - startY;
+      // Keep within viewport
+      l = Math.max(0, Math.min(l, window.innerWidth - 60));
+      t = Math.max(0, Math.min(t, window.innerHeight - 40));
+      card.style.left = l + 'px';
+      card.style.top = t + 'px';
+    };
+    const onUp = () => {
+      header.classList.remove('dragging');
+      card.style.transition = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+}
+
 /**
  * Show the info card for an event or memorial.
  * @param {Object} item - Event or memorial object
- * @param {number[]} screenPos - [x, y] screen position
+ * @param {number[]} screenPos - [x, y] SVG-space position within map-wrap
  */
 export function showInfoCard(item, screenPos) {
   const card = document.getElementById('icard');
   card.classList.toggle('rpf-card', !!item._isRpf);
-  const wrap = document.getElementById('mapWrap');
-  const rect = wrap.getBoundingClientRect();
+  initDrag(card);
+
   const mobile = window.innerWidth < 768;
 
   if (!mobile) {
-    const cardWidth = item._isRpf ? 444 : 360;
-    let left = screenPos[0] + 16;
-    let top = screenPos[1] - 80;
-    if (left + cardWidth > rect.width) left = screenPos[0] - cardWidth;
+    const wrap = document.getElementById('mapWrap');
+    const rect = wrap.getBoundingClientRect();
+    const cardWidth = item._isRpf ? 480 : 340;
+    // Convert SVG coords → viewport coords
+    let left = rect.left + screenPos[0] + 16;
+    let top = rect.top + screenPos[1] - 80;
+    // Clamp so card stays fully on screen
+    if (left + cardWidth > window.innerWidth - 8) left = rect.left + screenPos[0] - cardWidth - 16;
+    if (left < 8) left = 8;
     if (top < 8) top = 8;
-    if (top + 300 > rect.height) top = rect.height - 310;
+    if (top + 320 > window.innerHeight) top = window.innerHeight - 320;
     card.style.left = left + 'px';
     card.style.top = top + 'px';
   } else {
