@@ -1,4 +1,4 @@
-# KWIBUKA // Spatial Intelligence
+# KWIBUKA // Spatial map
 
 > *"Kwibuka" means "to remember" in Kinyarwanda.*
 
