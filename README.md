@@ -17,7 +17,7 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ## Features
 
-**100-Day Timeline** — Drag the scrubber or play at 1×/2×/4×/8× speed. The map populates dynamically as the genocide spreads geographically from Kigali outward across all five provinces.
+**100-Day Timeline** — Drag the scrubber or play at 0.5×/1×/2×/4×/8× speed (default 0.5×). The map populates dynamically as the genocide spreads geographically from Kigali outward across all five provinces.
 
 **Sigmoid Distribution Model** — A logistic curve with inflection at day 30 models the cumulative toll (~33,000 lives/day peak), with per-province onset offsets matching the historical record.
 
@@ -35,60 +35,112 @@ Open [http://localhost:5173](http://localhost:5173).
 - **Resources** — Direct links to Genocide Archive Rwanda, UNESCO, Aegis Trust, Google Arts & Culture
 - **Video** — Curated archive footage from Aegis Trust, United Nations, and USC Shoah Foundation
 
-**RPF Offensive Layer** — 9 mobile force advance routes animate across the timeline, showing the Rwandan Patriotic Front's movement from Mulindi HQ through all axes toward Kigali. Click any unit marker for a command card showing:
-- Commander and deputy with rank, passport photo slots, and initials fallback
-- Unit region, type, axis label, and estimated lives saved
-- Companies and sub-unit breakdown (3rd Battalion)
+**RPF Offensive Layer** — 9 mobile force advance routes animate across the timeline from Day 1, showing the RPA's three-phase counter-genocide operation. Click any unit marker for a command card showing commander and deputy with rank, photo portrait slots, estimated lives saved, and unit axis description.
 
 **Historical Map (HIST)** — Toggle the 1994 Rwanda administrative divisions map (11 préfectures + communes). The RPF advance layer remains visible overlaid on the historical map.
 
 **4 Display Modes** — STD (standard dark), NVG (phosphor green + scanlines), CRT (amber monochrome + flicker), FLIR (thermal red + vignette). Each mode recolors all visual elements consistently.
 
-**Draggable, Resizable Info Cards** — Click any marker to open a floating intelligence card. Drag the title bar to reposition; drag the bottom-right corner to resize. Cards float above the left panel and all other UI elements.
+**Ambient Audio** — *Ijambo Rya Mbere Inkotanyi Zakubwiye* by Bonhomme plays on loop. Toggle and volume control in the header.
 
-**Mobile Layout** — Hamburger toggle at < 768px collapses the stats panel into a slide-in drawer. Info cards render as a bottom sheet. Timeline touch targets enlarged for phones.
+**Draggable, Resizable Info Cards** — Click any marker to open a floating intelligence card. Drag the title bar to reposition; drag the bottom-right corner to resize.
+
+**Mobile Layout** — Hamburger toggle collapses the stats panel into a slide-in drawer at < 768px.
+
+## RPA Tactical Operations — Three-Phase Strategy
+
+The Rwandan Patriotic Army (RPA) executed a high-mobility, multi-axis strategy designed to stretch the Forces Armées Rwandaises (FAR) and halt massacres across the country simultaneously.
+
+### Phase 1 — The Relief Race (April 7–Mid-April)
+
+The RPA's immediate priority was protecting the **3rd Battalion (600 soldiers)** stationed at the CND Parliament under the Arusha Accords and beginning rescue operations for trapped civilians.
+
+General Paul Kagame ordered Alpha, Bravo, and 59th Mobile Forces to race south from the DMZ near Mulindi on **April 7–8** to relieve the besieged battalion.
+
+| Date | Event | Unit |
+|------|-------|------|
+| April 7–8 | Resumption of hostilities — RPA races south from Mulindi | Alpha, Bravo, 59th |
+| April 11–12 | Mt. Rebero captured — used to shell FAR positions in Kigali | 3rd Battalion |
+| April 11–12 | Nyanza Hill — mass rescue operation sacrificing military momentum | 3rd Battalion |
+| April 15 | Kayonza Crossroads seized — Tanzania supply road cut | Bravo Mobile Force |
+| April 20 | Byumba and Mt. Jali fall — northern rear consolidated | Alpha, 157th |
+
+### Phase 2 — Eastern Sweep & Isolation (Late April–May)
+
+Instead of a frontal assault on the well-defended capital, the RPA bypassed Kigali to the east — the **Wide Encirclement** — moving south toward the Tanzanian border to cut FAR supply lines and prevent the genocide spreading into rural areas.
+
+| Date | Event | Unit |
+|------|-------|------|
+| April 15 | Kayonza Crossroads — land route to Tanzania severed | Bravo |
+| Late April | Rwamagana secured — eastern corridor opened | Bravo |
+| Late April | Kibungo captured — eastern Rwanda taken | 59th |
+| Late April | Rusumo border post — eastern Rwanda fully sealed | 59th |
+| May 22 | Kanombe Airport liberated — major FAR logistical blow | Bravo |
+
+### Phase 3 — Triple Column Advance & Liberation (June–July)
+
+After crossing the **Akaryaru bridge on May 25**, the RPA split into three columns driving into the south and west to capture the interim government's base.
+
+| Date | Event | Unit |
+|------|-------|------|
+| May 25 | Akaryaru bridge crossed — triple column advance begins | 7th, 157th, 21st, 101st, Charlie |
+| June 12 | Gitarama-ville seized — interim genocide government flees to Gisenyi | 7th (Western Column) |
+| July 4 | Kigali fully liberated | All converging units |
+| July 4 | Butare liberated — organized genocide ended | 157th, 101st, Charlie |
+
+**Column assignments post-Akaryaru:**
+- **North → Gitarama**: 7th Mobile Force (Western Column)
+- **West → Nyabisindu (Nyanza)**: 157th Mobile Force
+- **South → Butare**: 101st + Charlie Mobile Force
+
+## RPF Units
+
+| Unit | Commander | Axis | Start |
+|------|-----------|------|-------|
+| 3rd Battalion (The 600) | Lt. Col. Charles KAYONGA | Kigali / CND siege defense | Day 1 |
+| Alpha Mobile Force | Sam Kaka | Northern relief — Mulindi to Kigali | Day 1 |
+| Bravo Mobile Force | Twahirwa Dodo | Eastern encirclement — Kayonza–Kanombe–Kigali | Day 1 |
+| 59th Mobile Force | Charles Ngoga | Eastern border — Kibungo–Rusumo | Day 2 |
+| 157th Mobile Force | Fred Ibingira | Triple column west wing — Byumba–Nyabisindu–Butare | Day 2 |
+| 7th Mobile Force | William Bagire | Western Column — Akaryaru–Gitarama–Gisenyi | Day 2 |
+| 21st Mobile Force | Charles Musitu | Central support — Kigali isolation arc | Day 3 |
+| 101st Mobile Force | Charles Muhire | Triple column south wing — Nyanza–Butare | Day 2 |
+| Charlie Mobile Force | Thadee Gashumba | Western-southern sweep — Kibuye–Gikongoro–Butare | Day 3 |
+
+All units originate from **Mulindi (RPF HQ)** in northern Rwanda. Commander and deputy portrait photos are loaded from `public/<name>.jpg`.
 
 ## Architecture
 
 ```
 ├── index.html             # Entry point
 ├── vite.config.js
+├── public/
+│   ├── *.jpg              # Commander / unit portrait photos
+│   ├── IJAMBO RYA MBERE INKOTANYI ZAKUBWIYE BY BONHOMME.mp3
+│   ├── rwanda-1994-administrative-divisions.svg
+│   └── rwanda-relief-location-map.jpg
 ├── data/
 │   ├── events.json        # 40 historical events
 │   ├── memorials.json     # 31 memorial sites with testimony
 │   ├── provinces.json     # Province sigmoid config
 │   ├── cities.json        # 17 city markers
-│   ├── rpfAdvance.json    # 9 RPF unit routes with command data
+│   ├── rpfAdvance.json    # 9 RPF unit routes with command data and tactical phases
 │   └── schema.md          # Data schema documentation
 └── src/
     ├── main.js            # App entry, global state, module wiring
-    ├── map.js             # D3 projection, topology, base layers
+    ├── map.js             # D3 projection, topology, D3 zoom behavior
     ├── sigmoid.js         # Distribution model (pure math)
     ├── timeline.js        # Scrubber, playback, phase bars
     ├── heatmap.js         # Radial gradient heatmap circles
     ├── markers.js         # Event markers with pulse animation
     ├── memorials.js       # Memorial diamonds, UNESCO badges
     ├── rpf.js             # RPF advance routes and unit markers
-    ├── hist.js            # Historical map toggle
-    ├── infocard.js        # Tabbed card (drag, resize, video)
+    ├── hist.js            # Historical map toggle (hist-mode CSS class)
+    ├── infocard.js        # Tabbed card (drag, resize, commander photos)
     ├── filters.js         # Display modes (STD/NVG/CRT/FLIR)
     ├── stats.js           # Side panel stats, province bars
     └── styles.css         # All styles, CSS custom properties
 ```
-
-## RPF Units
-
-| Unit | Commander | Region |
-|------|-----------|--------|
-| 3rd Battalion (The 600) | COL Charles Kayonga | Kigali / CND / Amahoro rescue corridor |
-| Alpha Mobile Force | COL Sam Kaka | Northern-to-central axis |
-| Bravo Mobile Force | COL Twahirwa Dodo | Eastern corridor / Rwamagana–Kigali |
-| 59th Mobile Force | COL Charles Ngoga | Eastern border / Kibungo–Rusumo |
-| 157th Mobile Force | COL Fred Ibingira | Southern-central / Gitarama–Nyanza–Butare |
-| 7th Mobile Force | COL William Bagire | Central-western / Kibuye–Ruhengeri–Gisenyi |
-| 21st Mobile Force | COL Charles Musitu | Central support / Kigali-Rural |
-| 101st Mobile Force | COL Charles Muhire | Southern consolidation / Nyanza–Butare |
-| Charlie Mobile Force | COL Thadee Gashumba | Western-southern / Kibuye–Gikongoro–Butare |
 
 ## Data Sources
 
@@ -105,7 +157,9 @@ Open [http://localhost:5173](http://localhost:5173).
 
 Add new events to `data/events.json` or memorials with testimony to `data/memorials.json`. The rendering pipeline consumes whatever is in these files — no code changes needed for data additions. See `data/schema.md` for field specifications.
 
-To add RPF units or correct route coordinates, edit `data/rpfAdvance.json`.
+To add RPF units or correct route coordinates, edit `data/rpfAdvance.json`. Each unit's `points` array drives the animated route line; `startDay` controls when the unit first appears on the timeline.
+
+To add commander portraits, drop `<name>.jpg` files into `public/` and set the `commanderPhoto` / `deputyPhoto` fields in `rpfAdvance.json`.
 
 ## Production Build
 
@@ -120,7 +174,6 @@ npm run preview  # Preview the build
 - **Genocide Archive Rwanda API** — Replace representative testimonies with recorded accounts
 - **USC Shoah Foundation** — Geotagged video testimony integration
 - **ACLED API** — Verified conflict event coordinates
-- **Commander portraits** — Photo uploads to `public/photos/<name>.jpg` for all 9 RPF unit cards
 - **WebGPU Shaders** — GLSL fragment shaders for heatmap and filter modes
 
 ## License

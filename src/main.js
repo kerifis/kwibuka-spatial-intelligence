@@ -12,7 +12,7 @@ import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
 import { renderRpfAdvance, toggleRpfLayer } from './rpf.js';
-import { showInfoCard, closeInfoCard, showTab } from './infocard.js';
+import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimoniesPrev, testimoniesNext } from './infocard.js';
 import { setMode, currentMode } from './filters.js';
 import { hideHistLayer, toggleHistLayer } from './hist.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
@@ -87,6 +87,11 @@ async function init() {
   update(0);
   togglePlay(day => update(day), () => currentDay);
 
+  const bgAudio = document.getElementById('bgAudio');
+  if (bgAudio) {
+    bgAudio.volume = 0.5;
+  }
+
   // Coordinate display on mouse move — invert zoom transform before inverting projection
   container.addEventListener('mousemove', e => {
     const rect = container.getBoundingClientRect();
@@ -132,7 +137,21 @@ window.toggleHist = () => {
     setMode(currentMode, () => update(currentDay));
   }
 };
-window.closeIC = () => closeInfoCard();
+window.closeIC          = () => closeInfoCard();
+window.openTestimonies = () => { openTestimoniesModal(); window.updateModalAux?.(); };
+window.openPodcast = () => {
+  openTestimoniesModal(6);
+  document.querySelectorAll('.test-nav-btn').forEach(b => b.classList.remove('test-nav-on'));
+  document.querySelector('.test-nav-btn[onclick*="podcast"]')?.classList.add('test-nav-on');
+  window.updateModalAux?.();
+};
+window.closeTestimonies = () => document.getElementById('testModal').classList.remove('vis');
+window.testimoniesPrev  = () => testimoniesPrev();
+window.testimoniesNext  = () => testimoniesNext();
+window.setTestNav = (btn, tab) => {
+  document.querySelectorAll('.test-nav-btn').forEach(b => b.classList.remove('test-nav-on'));
+  btn.classList.add('test-nav-on');
+};
 window.showTab = (t) => showTab(t);
 
 window.analyzeMatrix = async () => {
@@ -170,6 +189,58 @@ window.setZoom = v => setMapZoom(+v);
 window.zoomIn  = () => setMapZoom(Math.min(8, currentZoomTransform.k * 1.5));
 window.zoomOut = () => setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
 
+window.castToTV = async () => {
+  const btn = document.getElementById('castBtn');
+  if ('PresentationRequest' in window) {
+    const req = new PresentationRequest([window.location.href]);
+    try {
+      const conn = await req.start();
+      btn.classList.add('on');
+      btn.title = 'Connected to display';
+      conn.addEventListener('terminate', () => {
+        btn.classList.remove('on');
+        btn.title = 'Cast to TV';
+      });
+      return;
+    } catch (_) {}
+  }
+  // Fallback: show browser cast instructions
+  const toast = document.getElementById('castToast');
+  toast.classList.add('vis');
+  setTimeout(() => toast.classList.remove('vis'), 5000);
+};
+
+window.toggleAudio = () => {
+  const audio = document.getElementById('bgAudio');
+  const btn = document.getElementById('audioBtn');
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '‖ AUX';
+    btn.classList.add('playing');
+  } else {
+    audio.pause();
+    btn.textContent = '▶ AUX';
+    btn.classList.remove('playing');
+  }
+};
+
+window.updateModalAux = () => {
+  const audio = document.getElementById('bgAudio');
+  const btn = document.getElementById('modalAuxBtn');
+  if (!btn) return;
+  if (audio.paused) {
+    btn.textContent = '▶ AUX';
+    btn.classList.remove('playing');
+  } else {
+    btn.textContent = '‖ AUX';
+    btn.classList.add('playing');
+  }
+};
+
+window.setVolume = v => {
+  document.getElementById('bgAudio').volume = +v;
+};
+
 window.toggleDeathCount = () => {
   const layer = document.querySelector('.prov-layer');
   const btn = document.getElementById('countBtn');
@@ -177,6 +248,9 @@ window.toggleDeathCount = () => {
   const hidden = layer.classList.toggle('hidden');
   btn.classList.toggle('on', !hidden);
 };
+
+// Re-render trail when fade timer fires from rpf.js
+document.addEventListener('rpf-fade-tick', () => update(currentDay));
 
 // ── Boot ──────────────────────────────────────────────────
 init();

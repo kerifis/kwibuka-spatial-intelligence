@@ -16,18 +16,29 @@
     <div class="hdr-day" id="hDay">DAY 0 / 100</div>
     <div class="hdr-spacer"></div>
     <div class="fgrp">
-      <button class="fbtn on" data-m="std" onclick="setMode('std')">STD</button>
+      <button class="fbtn test-btn" onclick="openTestimonies()">100 VOICES</button>
+      <button class="fbtn test-btn" onclick="openPodcast()">PODCAST</button>
+      <div class="audio-player">
+        <button class="fbtn" id="audioBtn" onclick="toggleAudio()" title="IJAMBO RYA MBERE INKOTANYI ZAKUBWIYE — Bonhomme">▶ AUX</button>
+        <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.5" oninput="setVolume(this.value)" class="vol-slider" title="Volume" />
+      </div>
+      <button class="fbtn on-rpf" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
       <button class="fbtn" data-m="hist" onclick="toggleHist()">HIST</button>
       <button class="fbtn" data-m="nvg" onclick="setMode('nvg')">NVG</button>
       <button class="fbtn" data-m="crt" onclick="setMode('crt')">CRT</button>
       <button class="fbtn" data-m="flir" onclick="setMode('flir')">FLIR</button>
-      <button class="fbtn on-rpf" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
       <button class="fbtn" id="countBtn" onclick="toggleDeathCount()">COUNT</button>
     </div>
     <div class="mem-toggle">
       <div class="mem-sw" id="memSw" onclick="toggleMemorials()"></div>
       <label onclick="toggleMemorials()">MEMORIALS</label>
     </div>
+    <button class="fbtn" id="castBtn" onclick="castToTV()" title="Cast to TV">⊡ CAST</button>
+    <button class="fbtn on" data-m="std" onclick="setMode('std')">STD</button>
+  </div>
+  <audio id="bgAudio" loop src="/IJAMBO%20RYA%20MBERE%20INKOTANYI%20ZAKUBWIYE%20BY%20BONHOMME.mp3"></audio>
+  <div class="cast-toast" id="castToast">
+    <span>⊡</span> In your browser: <b>Menu → Cast…</b> to send to TV
   </div>
 
   <div class="map-wrap" id="mapWrap">
@@ -101,6 +112,33 @@
           <a href="https://www.youtube.com/@AegisTrust/videos" target="_blank" rel="noopener" class="ic-video-channel-link">Full Channel ↗</a>
         </div>
         <div class="ic-videos" id="icVids"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 100 Testimonies modal -->
+  <div class="test-modal" id="testModal" onclick="if(event.target===this)closeTestimonies()">
+    <div class="test-modal-inner">
+      <div class="test-modal-hdr">
+        <div class="test-modal-title">
+          <span class="test-modal-icon">▶</span> 100 TESTIMONIES
+          <span class="test-modal-sub">// Kwibuka Archive — click any video to play</span>
+        </div>
+        <button class="test-modal-close" onclick="closeTestimonies()">✕ CLOSE</button>
+      </div>
+      <div class="test-nav">
+        <button class="test-nav-btn" onclick="setTestNav(this,'home')">Home</button>
+        <button class="test-nav-btn test-nav-on" onclick="setTestNav(this,'videos')">Videos</button>
+        <button class="test-nav-btn" onclick="setTestNav(this,'shorts')">Shorts</button>
+        <button class="test-nav-btn" onclick="setTestNav(this,'podcast')">Podcast</button>
+        <a class="test-nav-btn test-nav-live" href="https://studio.youtube.com/channel/UCaowtocS63q3r0hWSCLTVBw/livestreaming" target="_blank" rel="noopener">&#9679; LIVE</a>
+        <button class="test-nav-btn test-nav-aux" id="modalAuxBtn" onclick="toggleAudio();updateModalAux()">&#9654; AUX</button>
+      </div>
+      <div class="test-grid" id="testGrid"></div>
+      <div class="test-pagination">
+        <button class="test-pg-btn" id="testPrev" onclick="testimoniesPrev()">◀ PREV</button>
+        <span class="test-pg-info" id="testPageInfo">Page 1 / 9</span>
+        <button class="test-pg-btn" id="testNext" onclick="testimoniesNext()">NEXT ▶</button>
       </div>
     </div>
   </div>

@@ -8,6 +8,17 @@ import rpfRoutes from '../data/rpfAdvance.json';
 
 export let showRpfLayer = true;
 
+// ── Trail fade state ──────────────────────────────────────
+let _fadeTick = 0;          // increments every 5 real seconds
+let _maxVisiblePts = {};    // route.unit -> max waypoints ever shown (detects advance)
+
+// Every 5 seconds dim the trail; dispatch event so main.js re-renders
+setInterval(() => {
+  if (!showRpfLayer) return;
+  _fadeTick = Math.min(_fadeTick + 1, 6);  // cap at 6 ticks (~90% fade)
+  document.dispatchEvent(new CustomEvent('rpf-fade-tick'));
+}, 5000);
+
 export function toggleRpfLayer() {
   showRpfLayer = !showRpfLayer;
   document.getElementById('rpfBtn')?.classList.toggle('on-rpf', showRpfLayer);
@@ -69,6 +80,8 @@ function showRpfCard(route, point, screenPos) {
     ? `\n\n3rd Battalion companies:\n${route.companies.map(c => `- ${c}`).join('\n')}`
     : '';
 
+  const routeStr = route.points.map(p => p.label.split(' — ')[0]).join(' → ');
+
   showInfoCard({
     name: route.unit,
     _isRpf: true,
@@ -81,7 +94,7 @@ function showRpfCard(route, point, screenPos) {
     commanderPhoto: route.commanderPhoto,
     deputy: route.deputy,
     deputyPhoto: route.deputyPhoto,
-    desc: `Commander: ${route.commander}. Region/axis: ${route.region}. Current axis: ${point.label}. Estimated lives saved by this unit: ${route.livesSaved.toLocaleString()} of the 300,000 modeled total. ${route.desc}${companies}`,
+    desc: `Current position: ${point.label}\n\nFull route: ${routeStr}\n\n${route.desc}${companies}`,
   }, screenPos);
 }
 
@@ -97,7 +110,10 @@ export function renderRpfAdvance(day, mode) {
   const line = d3.line()
     .x(d => d.x)
     .y(d => d.y)
-    .curve(d3.curveCatmullRom.alpha(0.5));
+    .curve(d3.curveLinear);
+
+  // Global timer-based fade factor (0 ticks = full, 6 ticks = ~10%)
+  const timerFade = Math.max(0.10, 1 - _fadeTick * 0.15);
 
   rpfRoutes.forEach(route => {
     const state = routeState(route, day);
@@ -108,26 +124,65 @@ export function renderRpfAdvance(day, mode) {
     const current = projectedPoint(state.current);
     if (!current) return;
 
+    // Reset fade when unit advances to a new waypoint
+    const visibleCount = points.length;
+    if (visibleCount > (_maxVisiblePts[route.unit] || 0)) {
+      _maxVisiblePts[route.unit] = visibleCount;
+      _fadeTick = Math.max(0, _fadeTick - 1);
+    }
+
+    // Draw waypoint-to-waypoint trails so border-adjacent routes cannot bow outside Rwanda.
+    // Three opacity layers simulate age-based fading without losing route context.
     if (points.length > 1) {
+      // Layer 1 — full historical trail, very dim
       gRpf.append('path')
         .datum(points)
         .attr('class', 'rpf-route-halo')
-        .attr('d', line);
+        .attr('d', line)
+        .attr('opacity', 0.25 * timerFade);
 
       gRpf.append('path')
         .datum(points)
         .attr('class', 'rpf-route')
         .attr('d', line)
-        .attr('stroke', color);
+        .attr('stroke', color)
+        .attr('stroke-opacity', 0.18 * timerFade);
+
+      // Layer 2 — second half of route, medium brightness
+      const mid = points.slice(Math.max(0, Math.floor(points.length / 2) - 1));
+      if (mid.length >= 2) {
+        gRpf.append('path')
+          .datum(mid)
+          .attr('class', 'rpf-route')
+          .attr('d', line)
+          .attr('stroke', color)
+          .attr('stroke-opacity', 0.50 * timerFade);
+      }
+
+      // Layer 3 — most recent 3 waypoints, full brightness
+      const recent = points.slice(Math.max(0, points.length - 3));
+      if (recent.length >= 2) {
+        gRpf.append('path')
+          .datum(recent)
+          .attr('class', 'rpf-route')
+          .attr('d', line)
+          .attr('stroke', color)
+          .attr('stroke-opacity', timerFade);
+      }
     }
 
-    points.slice(0, -1).forEach(p => {
+    // Waypoints — age-faded dots
+    points.slice(0, -1).forEach((p, i) => {
+      const ageFraction = points.length > 2 ? (points.length - 2 - i) / (points.length - 2) : 0;
+      const ptOpacity = (1 - ageFraction * 0.8) * timerFade;
       gRpf.append('circle')
         .attr('cx', p.x)
         .attr('cy', p.y)
         .attr('r', 2)
         .attr('class', 'rpf-waypoint')
-        .attr('stroke', color);
+        .attr('stroke', color)
+        .attr('stroke-opacity', ptOpacity)
+        .attr('fill-opacity', ptOpacity);
     });
 
     const unit = gRpf.append('g')
