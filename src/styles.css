@@ -2077,6 +2077,17 @@ body {
 .test-nav-aux.playing {
   color: #00ff88
 }
+.test-nav-rt {
+  color: #00c8ff;
+  letter-spacing: .5px
+}
+.test-nav-rt:hover {
+  color: #5de0ff
+}
+.test-nav-rt.test-nav-on {
+  color: #00c8ff;
+  border-bottom-color: #00c8ff
+}
 
 .test-grid {
   display: grid;
@@ -2211,6 +2222,330 @@ body {
 }
 @media (max-width: 540px) {
   .test-grid { grid-template-columns: 1fr }
+}
+
+/* ── Memory Keepers diaspora page ──────────────────────── */
+.mk-hero {
+  padding: 28px 0 20px;
+  border-bottom: 1px solid #272727;
+  flex-shrink: 0
+}
+.mk-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .05em;
+  margin-bottom: 10px
+}
+.mk-hero-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: #aaa;
+  letter-spacing: .03em
+}
+.mk-hero-desc {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 0 16px
+}
+.mk-submit-btn {
+  background: transparent;
+  border: 1px solid var(--grn);
+  color: var(--grn);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  padding: 8px 18px;
+  border-radius: 20px;
+  transition: background .15s, color .15s
+}
+.mk-submit-btn:hover {
+  background: rgba(0,255,136,.1)
+}
+.mk-filter-bar {
+  display: flex;
+  gap: 6px;
+  padding: 16px 0 12px;
+  flex-shrink: 0
+}
+.mk-filter {
+  background: #1a1a1a;
+  border: 1px solid #373737;
+  color: #aaa;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .07em;
+  padding: 5px 14px;
+  border-radius: 14px;
+  transition: background .15s, color .15s, border-color .15s
+}
+.mk-filter:hover {
+  color: #fff;
+  border-color: #555
+}
+.mk-filter.active {
+  background: #fff;
+  color: #0f0f0f;
+  border-color: #fff;
+  font-weight: 600
+}
+.mk-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 16px;
+  padding: 8px 0 32px;
+  flex: 1
+}
+.mk-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column
+}
+.mk-card:hover .mk-card-title {
+  color: #3ea6ff
+}
+.mk-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #272727;
+  overflow: hidden;
+  border-radius: 8px
+}
+.mk-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .2s
+}
+.mk-card:hover .mk-thumb img {
+  transform: scale(1.03)
+}
+.mk-thumb iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block
+}
+.mk-card:hover .test-play {
+  opacity: 1
+}
+.mk-country-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  background: rgba(0,0,0,.85);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: .03em
+}
+.mk-card-info {
+  padding: 10px 2px 4px
+}
+.mk-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color .15s
+}
+.mk-card-community {
+  font-size: 11px;
+  color: #aaa
+}
+@media (max-width: 900px) {
+  .mk-grid { grid-template-columns: repeat(2, 1fr) }
+}
+@media (max-width: 540px) {
+  .mk-grid { grid-template-columns: 1fr }
+}
+
+/* ── Rwanda Tech — embedded meeting room ────────────────── */
+.rt-meet-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0 12px;
+  border-bottom: 1px solid #272727;
+  flex-shrink: 0
+}
+.rt-meet-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .05em;
+  display: flex;
+  align-items: center;
+  gap: 8px
+}
+.rt-meet-dot {
+  color: #00c8ff;
+  font-size: 10px
+}
+.rt-meet-live {
+  font-size: 11px;
+  font-weight: 600;
+  color: #00c8ff;
+  letter-spacing: .12em;
+  border: 1px solid rgba(0,200,255,.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(0,200,255,.08)
+}
+.rt-meet-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px
+}
+.rt-meet-room {
+  font-size: 11px;
+  color: #555;
+  font-family: var(--mono);
+  letter-spacing: .04em
+}
+.rt-meet-ext {
+  font-size: 11px;
+  color: #00c8ff;
+  text-decoration: none;
+  letter-spacing: .04em;
+  opacity: .8;
+  transition: opacity .15s
+}
+.rt-meet-ext:hover { opacity: 1 }
+.rt-meet-frame-wrap {
+  flex: 1;
+  position: relative;
+  background: #111;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 12px 0 16px
+}
+.rt-meet-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px
+}
+
+/* ── Rwanda Tech panel ──────────────────────────────────── */
+.rt-hero {
+  padding: 28px 0 20px;
+  border-bottom: 1px solid #272727;
+  flex-shrink: 0
+}
+.rt-hero-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .05em;
+  margin-bottom: 10px
+}
+.rt-hero-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: #00c8ff;
+  letter-spacing: .03em
+}
+.rt-hero-desc {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0
+}
+.rt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 16px;
+  padding: 24px 0 32px;
+  flex: 1
+}
+.rt-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column
+}
+.rt-card:hover .rt-card-title {
+  color: #00c8ff
+}
+.rt-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #272727;
+  overflow: hidden;
+  border-radius: 8px
+}
+.rt-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .2s
+}
+.rt-card:hover .rt-thumb img {
+  transform: scale(1.03)
+}
+.rt-thumb iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block
+}
+.rt-card:hover .test-play {
+  opacity: 1
+}
+.rt-tag {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  background: rgba(0,200,255,.2);
+  border: 1px solid rgba(0,200,255,.5);
+  color: #00c8ff;
+  font-size: 9px;
+  font-family: var(--mono);
+  letter-spacing: .07em;
+  padding: 2px 7px;
+  border-radius: 3px
+}
+.rt-card-info {
+  padding: 10px 2px 4px
+}
+.rt-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.45;
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color .15s
+}
+.rt-card-org {
+  font-size: 11px;
+  color: #aaa
+}
+@media (max-width: 900px) {
+  .rt-grid { grid-template-columns: repeat(2, 1fr) }
+}
+@media (max-width: 540px) {
+  .rt-grid { grid-template-columns: 1fr }
 }
 
 /* ── 480px extra breakpoint ── */

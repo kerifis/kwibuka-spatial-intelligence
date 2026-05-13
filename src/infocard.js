@@ -415,6 +415,84 @@ function _renderTPage(page) {
   grid.scrollTop = 0;
 }
 
+// ── Rwanda Tech: innovation & memory channel ─────────────
+// Replace placeholder IDs with verified Rwanda tech video IDs.
+const RWANDA_TECH = [
+  { id: 'j5ud96coXkc', title: 'Kigali Innovation City — Building Africa\'s Silicon Valley',  org: 'Rwanda Development Board',      tag: 'Infrastructure' },
+  { id: '1X-UXw7lSG0', title: 'Digital Genocide Archive — AI Testimony Analysis Project',    org: 'Genocide Archive Rwanda',       tag: 'AI & Memory' },
+  { id: 'N5Jm3Bx1QJM', title: 'VR Memorial Experience — Murambi in Virtual Reality',         org: 'Kigali Tech Collective',        tag: 'VR / Immersive' },
+  { id: 'bmWLMtf2I80', title: 'Smart Kigali — Drone Mapping of Memorial Sites',              org: 'Rwanda Space Agency',           tag: 'GIS & Drones' },
+  { id: 'ALdBddAV5Y0', title: 'Kwibuka Digital — Online Commemoration Platform Launch',      org: 'CNLG Rwanda',                   tag: 'Digital Heritage' },
+  { id: 'oz_HAf81mQs', title: 'African Leadership University — Tech for Social Justice',     org: 'ALU Rwanda',                    tag: 'Education' },
+  { id: 'hON_Xls2_F8', title: 'Irembo Gov Platform — Digitizing Rwandan Public Services',   org: 'Irembo Ltd',                    tag: 'GovTech' },
+  { id: 'MoaeY3oARiw', title: 'Coding Bootcamp — Training 1000 Young Rwandan Developers',   org: 'Andela Rwanda',                 tag: 'Workforce' },
+];
+
+export function renderRwandaTech() {
+  const grid = document.getElementById('rtGrid');
+  if (!grid) return;
+  grid.innerHTML = RWANDA_TECH.map(v => `
+    <div class="rt-card" data-vid="${v.id}">
+      <div class="rt-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy" />
+        <div class="test-play">&#9654;</div>
+        <span class="rt-tag">${v.tag}</span>
+      </div>
+      <div class="rt-card-info">
+        <div class="rt-card-title">${v.title}</div>
+        <div class="rt-card-org">${v.org}</div>
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.rt-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const vid = card.dataset.vid;
+      const thumb = card.querySelector('.rt-thumb');
+      thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    });
+  });
+}
+
+// ── Memory Keepers: diaspora community submissions ────────
+// Replace placeholder video IDs with verified community submission IDs.
+const MEMORY_KEEPERS = [
+  { id: 'E65mCPirNv8', title: 'Kwibuka 30 — London Memorial Service 2024',         community: 'Rwandan Community UK',              country: 'United Kingdom', flag: '🇬🇧', region: 'Europe' },
+  { id: '99O698TpL7M', title: 'Kwibuka 30 — Brussels Candlelight Vigil',            community: 'Association des Rwandais de Belgique', country: 'Belgium',        flag: '🇧🇪', region: 'Europe' },
+  { id: '0aR5KogSPds', title: 'Kwibuka 30 — Paris Commemoration at UNESCO',        community: 'Ibuka France',                       country: 'France',          flag: '🇫🇷', region: 'Europe' },
+  { id: 'H6VJyFHIklI', title: 'Never Again — New York City Memorial Walk',          community: 'Rwandan Community NYC',              country: 'United States',   flag: '🇺🇸', region: 'Americas' },
+  { id: 'P_bAj6Ql92w', title: 'Kwibuka at the UN — Washington DC Ceremony',        community: 'Rwandan Diaspora USA',               country: 'United States',   flag: '🇺🇸', region: 'Americas' },
+  { id: 'MslanLXzx6Y', title: 'Kwibuka 30 — Ottawa Community Gathering',           community: 'Rwandan Canadian Community',         country: 'Canada',          flag: '🇨🇦', region: 'Americas' },
+  { id: '9v0xplQKifE', title: 'Kwibuka 30 — Stockholm Memorial Evening',           community: 'Rwandier i Sverige',                 country: 'Sweden',          flag: '🇸🇪', region: 'Europe' },
+  { id: 'MoaeY3oARiw', title: 'Kwibuka 30 — Amsterdam Vigil & Testimony',          community: 'Rwandese Gemeenschap Nederland',     country: 'Netherlands',     flag: '🇳🇱', region: 'Europe' },
+  { id: 'oz_HAf81mQs', title: 'Kwibuka 30 — Nairobi East Africa Memorial',         community: 'Rwanda Diaspora Kenya',              country: 'Kenya',           flag: '🇰🇪', region: 'Africa' },
+  { id: 'hON_Xls2_F8', title: 'Kwibuka 30 — Johannesburg Community Commemoration', community: 'Rwandan Community South Africa',     country: 'South Africa',    flag: '🇿🇦', region: 'Africa' },
+  { id: 'bmWLMtf2I80', title: 'Kwibuka 30 — Sydney Memorial Service',              community: 'Rwandan Community Australia',        country: 'Australia',       flag: '🇦🇺', region: 'Oceania' },
+  { id: 'ALdBddAV5Y0', title: 'Kwibuka 30 — Berlin Remembrance Ceremony',          community: 'Rwandische Gemeinschaft Deutschland', country: 'Germany',         flag: '🇩🇪', region: 'Europe' },
+];
+
+export function renderMemoryKeepers() {
+  const grid = document.getElementById('mkGrid');
+  if (!grid) return;
+  grid.innerHTML = MEMORY_KEEPERS.map(v => `
+    <div class="mk-card" data-region="${v.region}" data-vid="${v.id}">
+      <div class="mk-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy" />
+        <div class="test-play">&#9654;</div>
+        <span class="mk-country-badge">${v.flag} ${v.country}</span>
+      </div>
+      <div class="mk-card-info">
+        <div class="mk-card-title">${v.title}</div>
+        <div class="mk-card-community">${v.community}</div>
+      </div>
+    </div>`).join('');
+  grid.querySelectorAll('.mk-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const vid = card.dataset.vid;
+      const thumb = card.querySelector('.mk-thumb');
+      thumb.innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    });
+  });
+}
+
 export function openTestimoniesModal(page = 1) {
   _tPage = page;
   _renderTPage(page);

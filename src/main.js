@@ -12,7 +12,7 @@ import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
 import { renderRpfAdvance, toggleRpfLayer } from './rpf.js';
-import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimoniesPrev, testimoniesNext } from './infocard.js';
+import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimoniesPrev, testimoniesNext, renderMemoryKeepers, renderRwandaTech } from './infocard.js';
 import { setMode, currentMode } from './filters.js';
 import { hideHistLayer, toggleHistLayer } from './hist.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
@@ -138,11 +138,26 @@ window.toggleHist = () => {
   }
 };
 window.closeIC          = () => closeInfoCard();
-window.openTestimonies = () => { openTestimoniesModal(); window.updateModalAux?.(); };
+const _hideSidePanels = () => {
+  document.getElementById('mkPanel').style.display = 'none';
+  document.getElementById('rtPanel').style.display = 'none';
+};
+window.openTestimonies = () => {
+  openTestimoniesModal(1);
+  document.querySelectorAll('.test-nav-btn').forEach(b => b.classList.remove('test-nav-on'));
+  document.querySelector('.test-nav-btn[onclick*="home"]')?.classList.add('test-nav-on');
+  document.getElementById('testContent').style.display = '';
+  _hideSidePanels();
+  document.querySelector('.test-pagination').style.display = '';
+  window.updateModalAux?.();
+};
 window.openPodcast = () => {
   openTestimoniesModal(6);
   document.querySelectorAll('.test-nav-btn').forEach(b => b.classList.remove('test-nav-on'));
   document.querySelector('.test-nav-btn[onclick*="podcast"]')?.classList.add('test-nav-on');
+  document.getElementById('testContent').style.display = '';
+  _hideSidePanels();
+  document.querySelector('.test-pagination').style.display = 'none';
   window.updateModalAux?.();
 };
 window.closeTestimonies = () => document.getElementById('testModal').classList.remove('vis');
@@ -151,6 +166,48 @@ window.testimoniesNext  = () => testimoniesNext();
 window.setTestNav = (btn, tab) => {
   document.querySelectorAll('.test-nav-btn').forEach(b => b.classList.remove('test-nav-on'));
   btn.classList.add('test-nav-on');
+
+  const content    = document.getElementById('testContent');
+  const mkPanel    = document.getElementById('mkPanel');
+  const rtPanel    = document.getElementById('rtPanel');
+  const pagination = document.querySelector('.test-pagination');
+
+  const hideSidePanels = () => {
+    mkPanel.style.display = 'none';
+    rtPanel.style.display = 'none';
+  };
+
+  if (tab === 'memkeepers') {
+    content.style.display = 'none';
+    hideSidePanels();
+    mkPanel.style.display = 'flex';
+    mkPanel.style.flexDirection = 'column';
+    renderMemoryKeepers();
+  } else if (tab === 'rwandatech') {
+    content.style.display = 'none';
+    hideSidePanels();
+    rtPanel.style.display = 'flex';
+    rtPanel.style.flexDirection = 'column';
+    const frame = document.getElementById('rtMeetFrame');
+    if (frame && !frame.src) frame.src = frame.dataset.src;
+  } else if (tab === 'podcast') {
+    content.style.display = '';
+    hideSidePanels();
+    pagination.style.display = 'none';
+    openTestimoniesModal(6);
+  } else {
+    content.style.display = '';
+    hideSidePanels();
+    pagination.style.display = '';
+    if (tab === 'home') openTestimoniesModal(1);
+  }
+};
+window.filterMK = (btn, region) => {
+  document.querySelectorAll('.mk-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.mk-card').forEach(card => {
+    card.style.display = (region === 'all' || card.dataset.region === region) ? '' : 'none';
+  });
 };
 window.showTab = (t) => showTab(t);
 

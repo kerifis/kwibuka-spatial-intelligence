@@ -31,7 +31,7 @@
     </div>
     <div class="mem-toggle">
       <div class="mem-sw" id="memSw" onclick="toggleMemorials()"></div>
-      <label onclick="toggleMemorials()">MEMORIALS</label>
+      <label onclick="toggleMemorials()">MASS GRAVE</label>
     </div>
     <button class="fbtn" id="castBtn" onclick="castToTV()" title="Cast to TV">⊡ CAST</button>
     <button class="fbtn on" data-m="std" onclick="setMode('std')">STD</button>
@@ -127,18 +127,55 @@
         <button class="test-modal-close" onclick="closeTestimonies()">✕ CLOSE</button>
       </div>
       <div class="test-nav">
-        <button class="test-nav-btn" onclick="setTestNav(this,'home')">Home</button>
-        <button class="test-nav-btn test-nav-on" onclick="setTestNav(this,'videos')">Videos</button>
-        <button class="test-nav-btn" onclick="setTestNav(this,'shorts')">Shorts</button>
+        <button class="test-nav-btn test-nav-on" onclick="setTestNav(this,'home')">Home</button>
+        <button class="test-nav-btn" onclick="setTestNav(this,'videos')">Videos</button>
+        <button class="test-nav-btn" onclick="setTestNav(this,'memkeepers')">Memory Keepers</button>
         <button class="test-nav-btn" onclick="setTestNav(this,'podcast')">Podcast</button>
         <a class="test-nav-btn test-nav-live" href="https://studio.youtube.com/channel/UCaowtocS63q3r0hWSCLTVBw/livestreaming" target="_blank" rel="noopener">&#9679; LIVE</a>
+        <button class="test-nav-btn test-nav-rt" onclick="setTestNav(this,'rwandatech')">Rwanda Tech</button>
         <button class="test-nav-btn test-nav-aux" id="modalAuxBtn" onclick="toggleAudio();updateModalAux()">&#9654; AUX</button>
       </div>
-      <div class="test-grid" id="testGrid"></div>
-      <div class="test-pagination">
-        <button class="test-pg-btn" id="testPrev" onclick="testimoniesPrev()">◀ PREV</button>
-        <span class="test-pg-info" id="testPageInfo">Page 1 / 9</span>
-        <button class="test-pg-btn" id="testNext" onclick="testimoniesNext()">NEXT ▶</button>
+      <div id="testContent">
+        <div class="test-grid" id="testGrid"></div>
+        <div class="test-pagination">
+          <button class="test-pg-btn" id="testPrev" onclick="testimoniesPrev()">◀ PREV</button>
+          <span class="test-pg-info" id="testPageInfo">Page 1 / 9</span>
+          <button class="test-pg-btn" id="testNext" onclick="testimoniesNext()">NEXT ▶</button>
+        </div>
+      </div>
+      <div id="mkPanel" style="display:none;flex:1;overflow-y:auto">
+        <div class="mk-hero">
+          <div class="mk-hero-title">Memory Keepers <span class="mk-hero-sub">// Diaspora Archive</span></div>
+          <p class="mk-hero-desc">Rwandan communities around the world document and share their commemorations. Each video is a community's act of witness — submitted by diaspora members to keep memory alive across borders.</p>
+          <button class="mk-submit-btn" onclick="window.open('mailto:kerifis@gmail.com?subject=Memory%20Keepers%20Submission','_blank')">+ Submit Your Community Video</button>
+        </div>
+        <div class="mk-filter-bar" id="mkFilterBar">
+          <button class="mk-filter active" onclick="filterMK(this,'all')">All</button>
+          <button class="mk-filter" onclick="filterMK(this,'Europe')">Europe</button>
+          <button class="mk-filter" onclick="filterMK(this,'Americas')">Americas</button>
+          <button class="mk-filter" onclick="filterMK(this,'Africa')">Africa</button>
+          <button class="mk-filter" onclick="filterMK(this,'Oceania')">Oceania</button>
+        </div>
+        <div class="mk-grid" id="mkGrid"></div>
+      </div>
+      <div id="rtPanel" style="display:none;flex:1;flex-direction:column">
+        <div class="rt-meet-hdr">
+          <div class="rt-meet-title">Rwanda Tech Hub <span class="rt-meet-dot">●</span> <span class="rt-meet-live">LIVE</span></div>
+          <div class="rt-meet-meta">
+            <span class="rt-meet-room">meet.jit.si / RwandaTechHub-Kwibuka</span>
+            <a class="rt-meet-ext" href="https://meet.jit.si/RwandaTechHub-Kwibuka" target="_blank" rel="noopener">↗ Open in new tab</a>
+          </div>
+        </div>
+        <div class="rt-meet-frame-wrap">
+          <iframe
+            id="rtMeetFrame"
+            src=""
+            data-src="https://meet.jit.si/RwandaTechHub-Kwibuka"
+            allow="camera; microphone; fullscreen; display-capture; autoplay"
+            allowfullscreen
+            class="rt-meet-frame"
+          ></iframe>
+        </div>
       </div>
     </div>
   </div>
