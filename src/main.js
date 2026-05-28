@@ -109,6 +109,18 @@ async function init() {
     handleResize(container);
     update(currentDay);
   });
+
+  // Arrow key zoom
+  window.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setMapZoom(Math.min(8, currentZoomTransform.k * 1.5));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+    }
+  });
 }
 
 // ── Global Event Handlers (bound to window for HTML onclick) ──

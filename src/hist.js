@@ -1,4 +1,4 @@
-let histVisible = false;
+export let histVisible = false;
 
 export function toggleHistLayer() {
   setHistLayerVisible(!histVisible);

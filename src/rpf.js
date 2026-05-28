@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { gRpf, projection } from './map.js';
 import { showInfoCard } from './infocard.js';
 import rpfRoutes from '../data/rpfAdvance.json';
+import { histVisible } from './hist.js';
 
 export let showRpfLayer = true;
 
@@ -105,7 +106,7 @@ function showRpfCard(route, point, screenPos) {
  */
 export function renderRpfAdvance(day, mode) {
   gRpf.selectAll('*').remove();
-  if (!showRpfLayer) return;
+  if (!showRpfLayer || histVisible) return;
 
   const line = d3.line()
     .x(d => d.x)

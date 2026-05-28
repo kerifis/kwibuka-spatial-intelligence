@@ -97,6 +97,11 @@ export async function initMap(container) {
       if (slider) slider.value = event.transform.k;
       const val = document.getElementById('zoomVal');
       if (val) val.textContent = event.transform.k.toFixed(1) + '×';
+      const histView = document.getElementById('histView');
+      if (histView) {
+        histView.style.transformOrigin = '0 0';
+        histView.style.transform = `translate(${event.transform.x}px,${event.transform.y}px) scale(${event.transform.k})`;
+      }
     });
 
   svg.call(zoomBehavior);
