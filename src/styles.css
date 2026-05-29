@@ -329,10 +329,10 @@ body {
 }
 
 .slbl {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--tx2);
+  color: var(--tx1);
   padding-bottom: 2px;
   border-bottom: 1px solid var(--bdr)
 }
@@ -345,8 +345,8 @@ body {
 }
 
 .scard .sl {
-  font-size: 7px;
-  color: var(--tx3);
+  font-size: 10px;
+  color: var(--tx2);
   letter-spacing: .5px;
   text-transform: uppercase;
   line-height: 1.2
@@ -378,6 +378,22 @@ body {
   color: var(--tx3);
   margin-top: 1px;
   display: none
+}
+
+.dc-lbl {
+  font-size: 10px;
+  color: var(--tx2);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 2px
+}
+
+.dc-peak {
+  font-size: 9px;
+  color: var(--tx3);
+  margin-top: 3px;
+  letter-spacing: .5px
 }
 
 .save-card {
