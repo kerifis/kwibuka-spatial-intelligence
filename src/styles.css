@@ -167,6 +167,14 @@ body {
   z-index: 2
 }
 
+/* Google Maps satellite container — shown only in CRT mode */
+#gMapContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: none
+}
+
 /* In hist mode hide everything except the RPF advance layer */
 #mSvg.hist-mode .grid-layer,
 #mSvg.hist-mode .map-layer,

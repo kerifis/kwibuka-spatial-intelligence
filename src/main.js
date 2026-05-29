@@ -14,6 +14,7 @@ import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memo
 import { renderRpfAdvance, toggleRpfLayer } from './rpf.js';
 import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimoniesPrev, testimoniesNext, renderMemoryKeepers, renderRwandaTech } from './infocard.js';
 import { setMode, currentMode } from './filters.js';
+import { initGoogleMap, showGoogleMap, hideGoogleMap, updateGmMarkers, panGmTo, isGmReady } from './googlemap.js';
 import { hideHistLayer, toggleHistLayer } from './hist.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
 import { buildProvinceBars, updateStats, renderEventList } from './stats.js';
@@ -142,6 +143,9 @@ function update(day) {
   renderProvLabels(day);
   renderEventList(active);
 
+  // Google Maps satellite markers (CRT mode)
+  if (mode === 'crt' && isGmReady()) updateGmMarkers(active, day);
+
   // AI Synthesis Button
   const aiBtn = document.getElementById('aiBtn');
   if (aiBtn) {
@@ -225,6 +229,16 @@ window.__showEventById = (id) => {
 window.setMode = (mode) => {
   hideHistLayer();
   setMode(mode, () => update(currentDay));
+  if (mode === 'crt') {
+    initGoogleMap()
+      .then(() => {
+        showGoogleMap();
+        updateGmMarkers(getActiveEvents(currentDay), currentDay);
+      })
+      .catch(e => console.warn('Google Maps init failed', e));
+  } else {
+    hideGoogleMap();
+  }
 };
 window.togglePlay = () => togglePlay(day => update(day), () => currentDay);
 window.setSpd = (s) => setSpeed(s, day => update(day), () => currentDay);
@@ -363,7 +377,12 @@ window.focusDistrict = (name) => {
   document.querySelectorAll('.dist-row').forEach(r => r.classList.remove('active'));
   document.querySelector(`.dist-row[data-district="${name}"]`)?.classList.add('active');
   const d = DISTRICTS.find(x => x.name === name);
-  if (d) focusDistrictAt(name, d.lng, d.lat);
+  if (!d) return;
+  if (currentMode === 'crt') {
+    panGmTo(d.lat, d.lng);
+  } else {
+    focusDistrictAt(name, d.lng, d.lat);
+  }
 };
 
 window.clearDistHighlight = () => {
