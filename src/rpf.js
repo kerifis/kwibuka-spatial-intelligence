@@ -83,12 +83,17 @@ function showRpfCard(route, point, screenPos) {
 
   const routeStr = route.points.map(p => p.label.split(' — ')[0]).join(' → ');
 
+  const progress = Math.max(0, Math.min(1,
+    (point.day - route.startDay) / Math.max(1, route.endDay - route.startDay)
+  ));
+  const currentLivesSaved = Math.round(route.livesSaved * progress);
+
   showInfoCard({
     name: route.unit,
     _isRpf: true,
     day: Math.round(point.day),
-    lives: route.livesSaved,
-    livesSaved: route.livesSaved,
+    lives: currentLivesSaved,
+    livesSaved: currentLivesSaved,
     type: route.type,
     prov: route.region || 'RPF offensive',
     commander: route.commander,
