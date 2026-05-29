@@ -62,8 +62,9 @@ body {
   grid-column: 1/-1;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 12px;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 8px;
   background: var(--bg1);
   border-bottom: 1px solid var(--bdr);
   z-index: 10
@@ -115,10 +116,10 @@ body {
   background: transparent;
   border: 1px solid var(--bdr);
   color: var(--tx2);
-  padding: 4px 10px;
-  font-size: 9px;
+  padding: 3px 5px;
+  font-size: 8px;
   font-family: var(--mono);
-  letter-spacing: 1.5px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 2px;
@@ -221,7 +222,8 @@ body {
 
 .fgrp {
   display: flex;
-  gap: 3px
+  flex-wrap: wrap;
+  gap: 2px
 }
 
 .map-wrap {
@@ -1109,8 +1111,8 @@ body {
 .mem-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 8px
+  gap: 3px;
+  margin-left: 4px
 }
 
 .mem-toggle label {
@@ -1123,8 +1125,8 @@ body {
 .audio-player {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding-right: 6px;
+  gap: 3px;
+  padding-right: 4px;
   border-right: 1px solid var(--bdr)
 }
 
@@ -1854,9 +1856,9 @@ body {
   }
 
   .fbtn {
-    padding: 4px 7px;
-    font-size: 8px;
-    letter-spacing: 1px
+    padding: 2px 4px;
+    font-size: 7px;
+    letter-spacing: 0.4px
   }
 
   /* Left panel: off-canvas slide-in */
