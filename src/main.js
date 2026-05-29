@@ -7,7 +7,7 @@ import './styles.css';
 import events from '../data/events.json';
 import { synthesizeMatrix } from './gemini.js';
 import { sigmoid, sigmoidRate, dayToDate, formatDate, TOTAL_DAYS } from './sigmoid.js';
-import { initMap, projection, handleResize, renderProvLabels, setMapZoom, currentZoomTransform } from './map.js';
+import { initMap, projection, handleResize, renderProvLabels, setMapZoom, currentZoomTransform, initDistricts, highlightDistrict, clearDistrictHighlight, zoomToPoint, focusDistrictAt } from './map.js';
 import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
@@ -20,6 +20,94 @@ import { buildProvinceBars, updateStats, renderEventList } from './stats.js';
 
 // ── Global State ──────────────────────────────────────────
 let currentDay = 0;
+
+// ── District Index Data (Rwanda's 30 districts) ───────────
+const PROV_COLORS = {
+  Kigali: '#ff2244', Eastern: '#ff4466', Northern: '#ff6644',
+  Western: '#ff3355', Southern: '#ff2244',
+};
+
+const DISTRICTS = [
+  // Kigali City
+  { name: 'Gasabo',     province: 'Kigali',   lat: -1.890,  lng: 30.112 },
+  { name: 'Kicukiro',   province: 'Kigali',   lat: -1.999,  lng: 30.068 },
+  { name: 'Nyarugenge', province: 'Kigali',   lat: -1.951,  lng: 30.059 },
+  // Eastern Province
+  { name: 'Bugesera',   province: 'Eastern',  lat: -2.167,  lng: 30.167 },
+  { name: 'Gatsibo',    province: 'Eastern',  lat: -1.683,  lng: 30.467 },
+  { name: 'Kayonza',    province: 'Eastern',  lat: -1.917,  lng: 30.583 },
+  { name: 'Kirehe',     province: 'Eastern',  lat: -2.350,  lng: 30.683 },
+  { name: 'Ngoma',      province: 'Eastern',  lat: -2.150,  lng: 30.517 },
+  { name: 'Nyagatare',  province: 'Eastern',  lat: -1.300,  lng: 30.325 },
+  { name: 'Rwamagana',  province: 'Eastern',  lat: -1.950,  lng: 30.433 },
+  // Northern Province
+  { name: 'Burera',     province: 'Northern', lat: -1.467,  lng: 29.850 },
+  { name: 'Gakenke',    province: 'Northern', lat: -1.683,  lng: 29.783 },
+  { name: 'Gicumbi',    province: 'Northern', lat: -1.567,  lng: 30.100 },
+  { name: 'Musanze',    province: 'Northern', lat: -1.500,  lng: 29.633 },
+  { name: 'Rulindo',    province: 'Northern', lat: -1.717,  lng: 29.933 },
+  // Southern Province
+  { name: 'Gisagara',   province: 'Southern', lat: -2.617,  lng: 29.850 },
+  { name: 'Huye',       province: 'Southern', lat: -2.583,  lng: 29.750 },
+  { name: 'Kamonyi',    province: 'Southern', lat: -2.033,  lng: 29.867 },
+  { name: 'Muhanga',    province: 'Southern', lat: -2.083,  lng: 29.750 },
+  { name: 'Nyamagabe',  province: 'Southern', lat: -2.450,  lng: 29.483 },
+  { name: 'Nyanza',     province: 'Southern', lat: -2.350,  lng: 29.750 },
+  { name: 'Nyaruguru',  province: 'Southern', lat: -2.650,  lng: 29.533 },
+  { name: 'Ruhango',    province: 'Southern', lat: -2.217,  lng: 29.783 },
+  // Western Province
+  { name: 'Karongi',    province: 'Western',  lat: -2.083,  lng: 29.333 },
+  { name: 'Ngororero',  province: 'Western',  lat: -1.867,  lng: 29.550 },
+  { name: 'Nyabihu',    province: 'Western',  lat: -1.650,  lng: 29.500 },
+  { name: 'Nyamasheke', province: 'Western',  lat: -2.350,  lng: 29.150 },
+  { name: 'Rubavu',     province: 'Western',  lat: -1.683,  lng: 29.333 },
+  { name: 'Rutsiro',    province: 'Western',  lat: -1.967,  lng: 29.367 },
+  { name: 'Rusizi',     province: 'Western',  lat: -2.483,  lng: 28.917 },
+];
+
+function buildHistDistrictTable() {
+  const body = document.getElementById('histDistBody');
+  if (!body) return;
+  const byProv = {};
+  DISTRICTS.forEach(d => { (byProv[d.province] = byProv[d.province] || []).push(d); });
+  const order = ['Kigali', 'Eastern', 'Northern', 'Southern', 'Western'];
+  body.innerHTML = order.map(prov => {
+    const list = byProv[prov] || [];
+    const color = PROV_COLORS[prov];
+    const rows = list.map(d =>
+      `<div class="hist-dist-row" data-district="${d.name}" onclick="histFocusDistrict('${d.name}')">` +
+      `<span class="hist-dist-dot" style="background:${color}"></span>` +
+      `<span class="hist-dist-name">${d.name}</span>` +
+      `</div>`
+    ).join('');
+    return `<div class="hist-dist-prov-section">` +
+      `<div class="hist-dist-prov-hdr" style="color:${color}">${prov.toUpperCase()}</div>` +
+      rows + `</div>`;
+  }).join('');
+}
+
+function buildDistrictTable() {
+  const body = document.getElementById('distPanelBody');
+  if (!body) return;
+  const byProv = {};
+  DISTRICTS.forEach(d => { (byProv[d.province] = byProv[d.province] || []).push(d); });
+  const order = ['Kigali', 'Eastern', 'Northern', 'Southern', 'Western'];
+  body.innerHTML = order.map(prov => {
+    const list = byProv[prov] || [];
+    const color = PROV_COLORS[prov];
+    const rows = list.map(d =>
+      `<div class="dist-row" data-district="${d.name}" onclick="focusDistrict('${d.name}')">` +
+      `<span class="dist-dot" style="background:${color}"></span>` +
+      `<span class="dist-name">${d.name}</span>` +
+      `</div>`
+    ).join('');
+    return `<div class="dist-prov-section">` +
+      `<div class="dist-prov-hdr" style="color:${color}">` +
+      `${prov.toUpperCase()} <span class="dist-prov-count">${list.length}</span></div>` +
+      rows +
+      `</div>`;
+  }).join('');
+}
 
 function getActiveEvents(day) {
   return events.filter(e => e.day <= day);
@@ -78,6 +166,9 @@ async function init() {
 
   buildProvinceBars();
   buildTimeline();
+  buildDistrictTable();
+  buildHistDistrictTable();
+  initDistricts(); // async, loads ADM2 polygons in background
   bindTimelineEvents(day => update(day));
 
   // Initial UI state
@@ -115,7 +206,7 @@ async function init() {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setMapZoom(Math.min(8, currentZoomTransform.k * 1.5));
+      setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
@@ -146,6 +237,9 @@ window.toggleHist = () => {
     document.querySelectorAll('.fbtn[data-m]').forEach(btn => btn.classList.remove('on', 'on-a', 'on-r', 'on-h'));
     document.querySelectorAll('[data-m="hist"]').forEach(b => b.classList.add('on-h'));
   } else {
+    // Clear HIST highlights when exiting HIST mode
+    clearDistrictHighlight();
+    document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
     setMode(currentMode, () => update(currentDay));
   }
 };
@@ -255,8 +349,39 @@ window.togglePanel = () => {
 };
 
 window.setZoom = v => setMapZoom(+v);
-window.zoomIn  = () => setMapZoom(Math.min(8, currentZoomTransform.k * 1.5));
+window.zoomIn  = () => setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
 window.zoomOut = () => setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+
+window.toggleDistrictPanel = () => {
+  const panel = document.getElementById('distPanel');
+  const btn   = document.getElementById('distBtn');
+  const open  = panel.classList.toggle('open');
+  btn.classList.toggle('on', open);
+};
+
+window.focusDistrict = (name) => {
+  document.querySelectorAll('.dist-row').forEach(r => r.classList.remove('active'));
+  document.querySelector(`.dist-row[data-district="${name}"]`)?.classList.add('active');
+  const d = DISTRICTS.find(x => x.name === name);
+  if (d) focusDistrictAt(name, d.lng, d.lat);
+};
+
+window.clearDistHighlight = () => {
+  clearDistrictHighlight();
+  document.querySelectorAll('.dist-row').forEach(r => r.classList.remove('active'));
+};
+
+window.histFocusDistrict = (name) => {
+  document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
+  document.querySelector(`.hist-dist-row[data-district="${name}"]`)?.classList.add('active');
+  const d = DISTRICTS.find(x => x.name === name);
+  if (d) focusDistrictAt(name, d.lng, d.lat, false); // no zoom in HIST mode
+};
+
+window.histClearHighlight = () => {
+  clearDistrictHighlight();
+  document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
+};
 
 window.castToTV = async () => {
   const btn = document.getElementById('castBtn');

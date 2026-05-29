@@ -19,6 +19,7 @@
       </div>
       <button class="fbtn on-rpf" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
       <button class="fbtn" data-m="hist" onclick="toggleHist()">HIST</button>
+      <button class="fbtn" id="distBtn" onclick="toggleDistrictPanel()" title="District Index">DIST</button>
       <button class="fbtn" data-m="nvg" onclick="setMode('nvg')">NVG</button>
       <button class="fbtn" data-m="crt" onclick="setMode('crt')">CRT</button>
       <button class="fbtn" data-m="flir" onclick="setMode('flir')">FLIR</button>
@@ -50,6 +51,18 @@
         RWANDA // RELIEF &amp; LOCATION MAP
       </div>
     </div>
+
+    <!-- HIST-mode district heatmap panel -->
+    <div class="hist-dist-panel" id="histDistPanel">
+      <div class="hist-dist-hdr">
+        <span>DISTRICT INDEX</span>
+        <span class="hist-dist-hdr-sub">// 30 DISTRICTS</span>
+      </div>
+      <div class="hist-dist-clear">
+        <button class="hist-dist-clear-btn" onclick="histClearHighlight()">✕ CLEAR SELECTION</button>
+      </div>
+      <div class="hist-dist-body" id="histDistBody"></div>
+    </div>
     <div class="counter-big" id="bigCount">0</div>
     <div class="counter-label">estimated lives lost</div>
     <div class="rate-bar" id="rateBar">
@@ -68,11 +81,23 @@
     <div class="flk-ov" id="flkOv"></div>
     <div class="zoom-ctl">
       <button class="zoom-btn" onclick="window.zoomIn()">+</button>
-      <input type="range" id="zoomSlider" min="1" max="8" step="0.1" value="1" oninput="window.setZoom(this.value)" />
+      <input type="range" id="zoomSlider" min="1" max="1.5" step="0.05" value="1" oninput="window.setZoom(this.value)" />
       <span class="zoom-val" id="zoomVal">1.0×</span>
       <button class="zoom-btn" onclick="window.zoomOut()">−</button>
     </div>
     <div class="tt" id="ttip"></div>
+
+    <!-- District index panel -->
+    <div class="dist-panel" id="distPanel">
+      <div class="dist-panel-hdr">
+        <span class="dist-panel-title">RWANDA // 30 DISTRICTS</span>
+        <button class="dist-panel-close" onclick="toggleDistrictPanel()">✕</button>
+      </div>
+      <div class="dist-panel-reset">
+        <button class="dist-reset-btn" onclick="clearDistHighlight()">✕ CLEAR SELECTION</button>
+      </div>
+      <div class="dist-panel-body" id="distPanelBody"></div>
+    </div>
   </div>
 
   <div class="icard" id="icard">

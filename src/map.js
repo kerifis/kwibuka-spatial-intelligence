@@ -24,10 +24,11 @@ const LAKE_KIVU = [
 const NEIGHBORS = ['180', '800', '834', '108']; // DRC, Uganda, Tanzania, Burundi
 
 export let projection, pathGen, svg;
-export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv;
+export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv, gDist;
 export let currentZoomTransform = d3.zoomIdentity;
 let zoomBehavior, zoomRoot, mapContainer;
 let rwProvData = null;
+let rwDistData = null;
 let rwandaFeature = {
   type: 'Feature',
   geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] },
@@ -82,6 +83,7 @@ export async function initMap(container) {
   gGrid = zoomRoot.append('g').attr('class', 'grid-layer');
   gMap  = zoomRoot.append('g').attr('class', 'map-layer');
   gHeat = zoomRoot.append('g').attr('class', 'heat-layer');
+  gDist = zoomRoot.append('g').attr('class', 'dist-layer');
   gRpf  = zoomRoot.append('g').attr('class', 'rpf-layer');
   gProv = zoomRoot.append('g').attr('class', 'prov-layer');
   gMark = zoomRoot.append('g').attr('class', 'marker-layer');
@@ -89,7 +91,7 @@ export async function initMap(container) {
 
   // D3 zoom behavior (wheel + drag + programmatic)
   zoomBehavior = d3.zoom()
-    .scaleExtent([1, 8])
+    .scaleExtent([1, 1.5])
     .on('zoom', event => {
       currentZoomTransform = event.transform;
       zoomRoot.attr('transform', event.transform);
@@ -252,7 +254,7 @@ export function renderProvLabels(day) {
  * @param {number} scale - Target scale (1–8)
  */
 export function setMapZoom(scale) {
-  const k = Math.max(1, Math.min(8, +scale));
+  const k = Math.max(1, Math.min(1.5, +scale));
   const W = mapContainer.clientWidth;
   const H = mapContainer.clientHeight;
   svg.transition().duration(220).call(
@@ -278,6 +280,7 @@ export function handleResize(container) {
 
   gMap.selectAll('.rw-prov-poly').attr('d', pathGen);
   gMap.selectAll('path').attr('d', pathGen);
+  gDist.selectAll('.rw-dist-poly').attr('d', pathGen);
 
   // Reposition province cards
   Object.entries(provinces).forEach(([name, p]) => {
@@ -305,4 +308,184 @@ export function handleResize(container) {
     const p = projection([cities[i].lng, cities[i].lat]);
     d3.select(this).attr('x', p[0] + 5).attr('y', p[1] + 3);
   });
+}
+
+/**
+ * Load ADM2 district boundaries from geoBoundaries and render invisible polygons.
+ * Called after initMap() during app init.
+ */
+export async function initDistricts() {
+  try {
+    const res = await d3.json('https://www.geoboundaries.org/api/current/gbOpen/RWA/ADM2/');
+    if (res?.gjDownloadURL) {
+      rwDistData = await d3.json(res.gjDownloadURL);
+      gDist.selectAll('.rw-dist-poly')
+        .data(rwDistData.features)
+        .enter().append('path')
+        .attr('class', 'rw-dist-poly')
+        .attr('d', pathGen)
+        .attr('data-name', d => (d.properties.shapeName || '').toLowerCase());
+    }
+  } catch (e) {
+    console.warn('ADM2 district layer unavailable', e);
+  }
+}
+
+/**
+ * Highlight the named district polygon and zoom the map to it.
+ * Returns true if a match was found in the loaded ADM2 data.
+ * @param {string} name - District name (fuzzy-matched)
+ */
+export function highlightDistrict(name) {
+  gDist.selectAll('.rw-dist-poly').classed('dist-highlighted', false);
+  if (!rwDistData) return false;
+
+  const lower = name.toLowerCase().trim();
+  let found = null;
+
+  gDist.selectAll('.rw-dist-poly').each(function(d) {
+    if (found) return;
+    const n = (d.properties.shapeName || '').toLowerCase().trim();
+    if (n === lower || n.includes(lower) || lower.includes(n)) {
+      d3.select(this).classed('dist-highlighted', true);
+      found = d;
+    }
+  });
+
+  if (found) {
+    const [[x0, y0], [x1, y1]] = pathGen.bounds(found);
+    const W = mapContainer.clientWidth;
+    const H = mapContainer.clientHeight;
+    const pad = 90;
+    const k = Math.min(7, 0.82 * Math.min(
+      (W - 2 * pad) / Math.max(1, x1 - x0),
+      (H - 2 * pad) / Math.max(1, y1 - y0)
+    ));
+    const tx = W / 2 - k * (x0 + x1) / 2;
+    const ty = H / 2 - k * (y0 + y1) / 2;
+    svg.transition().duration(650).call(
+      zoomBehavior.transform,
+      d3.zoomIdentity.translate(tx, ty).scale(k)
+    );
+    return true;
+  }
+  return false;
+}
+
+/** Remove any district highlight and heat circles. */
+export function clearDistrictHighlight() {
+  gDist.selectAll('.rw-dist-poly').classed('dist-highlighted', false);
+  gDist.selectAll('.dist-heat-circle').remove();
+}
+
+/**
+ * Zoom the map to a geographic point at scale k.
+ * @param {number} lng
+ * @param {number} lat
+ * @param {number} k - zoom scale (default 3.5)
+ */
+export function zoomToPoint(lng, lat, k = 1.5) {
+  const pt = projection([lng, lat]);
+  if (!pt) return;
+  const W = mapContainer.clientWidth;
+  const H = mapContainer.clientHeight;
+  svg.transition().duration(650).call(
+    zoomBehavior.transform,
+    d3.zoomIdentity.translate(W / 2 - k * pt[0], H / 2 - k * pt[1]).scale(k)
+  );
+}
+
+/**
+ * Focus a district: always draws a red heatmap indicator at (lng, lat),
+ * additionally highlights the ADM2 polygon when available, and optionally zooms in.
+ * Works even before geoBoundaries has loaded.
+ * @param {string}  name     - district name for polygon fuzzy-match
+ * @param {number}  lng
+ * @param {number}  lat
+ * @param {boolean} zoom     - whether to pan/zoom the map (default true; pass false for HIST mode)
+ */
+export function focusDistrictAt(name, lng, lat, zoom = true) {
+  // ── Clear previous state ──────────────────────────────
+  gDist.selectAll('.rw-dist-poly').classed('dist-highlighted', false);
+  gDist.selectAll('.dist-heat-circle').remove();
+
+  const pt = projection([lng, lat]);
+
+  // ── Always draw red heat indicator at centre ──────────
+  if (pt) {
+    // Outer expanding sonar ring (SVG SMIL animation)
+    const ring = gDist.append('circle')
+      .attr('class', 'dist-heat-circle')
+      .attr('cx', pt[0]).attr('cy', pt[1])
+      .attr('r', 5)
+      .style('fill', 'none')
+      .style('stroke', '#ff2244')
+      .style('stroke-width', '1.5px')
+      .style('pointer-events', 'none');
+    ring.append('animate')
+      .attr('attributeName', 'r')
+      .attr('from', 5).attr('to', 30)
+      .attr('dur', '2s').attr('repeatCount', 'indefinite');
+    ring.append('animate')
+      .attr('attributeName', 'opacity')
+      .attr('from', 0.9).attr('to', 0)
+      .attr('dur', '2s').attr('repeatCount', 'indefinite');
+
+    // Radial gradient glow using existing #heat defs
+    gDist.append('circle')
+      .attr('class', 'dist-heat-circle')
+      .attr('cx', pt[0]).attr('cy', pt[1])
+      .attr('r', 18)
+      .style('fill', 'url(#heat)')
+      .style('pointer-events', 'none');
+
+    // Solid centre dot
+    gDist.append('circle')
+      .attr('class', 'dist-heat-circle dist-heat-dot')
+      .attr('cx', pt[0]).attr('cy', pt[1])
+      .attr('r', 3.5)
+      .style('fill', '#ff2244')
+      .style('stroke', 'rgba(255,255,255,0.7)')
+      .style('stroke-width', '1px')
+      .style('pointer-events', 'none');
+  }
+
+  // ── Try ADM2 polygon highlight ────────────────────────
+  let polygonBounds = null;
+  if (rwDistData) {
+    const lower = name.toLowerCase().trim();
+    gDist.selectAll('.rw-dist-poly').each(function(d) {
+      if (polygonBounds) return;
+      const n = (d.properties.shapeName || '').toLowerCase().trim();
+      if (n === lower || n.includes(lower) || lower.includes(n)) {
+        d3.select(this).classed('dist-highlighted', true);
+        polygonBounds = pathGen.bounds(d);
+      }
+    });
+  }
+
+  // ── Zoom (skipped in HIST mode) ───────────────────────
+  if (zoom) {
+    const W = mapContainer.clientWidth;
+    const H = mapContainer.clientHeight;
+
+    if (polygonBounds) {
+      const [[x0, y0], [x1, y1]] = polygonBounds;
+      const pad = 80;
+      const k = Math.min(1.5, 0.82 * Math.min(
+        (W - 2 * pad) / Math.max(1, x1 - x0),
+        (H - 2 * pad) / Math.max(1, y1 - y0)
+      ));
+      svg.transition().duration(700).call(
+        zoomBehavior.transform,
+        d3.zoomIdentity.translate(W / 2 - k * (x0 + x1) / 2, H / 2 - k * (y0 + y1) / 2).scale(k)
+      );
+    } else if (pt) {
+      const k = 1.5;
+      svg.transition().duration(700).call(
+        zoomBehavior.transform,
+        d3.zoomIdentity.translate(W / 2 - k * pt[0], H / 2 - k * pt[1]).scale(k)
+      );
+    }
+  }
 }
