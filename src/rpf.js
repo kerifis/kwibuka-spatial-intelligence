@@ -21,9 +21,19 @@ setInterval(() => {
 }, 5000);
 
 export function toggleRpfLayer() {
-  showRpfLayer = !showRpfLayer;
-  document.getElementById('rpfBtn')?.classList.toggle('on-rpf', showRpfLayer);
+  setRpfLayerVisible(!showRpfLayer);
   return showRpfLayer;
+}
+
+export function hideRpfLayer() {
+  const wasVisible = showRpfLayer;
+  setRpfLayerVisible(false);
+  return wasVisible;
+}
+
+function setRpfLayerVisible(visible) {
+  showRpfLayer = visible;
+  document.getElementById('rpfBtn')?.classList.toggle('on-rpf', showRpfLayer);
 }
 
 function projectedPoint(point) {

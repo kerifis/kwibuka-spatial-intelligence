@@ -4,6 +4,7 @@
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
 import cities from '../data/cities.json';
+import histFamilies from '../data/histFamilies.json';
 import provinces from '../data/provinces.json';
 import { provSigmoid } from './sigmoid.js';
 
@@ -22,9 +23,10 @@ const LAKE_KIVU = [
 ];
 
 const NEIGHBORS = ['180', '800', '834', '108']; // DRC, Uganda, Tanzania, Burundi
+const GEOBOUNDARIES_API = 'https://www.geoboundaries.org/api/current/gbOpen/RWA';
 
 export let projection, pathGen, svg;
-export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv, gDist;
+export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv, gDist, gHist;
 export let currentZoomTransform = d3.zoomIdentity;
 let zoomBehavior, zoomRoot, mapContainer;
 let rwProvData = null;
@@ -33,6 +35,83 @@ let rwandaFeature = {
   type: 'Feature',
   geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] },
 };
+
+function normalizeGeoBoundaryDownloadUrl(url) {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+    const parts = parsed.pathname.split('/').filter(Boolean);
+    const rawIndex = parts.indexOf('raw');
+
+    if (
+      (parsed.hostname === 'github.com' || parsed.hostname === 'www.github.com') &&
+      parts[0] === 'wmgeolab' &&
+      parts[1] === 'geoBoundaries' &&
+      rawIndex === 2 &&
+      parts.length > 3
+    ) {
+      const ref = parts[rawIndex + 1];
+      const filePath = parts.slice(rawIndex + 2).join('/');
+      return `https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/${ref}/${filePath}`;
+    }
+  } catch (_) {
+    return url;
+  }
+
+  return url;
+}
+
+async function loadGeoBoundary(level) {
+  const meta = await d3.json(`${GEOBOUNDARIES_API}/${level}/`);
+  const downloadUrl = normalizeGeoBoundaryDownloadUrl(meta?.gjDownloadURL);
+  const collection = downloadUrl ? await d3.json(downloadUrl) : null;
+  if (!collection?.features) return collection;
+
+  return {
+    ...collection,
+    features: collection.features.map(normalizeD3Winding),
+  };
+}
+
+/**
+ * D3's spherical path renderer expects exterior rings in the opposite direction
+ * from the GeoJSON right-hand rule used by geoBoundaries. Without normalization,
+ * a selected district can render as the entire globe and break fit-to-district zoom.
+ */
+function normalizeD3Winding(feature) {
+  const geometry = feature?.geometry;
+  if (!geometry || d3.geoArea(feature) <= 2 * Math.PI) return feature;
+
+  const reverseRings = polygon => polygon.map(ring => [...ring].reverse());
+  const coordinates = geometry.type === 'Polygon'
+    ? reverseRings(geometry.coordinates)
+    : geometry.type === 'MultiPolygon'
+      ? geometry.coordinates.map(reverseRings)
+      : geometry.coordinates;
+
+  return {
+    ...feature,
+    geometry: { ...geometry, coordinates },
+  };
+}
+
+function districtFocusTransform(bounds, padding = 80) {
+  const [[x0, y0], [x1, y1]] = bounds;
+  const W = mapContainer.clientWidth;
+  const H = mapContainer.clientHeight;
+  const availableW = Math.max(1, W - 2 * padding);
+  const availableH = Math.max(1, H - 2 * padding);
+  const fitScale = 0.82 * Math.min(
+    availableW / Math.max(1, x1 - x0),
+    availableH / Math.max(1, y1 - y0)
+  );
+  const k = Math.max(1, Math.min(1.5, fitScale));
+
+  return d3.zoomIdentity
+    .translate(W / 2 - k * (x0 + x1) / 2, H / 2 - k * (y0 + y1) / 2)
+    .scale(k);
+}
 
 /**
  * Check whether a longitude/latitude pair falls inside Rwanda's outline.
@@ -84,6 +163,7 @@ export async function initMap(container) {
   gMap  = zoomRoot.append('g').attr('class', 'map-layer');
   gHeat = zoomRoot.append('g').attr('class', 'heat-layer');
   gDist = zoomRoot.append('g').attr('class', 'dist-layer');
+  gHist = zoomRoot.append('g').attr('class', 'hist-family-layer');
   gRpf  = zoomRoot.append('g').attr('class', 'rpf-layer');
   gProv = zoomRoot.append('g').attr('class', 'prov-layer');
   gMark = zoomRoot.append('g').attr('class', 'marker-layer');
@@ -98,12 +178,7 @@ export async function initMap(container) {
       const slider = document.getElementById('zoomSlider');
       if (slider) slider.value = event.transform.k;
       const val = document.getElementById('zoomVal');
-      if (val) val.textContent = event.transform.k.toFixed(1) + '×';
-      const histView = document.getElementById('histView');
-      if (histView) {
-        histView.style.transformOrigin = '0 0';
-        histView.style.transform = `translate(${event.transform.x}px,${event.transform.y}px) scale(${event.transform.k})`;
-      }
+      if (val) val.textContent = event.transform.k.toFixed(1) + 'x';
     });
 
   svg.call(zoomBehavior);
@@ -160,9 +235,8 @@ export async function initMap(container) {
 
   // Load interactive interactive ADM1 provinces (geoBoundaries)
   try {
-    const res = await d3.json('https://www.geoboundaries.org/api/current/gbOpen/RWA/ADM1/');
-    if (res && res.gjDownloadURL) {
-      rwProvData = await d3.json(res.gjDownloadURL);
+    rwProvData = await loadGeoBoundary('ADM1');
+    if (rwProvData?.features?.length) {
       gMap.selectAll('.rw-prov-poly')
         .data(rwProvData.features)
         .enter().append('path')
@@ -235,6 +309,31 @@ export async function initMap(container) {
       .text(c.n).attr('class', 'city-lbl')
       .style('font-size', c.major ? '9px' : '7px');
   });
+
+  renderHistFamilyLabels();
+}
+
+function renderHistFamilyLabels() {
+  gHist.selectAll('*').remove();
+  histFamilies.forEach(area => {
+    const pt = projection([area.lng, area.lat]);
+    if (!pt) return;
+    const group = gHist.append('g')
+      .attr('class', 'hist-family-label')
+      .attr('data-hist-area', area.id)
+      .attr('transform', `translate(${pt[0]},${pt[1]})`)
+      .on('click', () => window.histFocusArea?.(area.id));
+
+    group.append('circle').attr('r', 4).attr('class', 'hist-family-dot');
+    group.append('text')
+      .attr('x', 8).attr('y', -5)
+      .attr('class', 'hist-family-name')
+      .text(area.label.toUpperCase());
+    group.append('text')
+      .attr('x', 8).attr('y', 7)
+      .attr('class', 'hist-family-count')
+      .text(`${area.families.toLocaleString()} FAMILIES`);
+  });
 }
 
 /**
@@ -261,6 +360,19 @@ export function setMapZoom(scale) {
     zoomBehavior.transform,
     d3.zoomIdentity.translate(W / 2 * (1 - k), H / 2 * (1 - k)).scale(k)
   );
+}
+
+export function syncMapZoomControl() {
+  const slider = document.getElementById('zoomSlider');
+  const val = document.getElementById('zoomVal');
+  if (slider) {
+    slider.min = '1';
+    slider.max = '1.5';
+    slider.step = '0.05';
+    slider.value = currentZoomTransform.k;
+  }
+  if (val) val.textContent = currentZoomTransform.k.toFixed(1) + 'x';
+  document.getElementById('mapWrap')?.classList.remove('crt-zoom');
 }
 
 /**
@@ -308,6 +420,8 @@ export function handleResize(container) {
     const p = projection([cities[i].lng, cities[i].lat]);
     d3.select(this).attr('x', p[0] + 5).attr('y', p[1] + 3);
   });
+
+  renderHistFamilyLabels();
 }
 
 /**
@@ -316,9 +430,8 @@ export function handleResize(container) {
  */
 export async function initDistricts() {
   try {
-    const res = await d3.json('https://www.geoboundaries.org/api/current/gbOpen/RWA/ADM2/');
-    if (res?.gjDownloadURL) {
-      rwDistData = await d3.json(res.gjDownloadURL);
+    rwDistData = await getDistrictGeoJson();
+    if (rwDistData?.features?.length) {
       gDist.selectAll('.rw-dist-poly')
         .data(rwDistData.features)
         .enter().append('path')
@@ -329,6 +442,12 @@ export async function initDistricts() {
   } catch (e) {
     console.warn('ADM2 district layer unavailable', e);
   }
+}
+
+export async function getDistrictGeoJson() {
+  if (rwDistData?.features?.length) return rwDistData;
+  rwDistData = await loadGeoBoundary('ADM2');
+  return rwDistData;
 }
 
 /**
@@ -353,19 +472,9 @@ export function highlightDistrict(name) {
   });
 
   if (found) {
-    const [[x0, y0], [x1, y1]] = pathGen.bounds(found);
-    const W = mapContainer.clientWidth;
-    const H = mapContainer.clientHeight;
-    const pad = 90;
-    const k = Math.min(7, 0.82 * Math.min(
-      (W - 2 * pad) / Math.max(1, x1 - x0),
-      (H - 2 * pad) / Math.max(1, y1 - y0)
-    ));
-    const tx = W / 2 - k * (x0 + x1) / 2;
-    const ty = H / 2 - k * (y0 + y1) / 2;
     svg.transition().duration(650).call(
       zoomBehavior.transform,
-      d3.zoomIdentity.translate(tx, ty).scale(k)
+      districtFocusTransform(pathGen.bounds(found), 90)
     );
     return true;
   }
@@ -470,15 +579,9 @@ export function focusDistrictAt(name, lng, lat, zoom = true) {
     const H = mapContainer.clientHeight;
 
     if (polygonBounds) {
-      const [[x0, y0], [x1, y1]] = polygonBounds;
-      const pad = 80;
-      const k = Math.min(1.5, 0.82 * Math.min(
-        (W - 2 * pad) / Math.max(1, x1 - x0),
-        (H - 2 * pad) / Math.max(1, y1 - y0)
-      ));
       svg.transition().duration(700).call(
         zoomBehavior.transform,
-        d3.zoomIdentity.translate(W / 2 - k * (x0 + x1) / 2, H / 2 - k * (y0 + y1) / 2).scale(k)
+        districtFocusTransform(polygonBounds)
       );
     } else if (pt) {
       const k = 1.5;

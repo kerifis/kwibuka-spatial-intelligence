@@ -46,18 +46,27 @@
     <div class="loading" id="ldg">INITIALIZING SPATIAL ENGINE</div>
     <svg id="mSvg"></svg>
     <div id="gMapContainer"></div>
-    <div class="hist-view" id="histView" aria-hidden="true">
-      <img src="/rwanda-relief-location-map.jpg" alt="Rwanda relief and location map" />
-      <div class="hist-caption">
-        RWANDA // RELIEF &amp; LOCATION MAP
-      </div>
+    <div class="gm-visit-shell" id="gVisitShell">
+      <form class="gm-visit-form" onsubmit="searchKigaliPlace(); return false;">
+        <label for="gVisitInput">VISIT KIGALI</label>
+        <div class="gm-visit-row">
+          <input id="gVisitInput" type="search" placeholder="Search a place" autocomplete="off" />
+          <button id="gVisitBtn" type="submit">GO</button>
+        </div>
+      </form>
+      <div class="gm-visit-note" id="gVisitNote">Search landmarks, memorials, hotels, and public places.</div>
     </div>
-
-    <!-- HIST-mode district heatmap panel -->
+    <div class="gm-street-shell" id="gStreetShell">
+      <button class="gm-street-btn" id="gStreetBtn" onclick="toggleStreetView()" type="button" disabled>
+        STREET VIEW
+      </button>
+      <div class="gm-street-note" id="gStreetNote">Zoom further in to check nearby Street View coverage.</div>
+    </div>
+    <!-- HIST-mode documented family cohort panel -->
     <div class="hist-dist-panel" id="histDistPanel">
       <div class="hist-dist-hdr">
-        <span>DISTRICT INDEX</span>
-        <span class="hist-dist-hdr-sub">// 30 DISTRICTS</span>
+        <span>WIPED-OUT FAMILIES</span>
+        <span class="hist-dist-hdr-sub">// DOCUMENTED COHORTS</span>
       </div>
       <div class="hist-dist-clear">
         <button class="hist-dist-clear-btn" onclick="histClearHighlight()">✕ CLEAR SELECTION</button>
@@ -243,7 +252,7 @@
       <button class="sbtn" data-s="4" onclick="setSpd(4)">4x</button>
       <button class="sbtn" data-s="8" onclick="setSpd(8)">8x</button>
       <div style="flex:1"></div>
-      <button class="ai-btn" id="aiBtn" onclick="analyzeMatrix()" disabled>✨ ANALYZE '94 MATRIX (LOCKED)</button>
+      <button class="visit-kigali-btn" id="visitKigaliBtn" onclick="openVisitKigali()" aria-pressed="false">VISIT KIGALI</button>
       <div style="font-size:8px;color:var(--tx3);letter-spacing:2px;margin-left:12px">APRIL 6 — JULY 15, 1994 // SIGMOID MODEL // 133 MEMORIAL SITES WITH TESTIMONY</div>
     </div>
     <div class="ttrack" id="tTrack">

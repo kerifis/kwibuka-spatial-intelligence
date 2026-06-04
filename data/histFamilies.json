@@ -1,0 +1,72 @@
+[
+  {
+    "id": "nyamagabe",
+    "label": "Nyamagabe",
+    "districts": "Nyamagabe",
+    "families": 682,
+    "members": 2812,
+    "lat": -2.45,
+    "lng": 29.483,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "karongi",
+    "label": "Karongi",
+    "districts": "Karongi",
+    "families": 2839,
+    "members": 13371,
+    "lat": -2.083,
+    "lng": 29.333,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "kigali-city",
+    "label": "Kigali City",
+    "districts": "Gasabo, Kicukiro, Nyarugenge",
+    "families": 2110,
+    "members": 8436,
+    "lat": -1.951,
+    "lng": 30.059,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "gatsibo",
+    "label": "Gatsibo",
+    "districts": "Gatsibo",
+    "families": 86,
+    "members": 366,
+    "lat": -1.683,
+    "lng": 30.467,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "northern-five",
+    "label": "Northern Five",
+    "districts": "Musanze, Rulindo, Gakenke, Gicumbi, Burera",
+    "families": 461,
+    "members": 1897,
+    "lat": -1.61,
+    "lng": 29.88,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "southern-central",
+    "label": "Southern Central",
+    "districts": "Ruhango, Muhanga, Kamonyi",
+    "families": 822,
+    "members": 3742,
+    "lat": -2.1,
+    "lng": 29.82,
+    "source": "Kigali Genocide Memorial / GAERG, 2016"
+  },
+  {
+    "id": "western-north",
+    "label": "Western North",
+    "districts": "Rutsiro, Rubavu, Nyabihu",
+    "families": 886,
+    "members": 4256,
+    "lat": -1.72,
+    "lng": 29.4,
+    "source": "KT Press reporting GAERG survey, 2017"
+  }
+]

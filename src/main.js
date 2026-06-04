@@ -5,16 +5,17 @@
 import './styles.css';
 
 import events from '../data/events.json';
+import histFamilies from '../data/histFamilies.json';
 import { synthesizeMatrix } from './gemini.js';
 import { sigmoid, sigmoidRate, dayToDate, formatDate, TOTAL_DAYS } from './sigmoid.js';
-import { initMap, projection, handleResize, renderProvLabels, setMapZoom, currentZoomTransform, initDistricts, highlightDistrict, clearDistrictHighlight, zoomToPoint, focusDistrictAt } from './map.js';
+import { initMap, projection, handleResize, renderProvLabels, setMapZoom, syncMapZoomControl, currentZoomTransform, initDistricts, highlightDistrict, clearDistrictHighlight, zoomToPoint, focusDistrictAt } from './map.js';
 import { renderHeatmap } from './heatmap.js';
 import { renderMarkers } from './markers.js';
 import { renderMemorialMarkers, toggleMemorials as toggleMemLayer } from './memorials.js';
-import { renderRpfAdvance, toggleRpfLayer } from './rpf.js';
+import { renderRpfAdvance, toggleRpfLayer, hideRpfLayer } from './rpf.js';
 import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimoniesPrev, testimoniesNext, renderMemoryKeepers, renderRwandaTech } from './infocard.js';
 import { setMode, currentMode } from './filters.js';
-import { initGoogleMap, showGoogleMap, hideGoogleMap, updateGmMarkers, panGmTo, isGmReady } from './googlemap.js';
+import { initGoogleMap, showGoogleMap, hideGoogleMap, showGoogleMapError, updateGmMarkers, searchGmPlace, focusGmDistrict, toggleGmStreetView, isGmReady, setGmZoom, zoomGmIn, zoomGmOut } from './googlemap.js';
 import { hideHistLayer, toggleHistLayer } from './hist.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
 import { buildProvinceBars, updateStats, renderEventList } from './stats.js';
@@ -66,25 +67,18 @@ const DISTRICTS = [
   { name: 'Rusizi',     province: 'Western',  lat: -2.483,  lng: 28.917 },
 ];
 
-function buildHistDistrictTable() {
+function buildHistFamilyTable() {
   const body = document.getElementById('histDistBody');
   if (!body) return;
-  const byProv = {};
-  DISTRICTS.forEach(d => { (byProv[d.province] = byProv[d.province] || []).push(d); });
-  const order = ['Kigali', 'Eastern', 'Northern', 'Southern', 'Western'];
-  body.innerHTML = order.map(prov => {
-    const list = byProv[prov] || [];
-    const color = PROV_COLORS[prov];
-    const rows = list.map(d =>
-      `<div class="hist-dist-row" data-district="${d.name}" onclick="histFocusDistrict('${d.name}')">` +
-      `<span class="hist-dist-dot" style="background:${color}"></span>` +
-      `<span class="hist-dist-name">${d.name}</span>` +
-      `</div>`
-    ).join('');
-    return `<div class="hist-dist-prov-section">` +
-      `<div class="hist-dist-prov-hdr" style="color:${color}">${prov.toUpperCase()}</div>` +
-      rows + `</div>`;
-  }).join('');
+  body.innerHTML = histFamilies.map(area =>
+    `<button class="hist-family-row" data-hist-area="${area.id}" onclick="histFocusArea('${area.id}')">` +
+    `<span class="hist-family-area">${area.label}</span>` +
+    `<span class="hist-family-value">${area.families.toLocaleString()} families</span>` +
+    `<span class="hist-family-districts">${area.districts}</span>` +
+    `</button>`
+  ).join('') +
+    `<div class="hist-family-source">DOCUMENTED COHORTS // GAERG SURVEY REPORTING<br>` +
+    `Grouped areas reflect source reporting, not inferred district estimates.</div>`;
 }
 
 function buildDistrictTable() {
@@ -146,19 +140,6 @@ function update(day) {
   // Google Maps satellite markers (CRT mode)
   if (mode === 'crt' && isGmReady()) updateGmMarkers(active, day);
 
-  // AI Synthesis Button
-  const aiBtn = document.getElementById('aiBtn');
-  if (aiBtn) {
-    if (day >= 45) {
-      aiBtn.disabled = false;
-      aiBtn.innerHTML = "✨ ANALYZE '94 MATRIX (DAY " + day + ")";
-      aiBtn.classList.add('ready');
-    } else {
-      aiBtn.disabled = true;
-      aiBtn.innerHTML = "✨ ANALYZE '94 MATRIX (LOCKED)";
-      aiBtn.classList.remove('ready');
-    }
-  }
 }
 
 // ── Initialization ────────────────────────────────────────
@@ -171,7 +152,7 @@ async function init() {
   buildProvinceBars();
   buildTimeline();
   buildDistrictTable();
-  buildHistDistrictTable();
+  buildHistFamilyTable();
   initDistricts(); // async, loads ADM2 polygons in background
   bindTimelineEvents(day => update(day));
 
@@ -189,6 +170,7 @@ async function init() {
 
   // Coordinate display on mouse move — invert zoom transform before inverting projection
   container.addEventListener('mousemove', e => {
+    if (currentMode === 'crt') return;
     const rect = container.getBoundingClientRect();
     const [svgX, svgY] = currentZoomTransform.invert([e.clientX - rect.left, e.clientY - rect.top]);
     const coords = projection.invert([svgX, svgY]);
@@ -210,10 +192,12 @@ async function init() {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
+      if (currentMode === 'crt' && isGmReady()) zoomGmIn();
+      else setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+      if (currentMode === 'crt' && isGmReady()) zoomGmOut();
+      else setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
     }
   });
 }
@@ -228,32 +212,63 @@ window.__showEventById = (id) => {
 
 window.setMode = (mode) => {
   hideHistLayer();
+  if (mode === 'crt') hideRpfLayer();
   setMode(mode, () => update(currentDay));
+  const visitBtn = document.getElementById('visitKigaliBtn');
+  visitBtn?.classList.toggle('active', mode === 'crt');
+  visitBtn?.setAttribute('aria-pressed', mode === 'crt' ? 'true' : 'false');
   if (mode === 'crt') {
     initGoogleMap()
       .then(() => {
         showGoogleMap();
         updateGmMarkers(getActiveEvents(currentDay), currentDay);
       })
-      .catch(e => console.warn('Google Maps init failed', e));
+      .catch(e => {
+        console.warn('Google Maps init failed', e);
+        showGoogleMapError(e);
+      });
   } else {
     hideGoogleMap();
+    syncMapZoomControl();
   }
 };
 window.togglePlay = () => togglePlay(day => update(day), () => currentDay);
 window.setSpd = (s) => setSpeed(s, day => update(day), () => currentDay);
+window.toggleStreetView = () => toggleGmStreetView();
+window.searchKigaliPlace = () => searchGmPlace(document.getElementById('gVisitInput')?.value);
+window.openVisitKigali = () => {
+  if (currentMode === 'crt') {
+    window.setMode('std');
+    document.getElementById('visitKigaliBtn')?.blur();
+    return;
+  }
+
+  window.setMode('crt');
+  let attempts = 0;
+  const focusSearch = () => {
+    const input = document.getElementById('gVisitInput');
+    if (input && document.getElementById('gVisitShell')?.style.display === 'flex') {
+      input.focus();
+      return;
+    }
+    attempts += 1;
+    if (attempts < 20) window.setTimeout(focusSearch, 150);
+  };
+  focusSearch();
+};
 window.toggleMemorials = () => { toggleMemLayer(); update(currentDay); };
 window.toggleRpf = () => { hideHistLayer(); toggleRpfLayer(); update(currentDay); };
 window.toggleHist = () => {
   const on = toggleHistLayer();
   if (on) {
+    hideRpfLayer();
     closeInfoCard();
     document.querySelectorAll('.fbtn[data-m]').forEach(btn => btn.classList.remove('on', 'on-a', 'on-r', 'on-h'));
     document.querySelectorAll('[data-m="hist"]').forEach(b => b.classList.add('on-h'));
   } else {
     // Clear HIST highlights when exiting HIST mode
     clearDistrictHighlight();
-    document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
+    document.querySelectorAll('.hist-family-row').forEach(r => r.classList.remove('active'));
     setMode(currentMode, () => update(currentDay));
   }
 };
@@ -362,9 +377,18 @@ window.togglePanel = () => {
   }
 };
 
-window.setZoom = v => setMapZoom(+v);
-window.zoomIn  = () => setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
-window.zoomOut = () => setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+window.setZoom = v => {
+  if (currentMode === 'crt' && isGmReady()) setGmZoom(+v);
+  else setMapZoom(+v);
+};
+window.zoomIn = () => {
+  if (currentMode === 'crt' && isGmReady()) zoomGmIn();
+  else setMapZoom(Math.min(1.5, currentZoomTransform.k * 1.2));
+};
+window.zoomOut = () => {
+  if (currentMode === 'crt' && isGmReady()) zoomGmOut();
+  else setMapZoom(Math.max(1, currentZoomTransform.k / 1.5));
+};
 
 window.toggleDistrictPanel = () => {
   const panel = document.getElementById('distPanel');
@@ -379,7 +403,7 @@ window.focusDistrict = (name) => {
   const d = DISTRICTS.find(x => x.name === name);
   if (!d) return;
   if (currentMode === 'crt') {
-    panGmTo(d.lat, d.lng);
+    focusGmDistrict(d.name, d.lat, d.lng);
   } else {
     focusDistrictAt(name, d.lng, d.lat);
   }
@@ -390,16 +414,16 @@ window.clearDistHighlight = () => {
   document.querySelectorAll('.dist-row').forEach(r => r.classList.remove('active'));
 };
 
-window.histFocusDistrict = (name) => {
-  document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
-  document.querySelector(`.hist-dist-row[data-district="${name}"]`)?.classList.add('active');
-  const d = DISTRICTS.find(x => x.name === name);
-  if (d) focusDistrictAt(name, d.lng, d.lat, false); // no zoom in HIST mode
+window.histFocusArea = (id) => {
+  document.querySelectorAll('.hist-family-row').forEach(r => r.classList.remove('active'));
+  document.querySelector(`.hist-family-row[data-hist-area="${id}"]`)?.classList.add('active');
+  const area = histFamilies.find(x => x.id === id);
+  if (area) focusDistrictAt(area.label, area.lng, area.lat, false);
 };
 
 window.histClearHighlight = () => {
   clearDistrictHighlight();
-  document.querySelectorAll('.hist-dist-row').forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.hist-family-row').forEach(r => r.classList.remove('active'));
 };
 
 window.castToTV = async () => {

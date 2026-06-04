@@ -14,11 +14,8 @@ export function hideHistLayer() {
 function setHistLayerVisible(visible) {
   histVisible = visible;
   const svg = document.getElementById('mSvg');
-  const view = document.getElementById('histView');
-  if (!svg || !view) return;
-  // Keep SVG visible so RPF layer renders over the historical map image
+  if (!svg) return;
   svg.classList.toggle('hist-mode', histVisible);
-  view.style.display = histVisible ? 'flex' : 'none';
-  view.setAttribute('aria-hidden', histVisible ? 'false' : 'true');
   document.getElementById('mapWrap')?.classList.toggle('hist-active', histVisible);
+  document.querySelectorAll('[data-m="hist"]').forEach(btn => btn.classList.toggle('on-h', histVisible));
 }

@@ -149,19 +149,6 @@ body {
   background: rgba(200, 160, 80, 0.08)
 }
 
-.hist-view {
-  display: none;
-  position: absolute;
-  inset: 0;
-  background: #d8d0c1;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  padding: 12px;
-  box-sizing: border-box
-}
-
-/* SVG above hist-view so RPF layer renders over the historical map */
 .map-wrap svg {
   position: relative;
   z-index: 2
@@ -175,35 +162,202 @@ body {
   display: none
 }
 
-/* In hist mode hide everything except the RPF advance layer */
+.gm-visit-shell,
+.gm-street-shell {
+  position: absolute;
+  right: 12px;
+  z-index: 40;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none
+}
+
+.gm-visit-shell {
+  top: 58px;
+  width: min(280px, calc(100vw - 24px))
+}
+
+.gm-visit-form {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(255, 184, 0, 0.28);
+  background: rgba(4, 8, 14, 0.9);
+  pointer-events: auto
+}
+
+.gm-visit-form label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--amb);
+  font-size: 9px;
+  letter-spacing: 2px
+}
+
+.gm-visit-row {
+  display: flex;
+  gap: 5px
+}
+
+.gm-visit-row input {
+  min-width: 0;
+  flex: 1;
+  padding: 7px 8px;
+  border: 1px solid rgba(255, 184, 0, 0.22);
+  border-radius: 2px;
+  outline: none;
+  background: rgba(8, 10, 12, 0.88);
+  color: var(--tx0);
+  font-family: var(--mono);
+  font-size: 10px
+}
+
+.gm-visit-row input:focus {
+  border-color: rgba(255, 184, 0, 0.72)
+}
+
+.gm-visit-row button {
+  padding: 0 12px;
+  border: 1px solid rgba(255, 184, 0, 0.5);
+  border-radius: 2px;
+  background: rgba(255, 184, 0, 0.08);
+  color: var(--amb);
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1px
+}
+
+.gm-visit-row button:disabled {
+  cursor: wait;
+  opacity: .5
+}
+
+.gm-visit-note,
+.gm-street-note {
+  max-width: 280px;
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 184, 0, 0.16);
+  background: rgba(4, 8, 14, 0.82);
+  color: rgba(255, 214, 132, 0.76);
+  font-size: 8px;
+  letter-spacing: 1px;
+  line-height: 1.45;
+  text-align: right
+}
+
+.gm-visit-note {
+  display: none
+}
+
+.gm-street-shell {
+  top: 174px;
+}
+
+.gm-street-btn {
+  min-width: 132px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 184, 0, 0.45);
+  background: rgba(8, 10, 12, 0.82);
+  color: var(--amb);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all .15s ease
+}
+
+.gm-street-btn:hover:not(:disabled) {
+  background: rgba(255, 184, 0, 0.08);
+  border-color: var(--amb)
+}
+
+.gm-street-btn:disabled {
+  cursor: default;
+  color: rgba(255, 184, 0, 0.38);
+  border-color: rgba(255, 184, 0, 0.2)
+}
+
+.gm-street-btn.active {
+  background: rgba(255, 184, 0, 0.12);
+  box-shadow: 0 0 14px rgba(255, 184, 0, 0.18)
+}
+
+/* HIST mode keeps the interactive boundaries and removes operational noise. */
 #mSvg.hist-mode .grid-layer,
-#mSvg.hist-mode .map-layer,
 #mSvg.hist-mode .heat-layer,
+#mSvg.hist-mode .rpf-layer,
 #mSvg.hist-mode .prov-layer,
 #mSvg.hist-mode .marker-layer,
 #mSvg.hist-mode .label-layer {
   display: none
 }
 
-.hist-view img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: saturate(.92) contrast(1.02);
-  box-shadow: 0 0 0 1px rgba(40, 32, 20, .22)
+#mSvg.hist-mode .map-layer,
+#mSvg.hist-mode .dist-layer,
+#mSvg.hist-mode .hist-family-layer {
+  display: block
 }
 
-.hist-caption {
-  position: absolute;
-  left: 18px;
-  bottom: 14px;
-  padding: 6px 8px;
-  background: rgba(244, 238, 225, .86);
-  border: 1px solid rgba(74, 60, 40, .18);
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: #4a3c28;
-  text-transform: uppercase
+.hist-family-layer {
+  display: none
+}
+
+.map-wrap.hist-active {
+  background: radial-gradient(circle at 45% 48%, rgba(82, 58, 22, .2), transparent 58%), #100c08
+}
+
+.map-wrap.hist-active .rw-fill {
+  fill: rgba(200, 160, 80, .045);
+  stroke: rgba(226, 190, 112, .92)
+}
+
+.map-wrap.hist-active .rw-prov-poly {
+  fill: rgba(200, 160, 80, .025) !important;
+  stroke: rgba(200, 160, 80, .48) !important
+}
+
+.map-wrap.hist-active .counter-big,
+.map-wrap.hist-active .counter-label,
+.map-wrap.hist-active .rate-bar,
+.map-wrap.hist-active .legend {
+  display: none
+}
+
+.hist-family-label {
+  cursor: pointer
+}
+
+.hist-family-dot {
+  fill: #ff2244;
+  stroke: rgba(255, 224, 150, .9);
+  stroke-width: 1.25px
+}
+
+.hist-family-name,
+.hist-family-count {
+  paint-order: stroke;
+  stroke: rgba(12, 8, 4, .98);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  pointer-events: none
+}
+
+.hist-family-name {
+  fill: #e3c47d;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px
+}
+
+.hist-family-count {
+  fill: rgba(255, 224, 150, .88);
+  font-size: 7px;
+  letter-spacing: .8px
 }
 
 .fbtn.on-r {
@@ -287,6 +441,21 @@ body {
 .flk-ov.on {
   opacity: 1;
   animation: flk .12s infinite
+}
+
+.map-wrap.street-view-active .scan-ov,
+.map-wrap.street-view-active .vig-ov,
+.map-wrap.street-view-active .flk-ov,
+.map-wrap.street-view-active .counter-big,
+.map-wrap.street-view-active .counter-label,
+.map-wrap.street-view-active .rate-bar,
+.map-wrap.street-view-active .legend,
+.map-wrap.street-view-active .zoom-ctl {
+  display: none
+}
+
+.map-wrap.street-view-active .gm-street-shell {
+  top: 12px
 }
 
 @keyframes flk {
@@ -1532,29 +1701,28 @@ body {
   }
 }
 
-.ai-btn {
+.visit-kigali-btn {
   background: transparent;
-  border: 1px solid var(--bdr);
-  color: var(--tx3);
-  padding: 4px 10px;
+  border: 1px solid var(--amb);
+  color: var(--amb);
+  padding: 5px 12px;
   font-size: 9px;
   font-family: var(--mono);
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  cursor: not-allowed;
+  cursor: pointer;
   border-radius: 2px;
+  background: rgba(255, 184, 0, 0.05);
+  box-shadow: 0 0 8px rgba(255, 184, 0, 0.2);
   transition: all .15s
 }
 
-.ai-btn.ready {
-  color: var(--amb);
-  border-color: var(--amb);
-  cursor: pointer;
-  background: rgba(255, 184, 0, 0.05);
-  box-shadow: 0 0 8px rgba(255, 184, 0, 0.2)
+.visit-kigali-btn.active {
+  background: rgba(255, 184, 0, 0.16);
+  box-shadow: 0 0 14px rgba(255, 184, 0, 0.34)
 }
 
-.ai-btn.ready:hover {
+.visit-kigali-btn:hover {
   background: rgba(255, 184, 0, 0.15);
   color: var(--amb2)
 }
@@ -1832,6 +2000,30 @@ body {
   color: var(--tx2);
   letter-spacing: 1px;
   font-family: var(--mono)
+}
+
+.map-wrap.crt-zoom .zoom-ctl {
+  z-index: 45;
+  border-color: rgba(255, 184, 0, .28);
+  background: rgba(4, 8, 14, .9)
+}
+
+.map-wrap.crt-zoom .zoom-btn {
+  color: var(--amb);
+  border-color: rgba(255, 184, 0, .35)
+}
+
+.map-wrap.crt-zoom .zoom-btn:hover {
+  border-color: var(--amb);
+  background: rgba(255, 184, 0, .08)
+}
+
+.map-wrap.crt-zoom #zoomSlider {
+  accent-color: var(--amb)
+}
+
+.map-wrap.crt-zoom .zoom-val {
+  color: var(--amb)
 }
 
 .mob-backdrop {
@@ -2769,7 +2961,7 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 195px;
+  width: 225px;
   bottom: 0;
   background: rgba(22, 16, 8, 0.91);
   border-left: 1px solid rgba(200, 160, 80, 0.38);
@@ -2844,50 +3036,67 @@ body {
   border-radius: 2px
 }
 
-.hist-dist-prov-section { margin-bottom: 3px }
-
-.hist-dist-prov-hdr {
-  font-size: 7px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  padding: 8px 11px 4px;
-  font-weight: 700;
-  opacity: 0.9
-}
-
-.hist-dist-row {
+.hist-family-row {
   display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 5px 11px;
-  cursor: pointer;
+  width: calc(100% - 8px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 3px 4px;
+  padding: 8px 9px;
+  border: 1px solid rgba(200, 160, 80, .12);
   border-radius: 2px;
-  margin: 1px 4px;
-  transition: background 0.12s
+  background: rgba(200, 160, 80, .025);
+  cursor: pointer;
+  font-family: var(--mono);
+  text-align: left;
+  transition: background .12s, border-color .12s
 }
 
-.hist-dist-row:hover { background: rgba(200, 160, 80, 0.07) }
+.hist-family-row:hover {
+  border-color: rgba(200, 160, 80, .38);
+  background: rgba(200, 160, 80, .07)
+}
 
-.hist-dist-row.active {
+.hist-family-row.active {
   background: rgba(255, 34, 68, 0.13);
-  outline: 1px solid rgba(255, 34, 68, 0.4)
+  border-color: rgba(255, 34, 68, .55)
 }
 
-.hist-dist-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  opacity: 0.65
+.hist-family-area {
+  color: #e3c47d;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase
 }
 
-.hist-dist-name {
-  font-size: 10.5px;
-  color: rgba(225, 215, 195, 0.82);
-  letter-spacing: 0.3px
+.hist-family-value {
+  color: #ff8a70;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase
 }
 
-.hist-dist-row.active .hist-dist-name { color: var(--red) }
+.hist-family-districts {
+  color: rgba(225, 215, 195, .63);
+  font-size: 7px;
+  letter-spacing: .6px;
+  line-height: 1.45;
+  text-transform: uppercase
+}
+
+.hist-family-source {
+  margin: 9px 10px 2px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(200, 160, 80, .18);
+  color: rgba(200, 160, 80, .54);
+  font-size: 7px;
+  letter-spacing: .8px;
+  line-height: 1.65;
+  text-transform: uppercase
+}
 
 /* District polygon layer in HIST mode: amber outlines */
 .map-wrap.hist-active .rw-dist-poly {
@@ -2907,4 +3116,10 @@ body {
 @keyframes hist-heat-pulse {
   0%, 100% { fill: rgba(255, 34, 68, 0.35) }
   50%       { fill: rgba(255, 34, 68, 0.62) }
+}
+
+@media (max-width: 600px) {
+  .hist-dist-panel { width: 188px }
+  .hist-family-name { font-size: 7px }
+  .hist-family-count { font-size: 6px }
 }

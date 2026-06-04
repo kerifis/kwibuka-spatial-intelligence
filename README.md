@@ -15,6 +15,16 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173).
 
+## Environment
+
+Street View in CRT mode uses the Google Maps JavaScript API. For production, create a local `.env` file from `.env.example` and set:
+
+```bash
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_browser_key_here
+```
+
+The Google Cloud project for that key needs Maps JavaScript API, Street View imagery, valid HTTP referrer restrictions, and billing enabled.
+
 ## Features
 
 **100-Day Timeline** — Drag the scrubber or play at 0.5×/1×/2×/4×/8× speed (default 0.5×). The map populates dynamically as the genocide spreads geographically from Kigali outward across all five provinces.
@@ -37,7 +47,7 @@ Open [http://localhost:5173](http://localhost:5173).
 
 **RPF Offensive Layer** — 9 mobile force advance routes animate across the timeline from Day 1, showing the RPA's three-phase counter-genocide operation. Click any unit marker for a command card showing commander and deputy with rank, photo portrait slots, estimated lives saved, and unit axis description.
 
-**Historical Map (HIST)** — Toggle the 1994 Rwanda administrative divisions map (11 préfectures + communes). The RPF advance layer remains visible overlaid on the historical map.
+**Historical Map (HIST)** — Toggle an interactive administrative map with documented wiped-out-family cohorts. Select an area from the map or side panel to highlight its location; tactical RPF routes are hidden while HIST is active.
 
 **4 Display Modes** — STD (standard dark), NVG (phosphor green + scanlines), CRT (amber monochrome + flicker), FLIR (thermal red + vignette). Each mode recolors all visual elements consistently.
 
@@ -117,14 +127,14 @@ All units originate from **Mulindi (RPF HQ)** in northern Rwanda. Commander and 
 ├── public/
 │   ├── *.jpg              # Commander / unit portrait photos
 │   ├── IJAMBO RYA MBERE INKOTANYI ZAKUBWIYE BY BONHOMME.mp3
-│   ├── rwanda-1994-administrative-divisions.svg
-│   └── rwanda-relief-location-map.jpg
+│   └── rwanda-1994-administrative-divisions.svg
 ├── data/
 │   ├── events.json        # 40 historical events
 │   ├── memorials.json     # 31 memorial sites with testimony
 │   ├── provinces.json     # Province sigmoid config
 │   ├── cities.json        # 17 city markers
 │   ├── rpfAdvance.json    # 9 RPF unit routes with command data and tactical phases
+│   ├── histFamilies.json  # Documented wiped-out-family cohorts for HIST mode
 │   └── schema.md          # Data schema documentation
 └── src/
     ├── main.js            # App entry, global state, module wiring
@@ -152,12 +162,16 @@ All units originate from **Mulindi (RPF HQ)** in northern Rwanda. Commander and 
 | [UNESCO World Heritage](https://whc.unesco.org/en/list/1586/) | 4 inscribed genocide memorial sites (2023) |
 | [Aegis Trust](https://www.aegistrust.org/) | Video archive, Kigali Genocide Memorial |
 | [Google Arts & Culture](https://artsandculture.google.com/story/rwanda-39-s-genocide-memorial-sites-rwanda-cultural-heritage-academy/3AWxDwZwSfN6UQ) | Exhibition documentation |
+| [Kigali Genocide Memorial](https://kgm.rw/other-wiped-out-families-identified/) | GAERG wiped-out-family survey cohorts |
+| [KT Press](https://www.ktpress.rw/2017/05/886-families-completely-wiped-out-in-genocide-identified/) | GAERG western-north cohort reporting |
 
 ## Extending the Data
 
 Add new events to `data/events.json` or memorials with testimony to `data/memorials.json`. The rendering pipeline consumes whatever is in these files — no code changes needed for data additions. See `data/schema.md` for field specifications.
 
 To add RPF units or correct route coordinates, edit `data/rpfAdvance.json`. Each unit's `points` array drives the animated route line; `startDay` controls when the unit first appears on the timeline.
+
+To add a sourced HIST cohort, edit `data/histFamilies.json`. Keep grouped areas grouped unless a source publishes a district-level breakdown.
 
 To add commander portraits, drop `<name>.jpg` files into `public/` and set the `commanderPhoto` / `deputyPhoto` fields in `rpfAdvance.json`.
 
