@@ -1,0 +1,45 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\.arktech\.live$ [NC]
+  RewriteRule ^ https://arktech.live%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+AddDefaultCharset UTF-8
+
+<IfModule mod_mime.c>
+  AddType text/html; charset=UTF-8 .html
+  AddType text/css; charset=UTF-8 .css
+  AddType application/javascript; charset=UTF-8 .js
+  AddType application/xml; charset=UTF-8 .xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType audio/mpeg "access plus 1 month"
+  ExpiresByType application/xml "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Cache-Control "public, max-age=31536000, immutable" "expr=%{REQUEST_URI} =~ m#^/assets/#"
+  Header set Cache-Control "public, max-age=3600, must-revalidate" "expr=%{REQUEST_URI} == '/' || %{REQUEST_URI} =~ m#\.html$#"
+  Header set Cache-Control "public, max-age=86400" "expr=%{REQUEST_URI} =~ m#/(sitemap\.xml|robots\.txt)$#"
+</IfModule>

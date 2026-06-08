@@ -97,6 +97,15 @@ The current application now operates as both a historical briefing map and a mul
 - It requires a Gemini API key to return generated briefing text.
 - This feature should be framed as an intelligence-assist layer, not as a source of historical fact.
 
+### Public discoverability and SEO infrastructure (in progress)
+
+- Page title and meta description rewritten to target public search intent around the Rwanda genocide, Kwibuka, and Kigali memorial topics, with a supporting keyword list.
+- Open Graph and Twitter Card tags added so links shared on social platforms and messaging apps render a title, description, and preview image (the Rwanda relief map).
+- JSON-LD structured data declares the application as a `WebApplication`, with topical coverage (Rwanda, Kigali, 1994 Genocide against the Tutsi, Kwibuka, African memorial archives) and an audience scoped to Rwanda and Africa.
+- Geo meta tags (`geo.region`, `geo.placename`, `geo.position`, `ICBM`) and a canonical URL pointing to `https://arktech.live/` were added.
+- New `robots.txt` and `sitemap.xml` files were added under `public/`, and an `.htaccess` file was added to enforce HTTPS/non-`www` redirects, set security headers (`X-Content-Type-Options`, `Referrer-Policy`), enable compression, and define cache-control rules for static assets, HTML, and the sitemap.
+- This metadata and infrastructure work is staged locally and has not yet been committed or deployed to production.
+
 ## What The Map Shows
 
 - A timeline-driven map of Rwanda during the genocide period.
@@ -202,6 +211,7 @@ Curated memorial records by province:
 - Hostinger/custom domain deployment: `https://arktech.live`
 - Current build output is static Vite content in `dist/`.
 - Hostinger FTP deployment requires mirroring `dist/` to both `public_html` and the FTP account root because the live domain has previously served from the root copy.
+- SEO infrastructure (`robots.txt`, `sitemap.xml`, canonical URL, structured data, and `.htaccess` caching/security/redirect rules) is staged for the `arktech.live` deployment but not yet committed or shipped.
 
 ## Use Cases
 
@@ -245,6 +255,7 @@ For leadership audiences, this provides four levels of understanding:
 6. Add exportable briefing snapshots for selected days, districts, phases, or modes.
 7. Prepare a formal source bibliography for public, educational, or institutional use.
 8. Add automated visual regression checks for CRT district overlays, Google zoom sync, and testimony modal navigation.
+9. Commit and deploy the staged SEO metadata, `robots.txt`, `sitemap.xml`, and `.htaccess` rules, then submit the sitemap to Google Search Console and confirm Open Graph/Twitter previews render correctly on major platforms.
 
 ## Briefing Position
 
