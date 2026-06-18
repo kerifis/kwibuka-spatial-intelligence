@@ -17,6 +17,7 @@ import { showInfoCard, closeInfoCard, showTab, openTestimoniesModal, testimonies
 import { setMode, currentMode } from './filters.js';
 import { initGoogleMap, showGoogleMap, hideGoogleMap, showGoogleMapError, updateGmMarkers, searchGmPlace, focusGmDistrict, toggleGmStreetView, isGmReady, setGmZoom, zoomGmIn, zoomGmOut } from './googlemap.js';
 import { hideHistLayer, toggleHistLayer } from './hist.js';
+import { openMuseum, closeMuseum, rotateMuseum, resetMuseum, zoomMuseumTimeline, resetMuseumTimeline, playMuseumTestimony } from './museum.js';
 import { buildTimeline, updateTimelinePosition, bindTimelineEvents, togglePlay, setSpeed, getPhase } from './timeline.js';
 import { buildProvinceBars, updateStats, renderEventList } from './stats.js';
 
@@ -189,6 +190,7 @@ async function init() {
 
   // Arrow key zoom
   window.addEventListener('keydown', e => {
+    if (document.body.classList.contains('museum-open')) return;
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -234,6 +236,19 @@ window.setMode = (mode) => {
 };
 window.togglePlay = () => togglePlay(day => update(day), () => currentDay);
 window.setSpd = (s) => setSpeed(s, day => update(day), () => currentDay);
+window.openMuseum = (room) => openMuseum(room);
+
+// Deep link from the /museum landing page: /?museum=1 or /?museum=<room>
+(() => {
+  const room = new URLSearchParams(location.search).get('museum');
+  if (room) window.addEventListener('load', () => openMuseum(room === '1' ? undefined : room));
+})();
+window.closeMuseum = () => closeMuseum();
+window.museumRotate = (delta) => rotateMuseum(delta);
+window.museumReset = () => resetMuseum();
+window.museumTimelineZoom = (factor) => zoomMuseumTimeline(factor);
+window.museumTimelineReset = () => resetMuseumTimeline();
+window.museumPlayTestimony = (videoId) => playMuseumTestimony(videoId);
 window.toggleStreetView = () => toggleGmStreetView();
 window.searchKigaliPlace = () => searchGmPlace(document.getElementById('gVisitInput')?.value);
 window.openVisitKigali = () => {

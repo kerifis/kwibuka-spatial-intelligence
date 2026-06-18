@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en-RW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KWIBUKA — Virtual Memorial Museum | 1994 Genocide against the Tutsi</title>
+  <meta name="description" content="Enter the KWIBUKA virtual memorial museum. Four rooms — Origins, Preparation, 100 Days, and 100 Testimonies — document the 1994 Genocide against the Tutsi in Rwanda through survivor testimony and the historical record." />
+  <meta name="theme-color" content="#0E0E0D" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KWIBUKA — Virtual Memorial Museum" />
+  <meta property="og:description" content="One hundred days. One million names. Enter a virtual memorial to the 1994 Genocide against the Tutsi." />
+  <meta property="og:image" content="/rwanda-relief-location-map1.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg-0:#0E0E0D; --bg-1:#16150F; --bg-2:#1F1D16;
+      --ink-hi:#E8E2D6; --ink-md:#B8B2A6; --ink-lo:#7E7A70;
+      --accent:#B5562E; --accent-lo:#7A3A1F;
+      --hairline:rgba(232,226,214,.10);
+      --font-display:"Fraunces",Georgia,serif;
+      --font-body:"Inter",system-ui,sans-serif;
+      --space-section:clamp(72px,12vh,160px);
+      --maxw:1200px; --radius:6px;
+      --ease:cubic-bezier(.2,.6,.2,1); --rise:480ms;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      background:var(--bg-0); color:var(--ink-md);
+      font-family:var(--font-body); font-weight:300;
+      line-height:1.6; -webkit-font-smoothing:antialiased;
+      overflow-x:hidden;
+    }
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px}
+    .eyebrow{
+      font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--ink-lo); font-weight:500;
+    }
+    h1,h2,h3{font-family:var(--font-display); font-weight:400; color:var(--ink-hi); line-height:1.1}
+    a{color:inherit; text-decoration:none}
+
+    /* ---------- HEADER ---------- */
+    header{
+      position:fixed; inset:0 0 auto 0; z-index:50;
+      display:flex; align-items:center; gap:24px;
+      padding:16px 28px;
+      background:rgba(14,14,13,.55); backdrop-filter:blur(14px);
+      border-bottom:1px solid transparent; transition:border-color .3s, background .3s;
+    }
+    header.scrolled{border-bottom-color:var(--hairline); background:rgba(14,14,13,.82)}
+    .brand{font-family:var(--font-display); font-size:20px; letter-spacing:.04em; color:var(--ink-hi)}
+    .brand b{font-weight:500}
+    nav{display:flex; gap:26px; margin-left:auto; font-size:13px; letter-spacing:.04em}
+    nav a{color:var(--ink-md); transition:color .25s}
+    nav a:hover{color:var(--ink-hi)}
+    .enter-btn{
+      font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+      color:var(--ink-hi); padding:9px 20px; border:1px solid var(--accent);
+      border-radius:var(--radius); transition:background .25s,color .25s; font-weight:500;
+    }
+    .enter-btn:hover{background:var(--accent); color:#fff}
+    @media(max-width:820px){nav{display:none}}
+
+    /* ---------- HERO ---------- */
+    .hero{
+      position:relative; min-height:100vh; display:flex; align-items:center;
+      overflow:hidden;
+    }
+    .hero-bg{
+      position:absolute; inset:0; z-index:0;
+      background:url('/rwanda-relief-location-map1.jpg') center/cover no-repeat;
+      opacity:.22; filter:grayscale(.6) contrast(1.05);
+      animation:slowzoom 26s var(--ease) infinite alternate;
+    }
+    .hero::after{
+      content:""; position:absolute; inset:0; z-index:1;
+      background:linear-gradient(180deg,rgba(14,14,13,.4) 0%,rgba(14,14,13,.75) 55%,var(--bg-0) 100%);
+    }
+    @keyframes slowzoom{from{transform:scale(1)}to{transform:scale(1.06)}}
+    .hero .wrap{position:relative; z-index:2; padding-top:90px}
+    .hero h1{
+      font-size:clamp(40px,7vw,76px); font-weight:300; margin:18px 0 22px;
+      max-width:16ch; letter-spacing:-.01em;
+    }
+    .hero p{max-width:46ch; font-size:clamp(15px,2vw,18px); color:var(--ink-md)}
+    .hero-cta{display:flex; gap:20px; align-items:center; margin-top:36px; flex-wrap:wrap}
+    .btn-primary{
+      background:var(--accent); color:#fff; padding:14px 30px; border-radius:var(--radius);
+      font-size:14px; letter-spacing:.06em; text-transform:uppercase; font-weight:500;
+      transition:background .25s, transform .25s;
+    }
+    .btn-primary:hover{background:var(--accent-lo); transform:translateY(-1px)}
+    .btn-text{
+      font-size:14px; letter-spacing:.04em; color:var(--ink-hi);
+      border-bottom:1px solid var(--hairline); padding-bottom:3px; transition:border-color .25s;
+    }
+    .btn-text:hover{border-bottom-color:var(--accent)}
+    .btn-text span{color:var(--accent); margin-left:6px}
+
+    /* ---------- SECTION SHELL ---------- */
+    section.block{padding:var(--space-section) 0}
+    .sec-head{margin-bottom:48px; max-width:60ch}
+    .sec-head h2{font-size:clamp(28px,4vw,42px); font-weight:300; margin:14px 0 12px}
+    .sec-head p{color:var(--ink-md); font-size:16px}
+
+    /* ---------- ROOMS CAROUSEL ---------- */
+    .rooms{display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px}
+    .rooms::-webkit-scrollbar{height:6px}
+    .rooms::-webkit-scrollbar-thumb{background:var(--bg-2); border-radius:3px}
+    .room{
+      scroll-snap-align:start; flex:0 0 320px; background:var(--bg-1);
+      border:1px solid var(--hairline); border-radius:var(--radius); overflow:hidden;
+      transition:border-color .3s, transform .3s; cursor:pointer; text-decoration:none;
+    }
+    .room:hover{border-color:var(--accent); transform:translateY(-3px)}
+    .room-img{height:200px; position:relative; background-size:cover; background-position:center; filter:grayscale(.5)}
+    .room-img::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 40%,rgba(22,21,15,.95))}
+    .room-badge{
+      position:absolute; top:14px; left:14px; z-index:2; font-size:11px; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--ink-hi); background:rgba(14,14,13,.65);
+      border:1px solid var(--hairline); padding:5px 10px; border-radius:4px; backdrop-filter:blur(6px);
+    }
+    .room-body{padding:20px}
+    .room-body h3{font-size:22px; font-weight:400; margin-bottom:8px}
+    .room-body p{font-size:14px; color:var(--ink-md)}
+    .room-link{display:inline-block; margin-top:14px; font-size:13px; letter-spacing:.04em; color:var(--accent)}
+
+    /* ---------- STEPS ---------- */
+    .steps{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:36px}
+    .step{position:relative; padding-top:18px; border-top:1px solid var(--hairline)}
+    .step-num{font-family:var(--font-display); font-size:46px; color:var(--bg-2); font-weight:300; line-height:1}
+    .step h3{font-size:19px; font-weight:400; margin:14px 0 8px}
+    .step p{font-size:14px; color:var(--ink-md)}
+
+    /* ---------- RECORD GRID ---------- */
+    .record{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1px; background:var(--hairline); border:1px solid var(--hairline); border-radius:var(--radius); overflow:hidden}
+    .fact{background:var(--bg-0); padding:34px 28px}
+    .fact .n{font-family:var(--font-display); font-size:38px; color:var(--ink-hi); font-weight:300; line-height:1}
+    .fact .l{margin-top:10px; font-size:14px; color:var(--ink-md)}
+
+    /* ---------- TESTIMONY ---------- */
+    .testimony-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px}
+    .tcard{background:var(--bg-1); border:1px solid var(--hairline); border-radius:var(--radius); padding:30px; display:flex; flex-direction:column}
+    .tcard .quote{font-family:var(--font-display); font-size:19px; font-weight:300; color:var(--ink-hi); line-height:1.45; font-style:italic}
+    .tcard .who{display:flex; align-items:center; gap:14px; margin-top:24px; padding-top:20px; border-top:1px solid var(--hairline)}
+    .tcard .who img{width:46px; height:46px; border-radius:50%; object-fit:cover; filter:grayscale(.4)}
+    .tcard .who .name{font-size:14px; color:var(--ink-hi); font-weight:500}
+    .tcard .who .meta{font-size:12px; color:var(--ink-lo); letter-spacing:.04em}
+
+    /* ---------- VIDEO/PREVIEW BAND ---------- */
+    .preview{position:relative; border:1px solid var(--hairline); border-radius:var(--radius); overflow:hidden; min-height:340px; display:flex; align-items:center; justify-content:center; background:url('/rwanda-relief-location-map.jpg') center/cover}
+    .preview::after{content:""; position:absolute; inset:0; background:rgba(14,14,13,.72)}
+    .preview-in{position:relative; z-index:2; text-align:center}
+    .preview-in .eyebrow{margin-bottom:14px}
+    .preview-in h3{font-size:clamp(24px,3.4vw,34px); font-weight:300; max-width:18ch; margin:0 auto}
+    .play{margin:26px auto 0; width:64px; height:64px; border:1px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:18px; transition:background .25s,color .25s; cursor:pointer}
+    .play:hover{background:var(--accent); color:#fff}
+
+    /* ---------- CTA BAND ---------- */
+    .cta-band{text-align:center; padding:var(--space-section) 0; border-top:1px solid var(--hairline); border-bottom:1px solid var(--hairline)}
+    .cta-band h2{font-size:clamp(30px,5vw,52px); font-weight:300; letter-spacing:.02em}
+    .cta-band p{max-width:50ch; margin:18px auto 32px; color:var(--ink-md)}
+
+    /* ---------- FOOTER ---------- */
+    footer{padding:64px 0 40px}
+    .foot-grid{display:grid; grid-template-columns:1.4fr repeat(3,1fr); gap:40px}
+    .foot-grid h4{font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-lo); margin-bottom:18px; font-weight:500}
+    .foot-grid ul{list-style:none; display:flex; flex-direction:column; gap:10px}
+    .foot-grid a{font-size:14px; color:var(--ink-md); transition:color .2s}
+    .foot-grid a:hover{color:var(--ink-hi)}
+    .foot-brand .brand{margin-bottom:14px}
+    .foot-brand p{font-size:14px; color:var(--ink-md); max-width:34ch}
+    .foot-bottom{margin-top:54px; padding-top:24px; border-top:1px solid var(--hairline); display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size:12px; color:var(--ink-lo); letter-spacing:.03em}
+    .socials{display:flex; gap:18px}
+    @media(max-width:780px){.foot-grid{grid-template-columns:1fr 1fr}}
+
+    /* ---------- REVEAL MOTION ---------- */
+    .reveal{opacity:0; transform:translateY(16px); transition:opacity var(--rise) var(--ease), transform var(--rise) var(--ease)}
+    .reveal.in{opacity:1; transform:none}
+    @media(prefers-reduced-motion:reduce){
+      *{animation:none!important; transition:none!important}
+      .reveal{opacity:1; transform:none}
+      .hero-bg{animation:none}
+    }
+  </style>
+</head>
+<body>
+
+  <header id="hdr">
+    <a class="brand" href="#top"><b>KWIBUKA</b></a>
+    <nav>
+      <a href="#rooms">Rooms</a>
+      <a href="#visit">How to visit</a>
+      <a href="#record">The record</a>
+      <a href="#testimony">Testimony</a>
+      <a href="/">Spatial map</a>
+    </nav>
+    <a class="enter-btn" href="/?museum=1">Enter</a>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="eyebrow reveal">1994 · Rwanda</span>
+      <h1 class="reveal">One hundred days. One million names.</h1>
+      <p class="reveal">A virtual memorial to the 1994 Genocide against the Tutsi. Walk four rooms — from the roots of division to the testimony of those who survived — and witness a history that must not be forgotten.</p>
+      <div class="hero-cta reveal">
+        <a class="btn-primary" href="/?museum=1">Enter the memorial</a>
+        <a class="btn-text" href="#testimony">Begin with testimony<span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROOMS -->
+  <section class="block" id="rooms">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The museum · four rooms</span>
+        <h2>A path through memory</h2>
+        <p>Each room holds a chapter of the record. Move through them in order, or enter where you need to.</p>
+      </div>
+      <div class="rooms reveal">
+        <a class="room" href="/?museum=origins">
+          <div class="room-img" style="background-image:url('/rwanda-relief-location-map.jpg')"><span class="room-badge">1959 – 1973</span></div>
+          <div class="room-body"><h3>Origins</h3><p>The roots of division — exile, discrimination, and the long road that led to 1994.</p><span class="room-link">Enter room →</span></div>
+        </a>
+        <a class="room" href="/?museum=preparation">
+          <div class="room-img" style="background-image:url('/rwanda-1994-administrative-divisions.svg')"><span class="room-badge">1987 – 1993</span></div>
+          <div class="room-body"><h3>Preparation</h3><p>How genocide was organized — propaganda, militias, and the machinery of hate.</p><span class="room-link">Enter room →</span></div>
+        </a>
+        <a class="room" href="/?museum=hundredDays">
+          <div class="room-img" style="background-image:url('/rwanda-relief-location-map1.jpg')"><span class="room-badge">April – July 1994</span></div>
+          <div class="room-body"><h3>One Hundred Days</h3><p>The genocide itself, mapped across the country day by day along a 100-day timeline.</p><span class="room-link">Enter room →</span></div>
+        </a>
+        <a class="room" href="/?museum=testimonies">
+          <div class="room-img" style="background-image:url('/kayonga.jpg')"><span class="room-badge">Voices</span></div>
+          <div class="room-body"><h3>One Hundred Testimonies</h3><p>Survivors and witnesses speak. The record kept alive in their own words.</p><span class="room-link">Enter room →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT STEPS -->
+  <section class="block" id="visit">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">How to visit</span>
+        <h2>Four quiet steps</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><div class="step-num">01</div><h3>Enter</h3><p>Open the 3D memorial space and let it load. No account, no setup.</p></div>
+        <div class="step reveal"><div class="step-num">02</div><h3>Walk the timeline</h3><p>Move through the rooms and follow the record across the hundred days.</p></div>
+        <div class="step reveal"><div class="step-num">03</div><h3>Hear testimony</h3><p>Open any marker to read and watch survivor and witness accounts.</p></div>
+        <div class="step reveal"><div class="step-num">04</div><h3>Reflect</h3><p>Take the time the subject deserves. Return whenever you need to remember.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section class="block">
+    <div class="wrap reveal">
+      <div class="preview">
+        <div class="preview-in">
+          <span class="eyebrow">Preview</span>
+          <h3>A quiet walk through the space</h3>
+          <a class="play" href="/?museum=1" aria-label="Enter the 3D museum">▶</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE RECORD -->
+  <section class="block" id="record">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">The record</span>
+        <h2>Built on the documented history</h2>
+        <p>Cross-referenced from the Genocide Archive Rwanda, CNLG records, UNESCO, and survivor testimony archives.</p>
+      </div>
+      <div class="record reveal">
+        <div class="fact"><div class="n">≈1,000,000</div><div class="l">lives lost in 100 days</div></div>
+        <div class="fact"><div class="n">40+</div><div class="l">documented historical events</div></div>
+        <div class="fact"><div class="n">133</div><div class="l">memorial sites mapped</div></div>
+        <div class="fact"><div class="n">100</div><div class="l">days · April 6 – July 15, 1994</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONY -->
+  <section class="block" id="testimony">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Testimony</span>
+        <h2>In their own words</h2>
+        <p>Representative accounts drawn from documented survivor and witness testimony. Open the memorial to hear recorded voices in full.</p>
+      </div>
+      <div class="testimony-grid">
+        <div class="tcard reveal">
+          <div class="quote">“They said we were the past. We are still here, and we remember for those who are not.”</div>
+          <div class="who"><img src="/kayonga.jpg" alt="" /><div><div class="name">Witness account</div><div class="meta">Kigali · 1994</div></div></div>
+        </div>
+        <div class="tcard reveal">
+          <div class="quote">“The hills went silent. What we carry now is the duty to keep the names.”</div>
+          <div class="who"><img src="/mugabo.jpg" alt="" /><div><div class="name">Survivor account</div><div class="meta">Southern Province · 1994</div></div></div>
+        </div>
+        <div class="tcard reveal">
+          <div class="quote">“To remember is not to reopen the wound. It is to refuse the lie that it never happened.”</div>
+          <div class="who"><img src="/muhire.jpg" alt="" /><div><div class="name">Memory keeper</div><div class="meta">Diaspora archive</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section class="cta-band reveal">
+    <div class="wrap">
+      <h2>Remember. Learn. Never again.</h2>
+      <p>Step into the memorial and walk the record for yourself. Carry what you find beyond this page.</p>
+      <a class="btn-primary" href="/?museum=1">Enter the memorial</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <div class="brand"><b>KWIBUKA</b></div>
+          <p>A virtual memorial to the 1994 Genocide against the Tutsi in Rwanda. Built to remember.</p>
+        </div>
+        <div><h4>The Museum</h4><ul>
+          <li><a href="#rooms">Four rooms</a></li>
+          <li><a href="#visit">How to visit</a></li>
+          <li><a href="/?museum=1">Enter the 3D space</a></li>
+          <li><a href="/">Spatial map</a></li>
+        </ul></div>
+        <div><h4>The Record</h4><ul>
+          <li><a href="#record">The history</a></li>
+          <li><a href="#testimony">Testimony</a></li>
+          <li><a href="https://www.kgm.rw/" target="_blank" rel="noopener">Kigali Genocide Memorial ↗</a></li>
+          <li><a href="https://genocidearchiverwanda.org.rw/" target="_blank" rel="noopener">Genocide Archive Rwanda ↗</a></li>
+        </ul></div>
+        <div><h4>Visit</h4><ul>
+          <li><a href="https://maps.google.com/?q=Kigali+Genocide+Memorial" target="_blank" rel="noopener">Kigali Genocide Memorial</a></li>
+          <li><a>Gisozi, Kigali, Rwanda</a></li>
+          <li><a href="https://www.unesco.org/en/articles/memorial-sites-genocide-rwanda-inscribed-unesco-world-heritage-list" target="_blank" rel="noopener">UNESCO listing ↗</a></li>
+        </ul></div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 1994 in memory · KWIBUKA Spatial Intelligence</span>
+        <div class="socials">
+          <a href="#">Sources</a>
+          <a href="#">Credits</a>
+          <a href="/">Spatial map</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Header border on scroll
+    const hdr = document.getElementById('hdr');
+    addEventListener('scroll', () => hdr.classList.toggle('scrolled', scrollY > 24), {passive:true});
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
