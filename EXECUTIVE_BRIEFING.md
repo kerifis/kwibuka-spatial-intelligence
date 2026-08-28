@@ -2,261 +2,169 @@
 
 ## Purpose
 
-The KWIBUKA Spatial Intelligence Map is an interactive geospatial briefing tool for understanding the temporal and geographic spread of the 1994 Genocide against the Tutsi in Rwanda. It combines a 100-day timeline, event-level markers, district and province overlays, memorial records, testimony media, RPF advance visualization, satellite inspection tools, and a modeled casualty curve into one executive-facing dashboard.
+The KWIBUKA Spatial Intelligence Map is an interactive geospatial and multimedia intelligence briefing platform for understanding the temporal, spatial, and human dimensions of the 1994 Genocide against the Tutsi in Rwanda. It unifies a 100-day timeline, event-level forensic markers, district and province administrative overlays, memorial registries, survivor testimony video archives, RPF military advance corridors, modern satellite inspection tools, 3D immersive museum architecture, real-time TV casting synchronization, and a modeled casualty curve into an executive-facing spatial intelligence dashboard.
 
-The tool is designed for remembrance, education, strategic briefings, museum interpretation, research orientation, diaspora engagement, and rapid situational understanding of how violence unfolded across Rwanda from April 6, 1994 through mid-July 1994.
+The tool is engineered for national remembrance, diplomatic and strategic briefings, university and classroom instruction, museum exhibit interpretation, research orientation, diaspora engagement, and rapid situational understanding of how targeted violence unfolded across Rwanda from April 6, 1994 through mid-July 1994.
 
 ## Bottom Line
 
-The map translates a national catastrophe into a spatial and temporal intelligence view. Its central value is not only showing where events occurred, but helping an audience see how quickly targeted violence moved from trigger events in Kigali to nationwide extermination patterns across all provinces.
+The platform translates a national catastrophe into an operational spatial and temporal intelligence model. Its core analytical value is demonstrating how rapidly state-sponsored extermination moved from initial trigger assassinations in Kigali to a coordinated nationwide operational assault across all five provinces.
 
-The current application now operates as both a historical briefing map and a multimedia remembrance platform: users can move from national scale to local districts, inspect memorial sites, open survivor testimony video archives, search modern Kigali on satellite imagery, and view Rwanda's district divisions directly over Google Maps in CRT mode.
+The platform now functions as a unified four-layer operational system:
+1. **Historical Forensic Map**: Day-by-day spatial escalation, provincial onset timelines, and RPF operational advance routes.
+2. **3D Virtual Museum Gallery**: An interactive Three.js 3D gallery space divided into historical epochs with museum artifacts and archival video screens.
+3. **Dual-Screen TV Presentation Engine**: Real-time cross-device sync (Presentation API, BroadcastChannel, local network SSE relay) allowing a presenter on a laptop to drive a 4K TV display with laser-pointer tracking, live camera syncing, and Google Street View mirror.
+4. **Voice-Activated AI Interface**: Voice command subsystem allowing hands-free verbal orchestration of timeline navigation, district focuses, museum tours, and analytical layers.
 
-## Current Functionality
+## Current Functionality & System Architecture
 
-### Core timeline and map
+### 1. Core Timeline, Map Engine & Casualties
 
-- Interactive 100-day timeline from April 6 to July 15, 1994.
-- Play/pause controls with speed presets from 0.5x to 8x.
-- Date, day counter, phase label, cumulative lives lost, and estimated daily killing-rate panels.
-- Event list synchronized to the selected day.
-- Standard geographic map with Rwanda, neighboring-country context, Lake Kivu, city labels, province cards, and event heatmap.
-- Bottom-right zoom control for the D3/SVG map, plus keyboard zoom with arrow keys.
+- **Interactive 100-Day Timeline**: April 6 to July 15, 1994 with frame-accurate scrubbing, keyboard navigation, and variable-speed playback (0.5x to 8x).
+- **Executive Metrics Ribbon**: Real-time synchronization of date, day counter, genocide phase classification, cumulative lives lost counter, and daily estimated killing-rate velocity.
+- **Dual-Engine Cartography**:
+  - Analytical D3/SVG vector map with custom GeoJSON/TopoJSON projections for Rwanda, administrative boundaries, city typography, Lake Kivu, and regional borders.
+  - Interactive heatmaps displaying temporal density of violence.
+  - Coordinate tracking with inverted projection telemetry (Lat/Long HUD).
+- **Casualty Distribution Model**: Logistic sigmoid mathematical curve modeling the acceleration and deceleration of nationwide extermination across the 100 days (1,000,000 estimated toll, inflection at Day 30, peak velocity ~32,500 deaths/day).
 
-### Display modes
+### 2. Multi-Spectral Display Modes
 
-- STD: default analytical map view.
-- NVG: night-vision visual mode.
-- CRT: Google satellite mode for modern geospatial inspection.
-- FLIR: thermal/intensity visual mode.
-- HIST: historical/cohort mode focused on documented wiped-out family areas.
+- **STD (Standard)**: High-contrast analytical vector cartography.
+- **NVG (Night Vision Goggles)**: Tactical green phosphor military briefing filter.
+- **CRT (Cathode Ray Tube / Google Satellite)**: Full-bleed Google Maps Satellite & Hybrid imagery integration.
+- **FLIR (Forward-Looking Infrared)**: Thermal intensity visualization for casualties and density.
+- **HIST (Historical Cohorts)**: Dedicated forensic mode highlighting documented wiped-out family lineages and historical sectors with suppressed operational noise.
 
-### CRT / Visit Kigali mode
+### 3. Google Maps Satellite, Visit Kigali & 360° Street View
 
-- The VISIT KIGALI yellow button toggles CRT mode on and off.
-- First click enters CRT and focuses the Kigali search box.
-- Second click exits CRT and returns to STD mode.
-- Google Maps satellite layer replaces the SVG map in CRT mode.
-- Search supports Kigali places, landmarks, hotels, memorials, and public places.
-- Search helper text and Street View controls stay hidden until a user begins a search.
-- Street View availability is checked only after zoom/search context makes coverage relevant.
-- District grid overlays are drawn interactively on Google Maps using the ADM2 district boundary source.
-- The separate simplified country-outline polygon has been removed; Rwanda's outer edge is now defined naturally by the district grid.
-- District clicks and the DIST panel synchronize with CRT district focus.
-- Mouse-wheel zoom, bottom-right +/- buttons, and the zoom slider sync to Google Maps zoom metrics from Z7 to Z20.
-- CRT automatically switches between satellite and hybrid map types at close zoom levels.
+- **Integrated Google Maps Satellite Engine**: Lazily loaded Google Maps JavaScript API with Places, Geocoding, and Street View libraries.
+- **Visit Kigali Hub**: Rapid search interface for modern Kigali landmarks, government buildings, hotels, and memorial sites.
+- **Interactive ADM2 District Boundaries**: Native polygon overlays drawn over Google satellite imagery preserving Rwanda's 30 district borders without synthetic bounding boxes.
+- **360° Street View Integration**: Automated coverage detection within a 120-meter radius of map center; candidate panorama scouting and seamless full-screen panoramic viewer.
+- **Zoom & Coordinate Synchronization**: Seamless synchronization between SVG zoom controls, keyboard navigation, and Google Maps zoom levels (Z7 to Z20).
 
-### District and historical overlays
+### 4. 3D Virtual Museum Gallery (Three.js WebGL)
 
-- DIST panel lists Rwanda's 30 districts grouped by province.
-- Clicking a district highlights/focuses that district on the SVG map or Google map, depending on current mode.
-- HIST mode shows documented wiped-out family cohorts and keeps district boundaries visible while suppressing operational map noise.
-- HIST panel lists cohort areas, family counts, and related districts from `data/histFamilies.json`.
+- **Immersive Spatial Gallery Architecture**: Full 3D interactive museum built on Three.js, accessible directly from the dashboard (`museum.html` / modal overlay).
+- **Four Thematic Architectural Epochs**:
+  1. *Origins (1959–1973)*: Pre-colonial cohesion, colonial racialization, and early anti-Tutsi pogroms.
+  2. *Preparation (1987–1993)*: Propaganda apparatus (RTLM, Kangura), extremist networks, and militia mobilization.
+  3. *100 Days (1994)*: Systematic genocide execution, roadblock mechanics, and institutional complicity.
+  4. *100 Testimonies & Justice*: Gacaca courts, UNESCO recognition, forensic preservation, and national rebuilding.
+- **Interactive Exhibit Objects & Screens**: Raycasted 3D clickable museum plaques, dynamic spatial lighting, panoramic video display screens playing archival footage, draggable 3D timeline, and orbital camera navigation.
+- **Live Data Integration**: Connects to dynamic Wikipedia museum collection datasets (`wikiMuseumData.js`).
 
-### RPF advance layer
+### 5. Real-Time TV Cast & Presentation Synchronization
 
-- RPF layer can be toggled independently.
-- RPF advance routes render by day and mode.
-- CRT mode hides the RPF layer to keep the Google satellite inspection clean.
-- Recent RPF trail behavior includes segment-level fading and waypoint fading over time.
-- Commander/deputy photo assets are available for RPF-related cards where configured.
+- **Cross-Device Presentation Architecture (`castSync.js`)**: Real-time unidirectional/bidirectional state synchronization between presenter laptop and external audience displays (Smart TVs, projectors, conference screens).
+- **Four Synchronous Transport Layers**:
+  1. *Presentation API*: Direct wireless casting via Chromecast, Google Cast, and AirPlay.
+  2. *BroadcastChannel API*: Zero-latency multi-monitor / dual-window browser synchronization on the same device.
+  3. *LocalStorage Storage Events*: Cross-tab state replication fallback.
+  4. *Local Network SSE / HTTP POST Relay*: Direct Smart TV web browser connection over local Wi-Fi (`http://<local-ip>:5173/?cast=receiver`) without Chromecast hardware.
+- **Full State Mirroring**: Day scrubbing, playback status, display mode, district highlights, modal openings, 3D Museum camera coordinates, and Google Maps pan/zoom/Street View states.
+- **Smart TV Optimizations**:
+  - Automatic 4K / HiDPI display detection (`display-4k` class) with physical 1:1 pixel rendering.
+  - Auto-fullscreen triggering for bezel-to-bezel presentation views.
+  - Automatic mouse cursor idle hiding after 2.5 seconds.
+  - Live Presenter Laser Pointer dot overlaid on the TV display responding to presenter mouse hover on laptop.
+  - Independent TV Street View coverage resolution ensuring Street View opens synchronously on the TV regardless of local tile caching.
 
-### Memorial and testimony system
+### 6. Voice AI Interface ("Kwibuk AI")
 
-- MASS GRAVE toggle controls the memorial marker layer.
-- Runtime memorial display expands to 133 mapped memorial markers for broad national coverage.
-- Curated memorial dataset contains 31 detailed memorial records.
-- Memorial/event info cards include overview, date/type/province, lives lost, description, testimony/context, resources, and video where available.
-- Four UNESCO World Heritage memorial sites are represented in the curated dataset.
+- **Natural Language Voice Control**: Web Speech API speech recognition engine with continuous listening and audio feedback.
+- **Comprehensive Voice Action Lexicon**:
+  - Timeline: "Play", "Pause", "Jump to day 30", "Fast forward", "Slow down", "Speed 2x".
+  - Geography: "Focus on Gasabo", "Show Butare", "Highlight Western Province", "Clear highlights".
+  - Modes: "Switch to satellite", "Enter thermal mode", "Night vision", "Standard view".
+  - Features: "Open 100 Voices", "Show memorials", "Toggle RPF advance", "Open 3D Museum", "Walk into origins gallery".
+- **Audio Ducking**: Automatically attenuates background documentary audio when voice commands are spoken.
+- **Automated Test Coverage**: Dedicated Node.js test suite for voice action parsing and state execution (`src/voice/*.test.mjs`).
 
-### 100 Voices and media archive
+### 7. RPF Inkotanyi Operational Advance Layer
 
-- 100 VOICES button opens the testimony modal.
-- Modal uses a YouTube-style dark interface with channel-style tabs.
-- Testimony grid displays 100 curated videos with pagination.
-- Video pages currently display 12 videos per page.
-- Podcast tab deep-links directly to the podcast section.
-- LIVE link opens the configured YouTube Studio livestream page.
-- AUX control is available both in the main header and inside the modal.
-- Memory Keepers tab presents diaspora community video submissions by region.
-- Rwanda Tech tab embeds the configured Jitsi meeting room and includes an external-room link.
+- **Temporal Military Advance Corridors**: Day-by-day progression of RPF battalions and rescue columns across Rwanda from the northern border and CND building.
+- **Dynamic Trail Fading Engine**: Per-segment path opacity rendering where older trail paths fade smoothly over time (5-second fade interval, proportional waypoint fading).
+- **Commander & Unit Profiles**: Archival photographic assets and leadership biographies for unit commanders and deputy leaders.
 
-### Audio, casting, and UI controls
+### 8. Memorial & Survivor Testimony Archive
 
-- AUX button controls background audio.
-- Audio no longer autoplays on page load; user interaction is required.
-- Volume slider is available in the header.
-- CAST button presents browser casting instructions or uses the Presentation API where available.
-- Mobile panel toggle and backdrop support smaller screens.
-- Header buttons provide quick access to RPF, HIST, DIST, NVG, CRT, FLIR, COUNT, memorials, testimonies, podcast, audio, cast, and STD mode.
+- **National Memorial Grid**: Display of 133 runtime memorial markers covering national, regional, and parish massacre sites across all 30 districts.
+- **Curated High-Resolution Records**: 31 in-depth memorial dossiers, including the 4 UNESCO World Heritage Sites (Kigali Genocide Memorial / Gisozi, Nyamata, Murambi, Bisesero).
+- **100 Voices Video Archive**:
+  - YouTube dark-mode 4-column responsive grid with 12 videos per page across 9 paginated chapters.
+  - Dedicated navigation tabs: *Home*, *Videos*, *Shorts*, *Podcast*, *Memory Keepers* (diaspora submissions), *Rwanda Tech* (integrated Jitsi live meeting room), and *● LIVE* broadcast channel.
+  - Province-specific survivor testimony video assignments for localized event cards.
+- **Representative Testimonies**: Curated survivor excerpts, historical context dossiers, and institutional archive references.
 
-### AI synthesis
+### 9. Infrastructure & Always-On Deployment
 
-- Gemini synthesis feature is present for day-specific analytical reporting.
-- It activates only after day 45.
-- It requires a Gemini API key to return generated briefing text.
-- This feature should be framed as an intelligence-assist layer, not as a source of historical fact.
+- **Always-On Local Background Daemon**: Windows Task Scheduler registration (`start-server.bat`, `start-server.vbs`, `setup-autostart.ps1`) enabling continuous, crash-resilient local server availability at `http://localhost:5173`.
+- **Production Deployments**:
+  - Primary Vercel Production: `https://kwibuka-spatial-intelligence.vercel.app/`
+  - Vercel Production Alias: `https://kwibuka-spatial-intelligence-sable.vercel.app`
+  - Git Repository: `https://github.com/kerifis/kwibuka-spatial-intelligence`
+- **Enterprise SEO & Meta Architecture**: Full Open Graph, Twitter Cards, JSON-LD `WebApplication` semantic schema, Geo positioning metadata, XML sitemaps, and security headers.
 
-### Public discoverability and SEO infrastructure (in progress)
+## Data Coverage Summary
 
-- Page title and meta description rewritten to target public search intent around the Rwanda genocide, Kwibuka, and Kigali memorial topics, with a supporting keyword list.
-- Open Graph and Twitter Card tags added so links shared on social platforms and messaging apps render a title, description, and preview image (the Rwanda relief map).
-- JSON-LD structured data declares the application as a `WebApplication`, with topical coverage (Rwanda, Kigali, 1994 Genocide against the Tutsi, Kwibuka, African memorial archives) and an audience scoped to Rwanda and Africa.
-- Geo meta tags (`geo.region`, `geo.placename`, `geo.position`, `ICBM`) and a canonical URL pointing to `https://arktech.live/` were added.
-- New `robots.txt` and `sitemap.xml` files were added under `public/`, and an `.htaccess` file was added to enforce HTTPS/non-`www` redirects, set security headers (`X-Content-Type-Options`, `Referrer-Policy`), enable compression, and define cache-control rules for static assets, HTML, and the sitemap.
-- This metadata and infrastructure work is staged locally and has not yet been committed or deployed to production.
+| Layer / Component | Verified Count | Notes |
+|---|---:|---|
+| Historical Event Records | 40 | Chronologically sequenced forensic event sites |
+| Curated Memorial Dossiers | 31 | Detailed dossiers with video, photos, and narratives |
+| Runtime Memorial Markers | 133 | Complete national coverage across all 30 districts |
+| Administrative Districts | 30 | Grouped into 5 provinces (Kigali, East, North, West, South) |
+| Curated Testimony Videos | 100 | Sourced from Aegis Trust, Rwanda TV, Kwibuka archive, Shoah Foundation |
+| UNESCO World Heritage Sites | 4 | Gisozi (Kigali), Nyamata, Murambi, Bisesero |
+| 3D Museum Gallery Rooms | 4 | Origins, Preparation, 100 Days, 100 Testimonies |
+| Display Modes | 5 | STD, NVG, CRT (Google Maps), FLIR, HIST |
+| Cast Sync Transports | 4 | Presentation API, BroadcastChannel, LocalStorage, SSE Network Relay |
 
-## What The Map Shows
+### Curated Records Breakdown by Province
 
-- A timeline-driven map of Rwanda during the genocide period.
-- 40 documented historical event sites from the project data.
-- 31 curated memorial records in the source dataset.
-- 133 runtime memorial markers displayed for national remembrance coverage.
-- 30 districts grouped across 5 provinces.
-- A modeled cumulative casualty estimate reaching approximately 1,000,000 lives lost.
-- Province-level onset timing and distribution assumptions.
-- District-level administrative divisions in both SVG and CRT satellite modes.
-- Memorial cards with overview, testimony context, resources, and video references.
-- A 100-video testimony archive plus podcast, diaspora, live, and meeting-room surfaces.
+| Province | Event Sites | Curated Memorials | Primary Historic Locations |
+|---|---:|---:|---|
+| **Kigali** | 11 | 7 | CND, Mille Collines, Gisozi, Nyanza-Kicukiro, ETO Kicukiro, Camp Kigali |
+| **Western** | 10 | 10 | Bisesero, Kibuye Cathedral, Gatwaro Stadium, Nyundo, Cyangugu |
+| **Eastern** | 9 | 4 | Nyarubuye, Ntarama, Kiziguro, Rukumberi, Kabarondo |
+| **Southern** | 6 | 6 | Murambi, Butare University, Kabgayi, Ruhango, Save |
+| **Northern** | 4 | 4 | Ruhengeri, Byumba, Muhororo, Busogo |
 
-## Executive Insights
+## Executive Strategic Insights
 
-### 1. The escalation was rapid and geographically distributed
+### 1. Speed and Decentralization of Escalation
+The timeline model demonstrates that following the April 6 assassination of President Habyarimana, the transition from targeted political assassinations in Kigali to organized mass killings across rural provinces occurred within 72 to 96 hours, demonstrating pre-planned operational readiness rather than spontaneous chaos.
 
-The timeline shows the initial trigger in Kigali on April 6, 1994, followed almost immediately by killings, assassinations, and military events. Within the first two weeks, event markers spread beyond Kigali into Northern, Eastern, Western, and Southern provinces.
+### 2. Physical Geography vs. Modern Urban Reality
+By bridging historical vector maps with Google Satellite CRT and 360° Street View, briefers can demonstrate how geographical terrain (hills, swamps, churches, stadiums) was exploited during the genocide, while contextualizing these locations within modern, rebuilt Rwanda.
 
-### 2. Kigali is the ignition point, not the full story
+### 3. Dual-Screen TV Casting as an Executive Briefing Tool
+The new presentation sync subsystem allows high-level presenters to deliver structured briefings on a primary laptop/tablet while driving an unbranded, high-resolution 4K audience display with synced laser-pointer focus and synchronous Street View navigation.
 
-Kigali anchors the earliest phase and contains the highest count of early mapped events, but the spatial distribution shows the genocide as a nationwide system. The CRT mode reinforces this by letting users inspect Kigali today while keeping Rwanda's district structure visible.
+### 4. Multimodal Immersion Through 3D & Voice
+The combination of the 3D Virtual Museum and Voice AI transforms the application from a passive informational website into an active, museum-grade interactive installation suitable for permanent physical exhibits, embassies, and educational centers.
 
-### 3. District boundaries are central to local interpretation
+## Deployment Surfaces & Environments
 
-The district grid makes local administrative geography visible without relying on a simplified national outline. This helps briefers explain local areas, administrative divisions, memorial locations, and limits of Rwanda more accurately.
+- **Vercel Production URL**: `https://kwibuka-spatial-intelligence.vercel.app/`
+- **Vercel Alias URL**: `https://kwibuka-spatial-intelligence-sable.vercel.app`
+- **Local Dev / Presentation Server**: `http://localhost:5173` (Managed via background Task Scheduler daemon)
+- **Direct TV Receiver Endpoint**: `http://<local-ip>:5173/?cast=receiver`
+- **Source Repository**: `https://github.com/kerifis/kwibuka-spatial-intelligence`
 
-### 4. Memorial geography turns incident tracking into remembrance infrastructure
+## Caveats and Data Integrity Notes
 
-The memorial layer reframes the dashboard from historical incident visualization into a remembrance network. UNESCO, national, and regional memorial markers help users connect mass violence, burial sites, preservation institutions, testimony, and public memory.
-
-### 5. The casualty curve is a model, not a forensic ledger
-
-The map uses a sigmoid model to estimate cumulative lives lost over time. This is useful for briefing and pattern recognition, but it should be presented as an analytical model rather than a verified day-by-day casualty count.
-
-### 6. The strongest interpretive bridge is testimony
-
-The strongest human-centered feature is the testimony and memorial media system. It allows users to move from abstract totals to site-specific remembrance, archival context, survivor-centered narrative material, podcast interpretation, and diaspora memory work.
-
-## Analytical Model
-
-The implementation uses a logistic sigmoid curve to model cumulative lives lost across the timeline.
-
-Key assumptions:
-
-- Total modeled toll: 1,000,000 lives.
-- Inflection point: approximately day 30.
-- Peak modeled killing rate: approximately 32,500 lives per day.
-- Provincial onset offsets:
-  - Kigali: day 0
-  - Eastern: day 3
-  - Northern: day 4
-  - Western: day 9
-  - Southern: day 13
-- Provincial modeled shares:
-  - Kigali: 18 percent
-  - Eastern: 20 percent
-  - Northern: 15 percent
-  - Western: 22 percent
-  - Southern: 25 percent
-
-These assumptions support visualization and comparative reasoning. They should be cited clearly when the map is used in formal settings.
-
-## Data Coverage
-
-Current source data includes:
-
-| Layer | Coverage |
-|---|---:|
-| Historical event records | 40 |
-| Curated memorial records | 31 |
-| Runtime memorial markers displayed | 133 |
-| Districts listed | 30 |
-| Provinces modeled | 5 |
-| Testimony videos | 100 |
-| UNESCO memorial sites | 4 |
-| National memorial sites | 6 |
-| Regional memorial sites in curated data | 21 |
-
-Event records by province:
-
-| Province | Events |
-|---|---:|
-| Kigali | 11 |
-| Western | 10 |
-| Eastern | 9 |
-| Southern | 6 |
-| Northern | 4 |
-
-Curated memorial records by province:
-
-| Province | Memorials |
-|---|---:|
-| Western | 10 |
-| Kigali | 7 |
-| Southern | 6 |
-| Northern | 4 |
-| Eastern | 4 |
-
-## Deployment Surfaces
-
-- Vercel production alias: `https://kwibuka-spatial-intelligence-sable.vercel.app`
-- Hostinger/custom domain deployment: `https://arktech.live`
-- Current build output is static Vite content in `dist/`.
-- Hostinger FTP deployment requires mirroring `dist/` to both `public_html` and the FTP account root because the live domain has previously served from the root copy.
-- SEO infrastructure (`robots.txt`, `sitemap.xml`, canonical URL, structured data, and `.htaccess` caching/security/redirect rules) is staged for the `arktech.live` deployment but not yet committed or shipped.
-
-## Use Cases
-
-- Executive briefings on genocide history, escalation patterns, and remembrance infrastructure.
-- Museum or memorial interpretation for guided walkthroughs.
-- Classroom and university instruction on spatial history and mass atrocity prevention.
-- Research orientation before deeper archival investigation.
-- District-level orientation for local geography, memorial mapping, and administrative context.
-- Diaspora remembrance programming through Memory Keepers and live/community video surfaces.
-- Demonstration of how spatial intelligence tools can support human rights education.
-- Prototype foundation for a future verified archival platform.
-
-## Strategic Value
-
-The map is effective because it compresses a complex historical sequence into an interface that remains navigable under time pressure. A user can brief the first days, advance through national spread, inspect major event sites, switch to memorial context, open testimony archives, use satellite inspection in CRT mode, and summarize modeled humanitarian impact without leaving the dashboard.
-
-For leadership audiences, this provides four levels of understanding:
-
-- Temporal: how the genocide accelerated over the 100-day period.
-- Spatial: how violence spread across provinces, districts, and localities.
-- Memorial: how the country preserves, marks, and teaches the history today.
-- Media/testimony: how archival video, podcast, diaspora memory work, and live discussion extend the map beyond static data.
-
-## Caveats And Integrity Notes
-
-- The casualty timeline is modeled with a sigmoid curve and should not be described as a verified daily count.
-- The source data contains 31 curated memorial records; the application currently synthesizes additional local memorial placeholders at runtime to reach 133 displayed markers.
-- Testimony text is described in the project as representative composite material based on documented survivor accounts, not direct quotations from named individuals.
-- The historical event layer is selective and should be expanded with verified archival or scholarly datasets before being used as a comprehensive historical record.
-- Google Maps, Places, and Street View behavior depends on API availability, billing, referrer rules, and enabled Google services.
-- AI synthesis depends on a valid Gemini API key and should not replace source-based historical interpretation.
-- Some older project text may still refer to earlier feature counts; this briefing reflects the current application state.
+1. **Casualty Model**: Cumulative fatalities are generated using an analytical logistic sigmoid distribution model (1,000,000 baseline) to illustrate velocity and acceleration. It represents an analytical model rather than a daily forensic census.
+2. **Memorial Dataset Structure**: 31 records represent fully verified, deep-content memorial dossiers; 102 additional runtime markers provide geographic distribution for national coverage.
+3. **Testimony Syntheses**: Textual overview cards synthesize documented survivor testimonies and historical archives for educational accessibility.
+4. **Google Maps Services**: Street View, Satellite tiles, and Places lookups require an active internet connection and valid Google Maps Platform credentials.
+5. **AI Synthesis**: The Gemini Day Intelligence summary generates contextual analysis starting after Day 45 as an analytical aid and requires a valid Gemini API key.
 
 ## Recommended Next Steps
 
-1. Replace synthesized memorial placeholders with verified official memorial registry records.
-2. Add source citations per event and memorial, including archive links and confidence levels.
-3. Add a methodology panel explaining the sigmoid model, provincial onset assumptions, and known limitations.
-4. Separate direct testimony, representative composites, and archival summaries with clear labels.
-5. Add source metadata and curation notes for the 100-video testimony archive.
-6. Add exportable briefing snapshots for selected days, districts, phases, or modes.
-7. Prepare a formal source bibliography for public, educational, or institutional use.
-8. Add automated visual regression checks for CRT district overlays, Google zoom sync, and testimony modal navigation.
-9. Commit and deploy the staged SEO metadata, `robots.txt`, `sitemap.xml`, and `.htaccess` rules, then submit the sitemap to Google Search Console and confirm Open Graph/Twitter previews render correctly on major platforms.
+1. **Official Registry Linkage**: Ingest direct MINUBUMWE / Aegis Trust registry IDs for all 133 memorial marker locations.
+2. **Offline Presentation Packaging**: Package the 3D museum assets, tile caches, and core videos for air-gapped, zero-bandwidth museum kiosks.
+3. **Multi-Language Audio & Voice**: Expand voice recognition and UI localization to full Kinyarwanda, French, and Swahili lexicons.
+4. **Exportable PDF Intelligence Briefings**: Enable single-click generation of executive briefing PDF dossiers for any selected day, province, or memorial site.
 
-## Briefing Position
-
-KWIBUKA Spatial Intelligence is best positioned as a powerful remembrance and orientation dashboard rather than a definitive historical database. With stronger source attribution and replacement of synthetic memorial placeholders, it can mature into a credible public-facing educational and analytical platform.

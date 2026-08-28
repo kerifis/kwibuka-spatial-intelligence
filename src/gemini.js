@@ -1,5 +1,5 @@
 export async function synthesizeMatrix(day, cumul, rate, activeEvents) {
-  let apiKey = localStorage.getItem('GEMINI_API_KEY');
+  let apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || localStorage.getItem('GEMINI_API_KEY') || localStorage.getItem('GOOGLE_API_KEY');
   if (!apiKey) {
     apiKey = prompt("Enter your Gemini API Key to enable the AI Synthesis Layer:");
     if (apiKey) localStorage.setItem('GEMINI_API_KEY', apiKey);

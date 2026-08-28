@@ -7,7 +7,7 @@ import { showInfoCard } from './infocard.js';
 import rpfRoutes from '../data/rpfAdvance.json';
 import { histVisible } from './hist.js';
 
-export let showRpfLayer = true;
+export let showRpfLayer = false;
 
 // ── Trail fade state ──────────────────────────────────────
 let _fadeTick = 0;          // increments every 5 real seconds

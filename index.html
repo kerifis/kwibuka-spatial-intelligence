@@ -76,9 +76,9 @@
         <button class="fbtn" id="audioBtn" onclick="toggleAudio()" title="IJAMBO RYA MBERE INKOTANYI ZAKUBWIYE — Bonhomme">▶ AUX</button>
         <input type="range" id="volSlider" min="0" max="1" step="0.05" value="0.5" oninput="setVolume(this.value)" class="vol-slider" title="Volume" />
       </div>
-      <button class="fbtn on-rpf" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
+      <button class="fbtn" id="rpfBtn" data-layer="rpf" onclick="toggleRpf()">RPF</button>
       <button class="fbtn" data-m="hist" onclick="toggleHist()">HIST</button>
-      <button class="fbtn" id="distBtn" onclick="toggleDistrictPanel()" title="District Index">DIST</button>
+      <button class="fbtn on" id="distBtn" onclick="toggleDistrictPanel()" title="District Index">DIST</button>
       <button class="fbtn" data-m="nvg" onclick="setMode('nvg')">NVG</button>
       <button class="fbtn" data-m="crt" onclick="setMode('crt')">CRT</button>
       <button class="fbtn" data-m="flir" onclick="setMode('flir')">FLIR</button>
@@ -157,7 +157,7 @@
     <div class="tt" id="ttip"></div>
 
     <!-- District index panel -->
-    <div class="dist-panel" id="distPanel">
+    <div class="dist-panel open" id="distPanel">
       <div class="dist-panel-hdr">
         <span class="dist-panel-title">RWANDA // 30 DISTRICTS</span>
         <button class="dist-panel-close" onclick="toggleDistrictPanel()">✕</button>

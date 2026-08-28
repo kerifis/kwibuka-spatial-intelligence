@@ -27,10 +27,45 @@ const GEOBOUNDARIES_API = 'https://www.geoboundaries.org/api/current/gbOpen/RWA'
 
 export let projection, pathGen, svg;
 export let gGrid, gMap, gHeat, gRpf, gMark, gLbl, gProv, gDist, gHist;
+export let activeProvince = null;
 export let currentZoomTransform = d3.zoomIdentity;
 let zoomBehavior, zoomRoot, mapContainer;
 let rwProvData = null;
 let rwDistData = null;
+
+export function highlightProvince(name) {
+  activeProvince = name;
+  if (!gMap) return;
+  if (!name) {
+    clearProvinceHighlight();
+    return;
+  }
+  const lower = name.toLowerCase().trim();
+  gMap.selectAll('.rw-prov-poly').each(function(d) {
+    const n = ((d.properties && d.properties.shapeName) || '').toLowerCase().trim();
+    const match = n.includes(lower) || lower.includes(n);
+    d3.select(this)
+      .style('fill', match ? 'rgba(255, 184, 0, 0.38)' : 'rgba(0, 255, 136, 0.05)')
+      .style('stroke', match ? 'rgba(255, 184, 0, 0.95)' : 'rgba(0, 255, 136, 0.4)')
+      .style('stroke-width', match ? '2px' : '1px');
+  });
+}
+
+export function clearProvinceHighlight() {
+  activeProvince = null;
+  if (!gMap) return;
+  gMap.selectAll('.rw-prov-poly')
+    .style('fill', 'rgba(0, 255, 136, 0.05)')
+    .style('stroke', 'rgba(0, 255, 136, 0.4)')
+    .style('stroke-width', '1px');
+}
+
+export function setZoomTransform(t) {
+  if (!svg || !zoomBehavior || !t) return;
+  const transform = d3.zoomIdentity.translate(t.x, t.y).scale(t.k);
+  currentZoomTransform = transform;
+  svg.call(zoomBehavior.transform, transform);
+}
 let rwandaFeature = {
   type: 'Feature',
   geometry: { type: 'Polygon', coordinates: [FALLBACK_BORDER] },
@@ -179,6 +214,9 @@ export async function initMap(container) {
       if (slider) slider.value = event.transform.k;
       const val = document.getElementById('zoomVal');
       if (val) val.textContent = event.transform.k.toFixed(1) + 'x';
+      if (event.sourceEvent) {
+        window.__onManualZoomPan?.({ k: event.transform.k, x: event.transform.x, y: event.transform.y });
+      }
     });
 
   svg.call(zoomBehavior);
@@ -260,15 +298,18 @@ export async function initMap(container) {
           else if(name.toLowerCase().includes('west')) name = 'Western';
           else if(name.toLowerCase().includes('south')) name = 'Southern';
 
-          const count = document.querySelector(`[data-prov="${name}"] .pov-count`)?.textContent || '0';
-          const ttip = d3.select('#ttip');
-          ttip.html(`<div style="padding:4px"><div style="font-size:11px;font-weight:600;color:var(--amb)">${name.toUpperCase()} PROVINCE</div><div style="margin-top:4px;color:var(--tx0)"><span style="color:var(--red)">${count}</span> LIVES LOST</div></div>`)
-            .style('left', (e.clientX + 15) + 'px')
-            .style('top', (e.clientY + 15) + 'px')
-            .style('opacity', 1).classed('vis', true);
+          if (window.selectProvince) {
+            window.selectProvince(name, e);
+          } else {
+            const count = document.querySelector(`[data-prov="${name}"] .pov-count`)?.textContent || '0';
+            const ttip = d3.select('#ttip');
+            ttip.html(`<div style="padding:4px"><div style="font-size:11px;font-weight:600;color:var(--amb)">${name.toUpperCase()} PROVINCE</div><div style="margin-top:4px;color:var(--tx0)"><span style="color:var(--red)">${count}</span> LIVES LOST</div></div>`)
+              .style('left', (e.clientX + 15) + 'px')
+              .style('top', (e.clientY + 15) + 'px')
+              .style('opacity', 1).classed('vis', true);
 
-          // auto hide tooltip after 3 seconds
-          setTimeout(() => ttip.style('opacity', 0).classed('vis', false), 3500);
+            setTimeout(() => ttip.style('opacity', 0).classed('vis', false), 3500);
+          }
         });
     }
   } catch(e) {

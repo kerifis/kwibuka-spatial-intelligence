@@ -507,3 +507,6 @@ export function testimoniesNext() {
   const total = Math.ceil(VIDEO_POOL.length / T_PAGE_SIZE);
   if (_tPage < total) { _tPage++; _renderTPage(_tPage); }
 }
+
+export function getTestimonyVideoPool() { return VIDEO_POOL; }
+

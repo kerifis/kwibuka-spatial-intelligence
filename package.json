@@ -6,16 +6,26 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test src/voice/*.test.mjs"
   },
   "dependencies": {
     "d3": "^7.9.0",
+    "three": "^0.185.1",
     "topojson-client": "^3.1.0"
   },
   "devDependencies": {
+    "vercel": "^59.6.2",
     "vite": "^5.4.0"
   },
   "license": "MIT",
   "author": "",
-  "keywords": ["rwanda", "genocide", "memorial", "spatial-intelligence", "d3", "visualization"]
+  "keywords": [
+    "rwanda",
+    "genocide",
+    "memorial",
+    "spatial-intelligence",
+    "d3",
+    "visualization"
+  ]
 }

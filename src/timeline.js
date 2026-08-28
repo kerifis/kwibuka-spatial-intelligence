@@ -148,6 +148,25 @@ export function togglePlay(onTick, getCurrentDay) {
   }
 }
 
+export function isPlaying() {
+  return playing;
+}
+
+export function getSpeed() {
+  return speed;
+}
+
+export function setPlayingState(play, onTick, getCurrentDay) {
+  if (playing === play) return;
+  playing = play;
+  setPlayButtonState();
+  if (playing) {
+    if (onTick && getCurrentDay) startPlayback(onTick, getCurrentDay);
+  } else {
+    clearInterval(interval);
+  }
+}
+
 /**
  * Set playback speed.
  * @param {number} s - Speed multiplier (0.5, 1, 2, 4, 8)

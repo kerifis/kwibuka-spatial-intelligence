@@ -1316,8 +1316,22 @@ body {
 }
 
 #castBtn.on {
-  border-color: #4af;
-  color: #4af
+  border-color: #00ff88;
+  color: #00ff88;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+#castBtn.casting-live {
+  border-color: #00e5ff;
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.12);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.4);
+  animation: castPulse 2s infinite ease-in-out;
+}
+
+@keyframes castPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 14px rgba(0, 229, 255, 0.4); }
+  50% { opacity: 0.8; box-shadow: 0 0 22px rgba(0, 229, 255, 0.7); }
 }
 
 .cast-toast {
@@ -1326,22 +1340,277 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(12px);
   background: var(--bg2);
-  border: 1px solid rgba(0,170,255,.35);
+  border: 1px solid rgba(0, 229, 255, 0.45);
   color: var(--tx0);
   font-size: 11px;
   letter-spacing: .8px;
   padding: 10px 18px;
-  border-radius: 3px;
+  border-radius: 4px;
   opacity: 0;
   pointer-events: none;
   transition: opacity .25s, transform .25s;
   z-index: 999;
-  white-space: nowrap
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
 }
 
 .cast-toast.vis {
   opacity: 1;
-  transform: translateX(-50%) translateY(0)
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Cast & Presentation Modal */
+.cast-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.cast-modal.vis {
+  display: flex;
+}
+
+.cast-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.cast-modal-panel {
+  position: relative;
+  width: 90%;
+  max-width: 540px;
+  background: #0d0f14;
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 229, 255, 0.15);
+  padding: 22px 24px;
+  color: var(--tx0);
+  font-family: var(--font-mono, monospace);
+  z-index: 2;
+  animation: castModalIn .2s ease-out;
+}
+
+@keyframes castModalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.cast-modal-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.cast-modal-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #00e5ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cast-modal-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color .2s;
+}
+
+.cast-modal-close:hover {
+  color: #fff;
+}
+
+.cast-modal-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--tx1);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 16px;
+}
+
+.cast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cast-dot.live {
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+  animation: castPulse 1.5s infinite;
+}
+
+.cast-dot.ready {
+  background: #00e5ff;
+  box-shadow: 0 0 8px #00e5ff;
+}
+
+.cast-modal-section {
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  padding: 12px 14px;
+}
+
+.cast-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--amb, #ffb800);
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.cast-section-desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px 0;
+}
+
+.cast-btn-row {
+  display: flex;
+  gap: 10px;
+}
+
+.cast-url-box {
+  display: flex;
+  gap: 8px;
+}
+
+.cast-url-box input {
+  flex: 1;
+  background: #050608;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: #00e5ff;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  user-select: all;
+}
+
+.cast-copy-btn {
+  background: rgba(0, 229, 255, 0.15);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: #00e5ff;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.cast-copy-btn:hover {
+  background: rgba(0, 229, 255, 0.3);
+  color: #fff;
+}
+
+.cast-modal-options {
+  margin: 12px 0 16px 0;
+}
+
+.cast-opt-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.cast-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+}
+
+/* Receiver UI Live Badge */
+.receiver-live-badge {
+  position: fixed;
+  top: 12px;
+  right: 14px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(5, 7, 10, 0.85);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #00ff88;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 136, 0.2);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+  user-select: none;
+}
+
+.receiver-live-badge .rl-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00ff88;
+  box-shadow: 0 0 8px #00ff88;
+  animation: castPulse 1.8s infinite;
+}
+
+.receiver-live-badge .rl-fs-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+}
+
+.receiver-live-badge .rl-fs-btn:hover {
+  color: #fff;
+}
+
+/* Presenter Laser Dot on TV */
+.receiver-laser-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff2244 35%, rgba(255, 34, 68, 0.4) 70%, transparent 100%);
+  box-shadow: 0 0 12px #ff2244, 0 0 24px rgba(255, 34, 68, 0.8);
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+body.hide-cursor,
+body.hide-cursor * {
+  cursor: none !important;
 }
 
 .audio-player #audioBtn.playing {
@@ -3122,4 +3391,390 @@ body {
   .hist-dist-panel { width: 188px }
   .hist-family-name { font-size: 7px }
   .hist-family-count { font-size: 6px }
+}
+
+/* ── KWIBUKA VOICE CONTROL ────────────────────────────────── */
+
+#kwibuka-voice-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background: var(--bg2);
+  border: 1px solid var(--bdr);
+  border-radius: 2px;
+  font-family: var(--mono);
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  user-select: none;
+  height: 32px;
+}
+
+#kwibuka-voice-control[data-status="connecting"] {
+  border-color: rgba(255, 184, 0, 0.4);
+}
+
+#kwibuka-voice-control[data-status="listening"] {
+  border-color: rgba(0, 255, 136, 0.6);
+  background: rgba(0, 255, 136, 0.04);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.15);
+}
+
+#kwibuka-voice-control[data-status="executing"] {
+  border-color: rgba(255, 184, 0, 0.8);
+  background: rgba(255, 184, 0, 0.05);
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.2);
+}
+
+#kwibuka-voice-control[data-status="error"] {
+  border-color: rgba(255, 34, 68, 0.7);
+  background: rgba(255, 34, 68, 0.05);
+}
+
+.kv-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.kv-kicker {
+  font-size: 7px;
+  color: var(--tx2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+#kv-status {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--tx1);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+#kwibuka-voice-control[data-status="listening"] #kv-status {
+  color: var(--grn);
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.4);
+}
+
+#kwibuka-voice-control[data-status="executing"] #kv-status {
+  color: var(--amb);
+}
+
+#kwibuka-voice-control[data-status="error"] #kv-status {
+  color: var(--red);
+}
+
+.kv-cost {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 1px;
+}
+
+.kv-tier-btn {
+  background: transparent;
+  border: 1px solid var(--bdr);
+  color: var(--tx2);
+  font-size: 6.5px;
+  font-family: var(--mono);
+  padding: 0 3px;
+  border-radius: 1px;
+  cursor: pointer;
+  line-height: 1.2;
+  transition: all 0.15s;
+}
+
+.kv-tier-btn:hover {
+  color: var(--tx0);
+  border-color: var(--tx1);
+}
+
+.kv-tier-btn[aria-pressed="true"] {
+  color: var(--grn);
+  border-color: var(--grn);
+}
+
+.kv-cost-value {
+  font-size: 7px;
+  color: var(--tx2);
+  font-variant-numeric: tabular-nums;
+}
+
+.kv-cost-value[data-level="warn"] {
+  color: var(--amb);
+}
+
+.kv-cost-value[data-level="cap"] {
+  color: var(--red);
+}
+
+#kv-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--bdr);
+  color: var(--tx1);
+  padding: 3px 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.8px;
+  transition: all 0.15s;
+}
+
+#kv-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--tx0);
+  border-color: var(--tx1);
+}
+
+.kv-mic-orbit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+}
+
+.kv-mic-orbit img {
+  width: 11px;
+  height: 11px;
+  filter: invert(0.6) sepia(0.2);
+  transition: filter 0.2s;
+}
+
+#kwibuka-voice-control[data-status="listening"] .kv-mic-orbit img {
+  filter: invert(0.8) sepia(1) saturate(5) hue-rotate(85deg);
+  animation: kv-mic-pulse 1.5s ease-in-out infinite;
+}
+
+#kwibuka-voice-control[data-status="executing"] .kv-mic-orbit img {
+  filter: invert(0.8) sepia(1) saturate(5) hue-rotate(0deg);
+}
+
+@keyframes kv-mic-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+.kv-mic-label {
+  font-size: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.kv-visualizer {
+  display: flex;
+  align-items: center;
+  gap: 1.5px;
+  height: 20px;
+  padding: 0 2px;
+}
+
+.kv-visualizer span {
+  display: inline-block;
+  width: 2px;
+  height: var(--audio-level, 5px);
+  max-height: 20px;
+  background: var(--tx2);
+  border-radius: 1px;
+  opacity: var(--audio-opacity, 0.4);
+  transition: height 0.06s ease, background 0.15s, opacity 0.06s;
+}
+
+#kwibuka-voice-control[data-speaker="user"] .kv-visualizer span {
+  background: var(--grn);
+}
+
+#kwibuka-voice-control[data-speaker="ai"] .kv-visualizer span {
+  background: var(--amb);
+}
+
+.kv-readout {
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+  max-width: 140px;
+  overflow: hidden;
+}
+
+#kv-detail {
+  font-size: 7.5px;
+  color: var(--tx2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#kwibuka-voice-control[data-status="listening"] #kv-detail {
+  color: var(--tx1);
+}
+
+#kwibuka-voice-control[data-status="executing"] #kv-detail {
+  color: var(--amb);
+}
+
+.kv-error-tray {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--bg1);
+  border: 1px solid var(--red);
+  padding: 8px 10px;
+  border-radius: 2px;
+  z-index: 1000;
+  min-width: 220px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+#kwibuka-voice-control[data-status="error"]:not(.error-dismissed) .kv-error-tray {
+  display: block;
+}
+
+.kv-error-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+
+.kv-error-dismiss {
+  background: transparent;
+  border: 1px solid var(--red);
+  color: var(--red);
+  font-size: 7px;
+  padding: 1px 4px;
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+#kv-error-detail {
+  font-size: 8px;
+  color: var(--tx0);
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.kv-error-hint {
+  font-size: 7px;
+  color: var(--tx2);
+}
+
+@media (max-width: 900px) {
+  #kwibuka-voice-control .kv-readout {
+    display: none;
+  }
+  #kwibuka-voice-control .kv-visualizer {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   4K / UHDT PRESENTATION DISPLAY
+   Applied when body.display-4k is set by castSync.js
+   on TVs with screen.width ≥ 3840 or effective DPR ≥ 2.
+   Goal: sharp, readable UI at TV viewing distance.
+   ══════════════════════════════════════════════════════ */
+
+body.display-4k {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+/* Header */
+body.display-4k .hdr { height: 56px; padding: 0 28px; }
+body.display-4k .hdate,
+body.display-4k .hphase,
+body.display-4k .hday { font-size: 16px; letter-spacing: 3px; }
+body.display-4k .hctr { font-size: 36px; letter-spacing: 4px; }
+body.display-4k .hctr-lbl { font-size: 10px; letter-spacing: 2px; }
+body.display-4k .fbtn { font-size: 12px; padding: 7px 14px; letter-spacing: 2px; }
+
+/* Timeline */
+body.display-4k .tbar { height: 52px; padding: 0 20px; }
+body.display-4k .ttrack,
+body.display-4k .tprog { height: 10px; border-radius: 5px; }
+body.display-4k .thandle { width: 28px; height: 28px; font-size: 10px; }
+body.display-4k .pbtn { font-size: 20px; width: 40px; height: 40px; }
+body.display-4k .sbtn { font-size: 12px; padding: 5px 10px; }
+body.display-4k .visit-kigali-btn { font-size: 12px; padding: 7px 16px; letter-spacing: 2.5px; }
+
+/* Situation Overview panel */
+body.display-4k .stat-pan { width: 340px; padding: 18px; }
+body.display-4k .slbl { font-size: 12px; letter-spacing: 3px; }
+body.display-4k .sv { font-size: 28px; }
+body.display-4k .sl { font-size: 11px; letter-spacing: 1px; }
+body.display-4k .ss { font-size: 9px; }
+body.display-4k .dc-lbl { font-size: 10px; letter-spacing: 2px; }
+body.display-4k .dc-val { font-size: 40px; letter-spacing: 2px; }
+body.display-4k .dc-unit { font-size: 10px; }
+body.display-4k .dc-bar { height: 6px; border-radius: 3px; }
+body.display-4k .scard { padding: 12px 14px; margin-bottom: 8px; }
+body.display-4k .pov-prov,
+body.display-4k .pov-count { font-size: 10px; }
+
+/* Province labels */
+body.display-4k .prov-label { font-size: 13px !important; letter-spacing: 3px; stroke-width: 4px; }
+
+/* Info card */
+body.display-4k #icard { width: 420px; font-size: 12px; }
+body.display-4k .ic-title { font-size: 15px; letter-spacing: 2px; }
+body.display-4k .ic-date { font-size: 11px; }
+body.display-4k .ic-desc { font-size: 12px; line-height: 1.65; }
+
+/* Event list */
+body.display-4k .ev-item { font-size: 10px; padding: 7px 10px; }
+
+/* Cast badge */
+body.display-4k #receiverLiveBadge { font-size: 14px; padding: 8px 18px; letter-spacing: 3px; border-width: 2px; }
+body.display-4k #receiverLiveBadge .rl-dot { width: 12px; height: 12px; }
+
+/* Laser pointer dot: bigger and brighter on 4K */
+body.display-4k .receiver-laser-dot {
+  width: 22px;
+  height: 22px;
+  box-shadow: 0 0 0 4px rgba(255, 30, 30, 0.22), 0 0 24px 8px rgba(255, 0, 0, 0.5);
+}
+
+/* Coordinates display */
+body.display-4k #coordD { font-size: 11px; letter-spacing: 2px; }
+
+/* Tooltip */
+body.display-4k #ttip { font-size: 13px; padding: 10px 14px; min-width: 160px; }
+
+/* Zoom controls */
+body.display-4k .zoom-val { font-size: 12px; letter-spacing: 2px; }
+body.display-4k .zoom-btn { font-size: 16px; width: 32px; height: 32px; }
+
+/* Testimonies modal */
+body.display-4k .test-modal-title { font-size: 18px; letter-spacing: 3px; }
+body.display-4k .test-item-title { font-size: 13px; }
+body.display-4k .test-pg-info { font-size: 11px; }
+
+/* Native 4K media query — catches TVs that render at physical 3840px */
+@media (min-width: 3840px) {
+  :root { font-size: 18px; }
+}
+
+/* DPR-2 1080p TVs not caught by JS (e.g. some Samsung Smart TVs) */
+@media (min-resolution: 2dppx) and (min-width: 1920px) {
+  body.cast-receiver-mode:not(.display-4k) {
+    image-rendering: -webkit-optimize-contrast;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.cast-receiver-mode:not(.display-4k) .hctr { font-size: 28px; }
+  body.cast-receiver-mode:not(.display-4k) .dc-val { font-size: 32px; }
 }
