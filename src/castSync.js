@@ -1,28 +1,95 @@
 /**
  * KWIBUKA // Real-Time Presentation & Cast Synchronization Module
  * Synchronizes laptop controller state to TV/receiver displays in real time via:
- * 1. Presentation API (Chromecast, Google Cast, Wireless Display)
- * 2. BroadcastChannel (Same-device multi-window / extended desktop / dual display)
- * 3. LocalStorage storage event fallback
- * 4. Local Network SSE / HTTP Relay (Smart TV browsers & cross-device local Wi-Fi)
+ * 1. WebRTC Peer-to-Peer DataChannels (works anywhere on Vercel / internet via PeerJS)
+ * 2. Presentation API (Chromecast, Google Cast, Wireless Display)
+ * 3. BroadcastChannel (Same-device multi-window / extended desktop / dual display)
+ * 4. LocalStorage storage event fallback
+ * 5. Local Network SSE / HTTP Relay (Smart TV browsers on local Wi-Fi when running dev server)
  */
 
 const SYNC_CHANNEL_NAME = 'kwibuka_presentation_sync';
 const STORAGE_KEY = 'kwibuka_cast_state_v1';
+const ROOM_STORAGE_KEY = 'kwibuka_cast_room_id_v1';
+const DEFAULT_VERCEL_HOST = 'https://kwibuka-spatial-intelligence.vercel.app';
 
 let isReceiver = false;
 let isController = true;
 let isApplyingRemoteState = false;
 let broadcastChannel = null;
 let activePresentationConnections = new Set();
+let activeWebRtcConnections = new Set();
 let networkEventSource = null;
 let laserPointerEnabled = true;
 let localNetworkInfo = null;
+let currentRoomCode = null;
+let hostPeer = null;
+let clientPeer = null;
+let activeClientConn = null;
+let PeerClass = null;
 
 // Callbacks registered by main.js
 let stateGetter = null;
 let stateApplier = null;
 let toastNotifier = null;
+
+/**
+ * Generate or retrieve persistent 6-character session room code (e.g. KWB-7492).
+ */
+export function getOrCreateRoomCode() {
+  if (currentRoomCode) return currentRoomCode;
+  if (typeof window === 'undefined') return 'KWB-1994';
+  
+  let saved = localStorage.getItem(ROOM_STORAGE_KEY);
+  if (!saved || !saved.startsWith('KWB-')) {
+    const rand = Math.floor(1000 + Math.random() * 9000);
+    saved = `KWB-${rand}`;
+    try {
+      localStorage.setItem(ROOM_STORAGE_KEY, saved);
+    } catch (_) {}
+  }
+  currentRoomCode = saved;
+  return currentRoomCode;
+}
+
+export function sanitizePeerId(code) {
+  const clean = String(code || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return `kwibuka-v1-${clean || 'kwb1994'}`;
+}
+
+/**
+ * Dynamically load PeerJS library with fallback.
+ */
+async function loadPeerJS() {
+  if (PeerClass) return PeerClass;
+  if (typeof window !== 'undefined' && window.Peer) {
+    PeerClass = window.Peer;
+    return PeerClass;
+  }
+  try {
+    const mod = await import('https://esm.sh/peerjs@1.5.4?bundle');
+    PeerClass = mod.Peer || mod.default?.Peer || mod.default;
+    if (PeerClass) return PeerClass;
+  } catch (e) {
+    console.debug('[CastSync] ESM PeerJS load failed, falling back to script tag:', e);
+  }
+
+  return new Promise((resolve, reject) => {
+    if (typeof document === 'undefined') return reject(new Error('No document'));
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js';
+    s.async = true;
+    s.onload = () => {
+      PeerClass = window.Peer;
+      resolve(PeerClass);
+    };
+    s.onerror = (err) => {
+      console.warn('[CastSync] PeerJS script load error:', err);
+      reject(err);
+    };
+    document.head.appendChild(s);
+  });
+}
 
 /**
  * Check if the current window/tab is running as a presentation receiver.
@@ -42,10 +109,6 @@ export function checkIsReceiver() {
 
 /**
  * Initialize Cast & Presentation Synchronization.
- * @param {Object} options
- * @param {Function} options.getState - Function returning current application state object
- * @param {Function} options.applyState - Function applying remote state object to application
- * @param {Function} options.showToast - Function to show notifications in UI
  */
 export async function initCastSync({ getState, applyState, showToast }) {
   stateGetter = getState;
@@ -86,19 +149,20 @@ export async function initCastSync({ getState, applyState, showToast }) {
     setupPresentationReceiver();
   }
 
-  // 4. Setup Local Network SSE connection (works for Smart TV browsers on Wi-Fi)
+  // 4. Setup Local Network SSE connection (when running local dev server)
   setupNetworkSyncStream();
 
   // 5. Query local network info from Vite server
   fetchNetworkInfo();
 
-  // 6. Setup Receiver UI if running in display mode
+  // 6. Initialize WebRTC Peer-to-Peer Cloud Sync
+  initWebRtcSync();
+
+  // 7. Setup Receiver UI if running in display mode
   if (isReceiver && typeof document !== 'undefined') {
     document.body.classList.add('cast-receiver-mode');
 
     // ── 4K / HiDPI Resolution Detection ──────────────────────
-    // A 4K TV reports screen.width >= 3840 OR a high devicePixelRatio.
-    // Some TVs report 1920×1080 at DPR=2 (effective 3840×2160).
     const screenW = window.screen?.width ?? 1920;
     const screenH = window.screen?.height ?? 1080;
     const dpr = window.devicePixelRatio ?? 1;
@@ -106,22 +170,19 @@ export async function initCastSync({ getState, applyState, showToast }) {
 
     if (is4K) {
       document.body.classList.add('display-4k');
-      // Force viewport to physical pixel count — no browser UA scaling
       const viewportMeta = document.querySelector('meta[name="viewport"]');
       if (viewportMeta) {
         viewportMeta.content = `width=${screenW}, initial-scale=1.0, maximum-scale=1.0, user-scalable=no`;
       }
-      // Notify museum renderer to lift DPR cap for 4K output
       window.__receiverIs4K = true;
     }
 
-    // Auto-enter fullscreen on the receiver for maximum resolution utilization
+    // Auto-enter fullscreen on the receiver for maximum display area
     const tryFullscreen = () => {
       if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
       }
     };
-    // Attempt immediately, then again after first user gesture (some TVs require interaction)
     tryFullscreen();
     document.addEventListener('click', tryFullscreen, { once: true });
     document.addEventListener('keydown', tryFullscreen, { once: true });
@@ -129,12 +190,18 @@ export async function initCastSync({ getState, applyState, showToast }) {
     createReceiverUiBadge();
     setupReceiverIdleCursor();
 
+    // Check if room code is needed
+    const params = new URLSearchParams(window.location.search);
+    const roomParam = params.get('room');
+    if (!roomParam) {
+      promptReceiverRoomCode();
+    }
+
     // Ask controller for latest state
     setTimeout(() => {
       broadcastMessage({ type: 'REQUEST_STATE', timestamp: Date.now() });
-    }, 300);
+    }, 400);
   } else {
-
     // Setup Laser Pointer tracking on map container
     setupLaserPointerEmitter();
   }
@@ -155,11 +222,27 @@ export async function initCastSync({ getState, applyState, showToast }) {
       if (input) {
         input.select();
         navigator.clipboard?.writeText(input.value);
-        if (toastNotifier) toastNotifier('TV Direct URL copied to clipboard');
+        if (toastNotifier) toastNotifier('TV WebRTC URL copied to clipboard');
       }
+    };
+    window.copyCastRoomCode = () => {
+      const code = getOrCreateRoomCode();
+      navigator.clipboard?.writeText(code);
+      if (toastNotifier) toastNotifier(`Room code ${code} copied`);
     };
     window.setLaserPointer = (enabled) => {
       laserPointerEnabled = enabled;
+    };
+    window.refreshCastRoom = () => {
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      currentRoomCode = `KWB-${rand}`;
+      localStorage.setItem(ROOM_STORAGE_KEY, currentRoomCode);
+      if (hostPeer) {
+        try { hostPeer.destroy(); } catch (_) {}
+      }
+      initWebRtcHost();
+      updateCastModalFields();
+      if (toastNotifier) toastNotifier(`New Room Code generated: ${currentRoomCode}`);
     };
   }
 
@@ -169,8 +252,163 @@ export async function initCastSync({ getState, applyState, showToast }) {
     castToTV,
     broadcastChange,
     broadcastFullState,
+    getRoomCode: () => getOrCreateRoomCode(),
     getNetworkInfo: () => localNetworkInfo,
+    getConnectedReceiversCount: () => activeWebRtcConnections.size + activePresentationConnections.size,
   };
+}
+
+/**
+ * Initialize WebRTC P2P Sync (Host on Controller, Client on Receiver).
+ */
+async function initWebRtcSync() {
+  try {
+    const Peer = await loadPeerJS();
+    if (!Peer) return;
+
+    if (isController) {
+      initWebRtcHost();
+    } else {
+      const params = new URLSearchParams(window.location.search);
+      const room = params.get('room');
+      if (room) {
+        connectWebRtcReceiver(room);
+      }
+    }
+  } catch (e) {
+    console.debug('[CastSync] WebRTC PeerJS init bypassed:', e);
+  }
+}
+
+/**
+ * Initialize Host Peer on presenter laptop.
+ */
+function initWebRtcHost() {
+  if (!PeerClass || !isController) return;
+  const roomCode = getOrCreateRoomCode();
+  const hostId = sanitizePeerId(roomCode);
+
+  try {
+    hostPeer = new PeerClass(hostId, {
+      debug: 1,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478' },
+        ],
+      },
+    });
+
+    hostPeer.on('open', (id) => {
+      console.debug('[CastSync] WebRTC Host Peer active:', id);
+      updateModalStatusText();
+    });
+
+    hostPeer.on('connection', (conn) => {
+      console.debug('[CastSync] Receiver connected via WebRTC:', conn.peer);
+      activeWebRtcConnections.add(conn);
+      updateModalStatusText();
+
+      conn.on('open', () => {
+        // Send initial full state immediately to this receiver
+        if (stateGetter) {
+          const state = stateGetter();
+          conn.send({
+            type: 'FULL_STATE',
+            sender: 'controller',
+            state,
+            timestamp: Date.now(),
+          });
+        }
+        if (toastNotifier) {
+          toastNotifier('⚡ Smart TV connected via WebRTC live cloud sync');
+        }
+      });
+
+      conn.on('data', (data) => {
+        handleIncomingMessage(data, 'webrtc-host');
+      });
+
+      conn.on('close', () => {
+        activeWebRtcConnections.delete(conn);
+        updateModalStatusText();
+      });
+
+      conn.on('error', () => {
+        activeWebRtcConnections.delete(conn);
+        updateModalStatusText();
+      });
+    });
+
+    hostPeer.on('error', (err) => {
+      console.debug('[CastSync] Host Peer error (will keep existing transports active):', err);
+    });
+  } catch (err) {
+    console.debug('[CastSync] Host Peer creation error:', err);
+  }
+}
+
+/**
+ * Connect Receiver TV to Host Peer via WebRTC.
+ */
+export function connectWebRtcReceiver(roomCode) {
+  if (!PeerClass) {
+    loadPeerJS().then(() => connectWebRtcReceiver(roomCode));
+    return;
+  }
+
+  const hostId = sanitizePeerId(roomCode);
+  updateReceiverBadgeStatus(false, `CONNECTING TO ${roomCode.toUpperCase()}...`);
+
+  try {
+    if (clientPeer) {
+      try { clientPeer.destroy(); } catch (_) {}
+    }
+
+    clientPeer = new PeerClass(null, {
+      debug: 1,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:global.stun.twilio.com:3478' },
+        ],
+      },
+    });
+
+    clientPeer.on('open', () => {
+      const conn = clientPeer.connect(hostId, { reliable: true });
+      activeClientConn = conn;
+
+      conn.on('open', () => {
+        console.debug('[CastSync] Receiver WebRTC data channel OPEN');
+        updateReceiverBadgeStatus(true);
+        hideReceiverRoomPrompt();
+        conn.send({ type: 'REQUEST_STATE', timestamp: Date.now() });
+      });
+
+      conn.on('data', (data) => {
+        handleIncomingMessage(data, 'webrtc-receiver');
+      });
+
+      conn.on('close', () => {
+        updateReceiverBadgeStatus(false, 'DISCONNECTED // RETRYING...');
+        setTimeout(() => connectWebRtcReceiver(roomCode), 3000);
+      });
+
+      conn.on('error', (e) => {
+        console.debug('[CastSync] WebRTC Receiver connection error:', e);
+        updateReceiverBadgeStatus(false, 'CONNECTING...');
+      });
+    });
+
+    clientPeer.on('error', (err) => {
+      console.debug('[CastSync] Client Peer error:', err);
+      updateReceiverBadgeStatus(false, 'WAITING FOR CONTROLLER...');
+      setTimeout(() => connectWebRtcReceiver(roomCode), 4000);
+    });
+  } catch (err) {
+    console.debug('[CastSync] Error starting WebRTC client:', err);
+  }
 }
 
 /**
@@ -226,7 +464,7 @@ function setupNetworkSyncStream() {
         } catch (_) {}
       };
       networkEventSource.onerror = () => {
-        // SSE silent fallback
+        // SSE silent fallback for static Vercel hosts
       };
     }
   } catch (e) {
@@ -300,26 +538,35 @@ function handleIncomingMessage(msg, source) {
 }
 
 /**
- * Broadcast message over all active transports.
+ * Broadcast message over all active transports (WebRTC P2P, Presentation API, BroadcastChannel, LocalStorage, SSE).
  */
 function broadcastMessage(payload) {
   const jsonStr = JSON.stringify(payload);
 
-  // 1. BroadcastChannel
+  // 1. WebRTC DataChannels (Controller -> All connected TV receivers)
+  for (const conn of activeWebRtcConnections) {
+    try {
+      if (conn.open) {
+        conn.send(payload);
+      }
+    } catch (_) {}
+  }
+
+  // 2. BroadcastChannel (Same-device tabs/screens)
   if (broadcastChannel) {
     try {
       broadcastChannel.postMessage(payload);
     } catch (_) {}
   }
 
-  // 2. LocalStorage
+  // 3. LocalStorage
   if (typeof localStorage !== 'undefined') {
     try {
       localStorage.setItem(STORAGE_KEY, jsonStr);
     } catch (_) {}
   }
 
-  // 3. Presentation Connections (Controller -> TV)
+  // 4. Presentation Connections (Controller -> Wireless Cast Displays)
   for (const conn of activePresentationConnections) {
     try {
       if (conn.state === 'connected') {
@@ -328,8 +575,8 @@ function broadcastMessage(payload) {
     } catch (_) {}
   }
 
-  // 4. Local Network HTTP POST Relay (Cross-device / Smart TV)
-  if (typeof fetch !== 'undefined') {
+  // 5. Local Network HTTP POST Relay (Local dev server fallback)
+  if (typeof fetch !== 'undefined' && localNetworkInfo) {
     try {
       fetch('/api/cast-sync/publish', {
         method: 'POST',
@@ -342,8 +589,6 @@ function broadcastMessage(payload) {
 
 /**
  * Broadcast a single incremental state change.
- * @param {string} key - State property name
- * @param {*} value - New value
  */
 export function broadcastChange(key, value) {
   if (isApplyingRemoteState || !isController) return;
@@ -388,7 +633,7 @@ export function broadcastLaser(x, y, active, geo = null) {
 }
 
 /**
- * Initiate Cast to TV / External Display via Presentation API or Open Presentation Dialog.
+ * Initiate Cast to TV / External Display.
  */
 export async function castToTV() {
   if (typeof window === 'undefined') return;
@@ -396,7 +641,8 @@ export async function castToTV() {
 
   // If Presentation API is supported
   if ('PresentationRequest' in window) {
-    const receiverUrl = `${window.location.origin}/?cast=receiver`;
+    const room = getOrCreateRoomCode();
+    const receiverUrl = `${window.location.origin}/?cast=receiver&room=${room}`;
     const urls = [receiverUrl, window.location.href];
     const req = new PresentationRequest(urls);
 
@@ -413,17 +659,15 @@ export async function castToTV() {
 
       conn.addEventListener('close', () => {
         activePresentationConnections.delete(conn);
-        if (activePresentationConnections.size === 0) {
+        if (activePresentationConnections.size === 0 && activeWebRtcConnections.size === 0) {
           castBtn?.classList.remove('on', 'casting-live');
-          if (castBtn) castBtn.title = 'Cast to TV';
         }
       });
 
       conn.addEventListener('terminate', () => {
         activePresentationConnections.delete(conn);
-        if (activePresentationConnections.size === 0) {
+        if (activePresentationConnections.size === 0 && activeWebRtcConnections.size === 0) {
           castBtn?.classList.remove('on', 'casting-live');
-          if (castBtn) castBtn.title = 'Cast to TV';
         }
       });
 
@@ -434,7 +678,6 @@ export async function castToTV() {
         } catch (_) {}
       });
 
-      // Send initial full state immediately
       setTimeout(() => broadcastFullState(), 200);
       openCastModal(true);
       return;
@@ -445,7 +688,6 @@ export async function castToTV() {
     }
   }
 
-  // Fallback: Open Cast & Presentation Modal with direct Smart TV URL & instructions
   openCastModal(false);
 }
 
@@ -460,23 +702,50 @@ export function openCastModal(isConnected = false) {
     document.body.appendChild(modal);
   }
 
-  const ip = localNetworkInfo?.localIp || window.location.hostname || 'localhost';
-  const port = localNetworkInfo?.port || window.location.port || '5173';
-  const tvUrl = `http://${ip}:${port}/?cast=receiver`;
+  updateCastModalFields();
+  modal.classList.add('vis');
+}
+
+function getTvDirectUrl() {
+  const room = getOrCreateRoomCode();
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  
+  if (isLocal && localNetworkInfo?.localIp && localNetworkInfo.localIp !== 'localhost') {
+    return `http://${localNetworkInfo.localIp}:${localNetworkInfo.port || '5173'}/?cast=receiver&room=${room}`;
+  }
+  
+  const origin = window.location.origin.includes('localhost') ? DEFAULT_VERCEL_HOST : window.location.origin;
+  return `${origin}/?cast=receiver&room=${room}`;
+}
+
+function updateCastModalFields() {
+  const roomCode = getOrCreateRoomCode();
+  const tvUrl = getTvDirectUrl();
+
+  const codeEl = document.getElementById('castRoomCodeDisplay');
+  if (codeEl) codeEl.textContent = roomCode;
 
   const urlInput = document.getElementById('castTvUrlInput');
   if (urlInput) urlInput.value = tvUrl;
 
-  const statusText = document.getElementById('castStatusText');
-  if (statusText) {
-    if (isConnected || activePresentationConnections.size > 0) {
-      statusText.innerHTML = '<span class="cast-dot live"></span> Connected to TV // Live Real-Time Sync Active';
-    } else {
-      statusText.innerHTML = '<span class="cast-dot ready"></span> Ready to Cast // Broadcast Channel & Wi-Fi Active';
-    }
+  const qrImg = document.getElementById('castQrImage');
+  if (qrImg) {
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&color=00ff88&bgcolor=080f1a&data=${encodeURIComponent(tvUrl)}`;
   }
 
-  modal.classList.add('vis');
+  updateModalStatusText();
+}
+
+function updateModalStatusText() {
+  const statusText = document.getElementById('castStatusText');
+  if (!statusText) return;
+
+  const count = activeWebRtcConnections.size + activePresentationConnections.size;
+  if (count > 0) {
+    statusText.innerHTML = `<span class="cast-dot live"></span> LIVE SYNCHRONIZED // ${count} Display${count > 1 ? 's' : ''} Connected via WebRTC`;
+  } else {
+    statusText.innerHTML = '<span class="cast-dot ready"></span> Ready to Cast // WebRTC Cloud & Local Wi-Fi Active';
+  }
 }
 
 /**
@@ -506,31 +775,48 @@ function createCastModalElement() {
       </div>
 
       <div class="cast-modal-status" id="castStatusText">
-        <span class="cast-dot ready"></span> Ready to Cast // Broadcast Channel & Wi-Fi Active
+        <span class="cast-dot ready"></span> Ready to Cast // WebRTC Cloud & Local Wi-Fi Active
+      </div>
+
+      <!-- Room Code & QR Header -->
+      <div class="cast-room-banner">
+        <div class="cast-room-info">
+          <div class="cast-room-lbl">PRESENTATION ROOM CODE</div>
+          <div class="cast-room-code-wrap">
+            <span class="cast-room-code" id="castRoomCodeDisplay">KWB-1994</span>
+            <button class="cast-room-btn" onclick="window.copyCastRoomCode()" title="Copy Room Code">COPY CODE</button>
+            <button class="cast-room-btn alt" onclick="window.refreshCastRoom()" title="Generate New Room">↻ NEW</button>
+          </div>
+          <div class="cast-room-hint">Type this code on your TV or scan the QR code to connect instantly anywhere on Vercel or Wi-Fi.</div>
+        </div>
+        <div class="cast-qr-box">
+          <img id="castQrImage" alt="Cast QR Code" src="" width="96" height="96" />
+          <span class="cast-qr-lbl">SCAN WITH TV/PHONE</span>
+        </div>
       </div>
 
       <div class="cast-modal-section">
-        <div class="cast-section-label">OPTION 1: WIRELESS CAST / CHROMECAST / AIRPLAY</div>
-        <p class="cast-section-desc">Click below or use browser <b>Menu → Cast…</b> to send this dashboard to your TV. All changes on your laptop will reflect in real time.</p>
+        <div class="cast-section-label">OPTION 1: SMART TV BROWSER DIRECT URL (VERCEL / WEB / WI-FI)</div>
+        <p class="cast-section-desc">Open your TV or second screen's web browser and navigate directly to this live link:</p>
+        <div class="cast-url-box">
+          <input type="text" id="castTvUrlInput" readonly value="" />
+          <button class="cast-copy-btn" onclick="window.copyCastTvUrl()">COPY LINK</button>
+        </div>
+      </div>
+
+      <div class="cast-modal-section">
+        <div class="cast-section-label">OPTION 2: CHROMECAST / WIRELESS DISPLAY / AIRPLAY</div>
+        <p class="cast-section-desc">Send this presentation to your Chromecast or Wireless display via native browser casting:</p>
         <div class="cast-btn-row">
           <button class="fbtn on" onclick="window.triggerBrowserCast()">▶ START WIRELESS CAST</button>
           <button class="fbtn" onclick="window.forceResyncCast()">⚡ FORCE RESYNC TV</button>
         </div>
       </div>
 
-      <div class="cast-modal-section">
-        <div class="cast-section-label">OPTION 2: SMART TV BROWSER / SECOND SCREEN DIRECT LINK</div>
-        <p class="cast-section-desc">Open your TV's web browser and navigate to this local URL (laptop and TV must be on same Wi-Fi):</p>
-        <div class="cast-url-box">
-          <input type="text" id="castTvUrlInput" readonly value="http://localhost:5173/?cast=receiver" />
-          <button class="cast-copy-btn" onclick="window.copyCastTvUrl()">COPY</button>
-        </div>
-      </div>
-
       <div class="cast-modal-options">
         <label class="cast-opt-label">
           <input type="checkbox" id="laserToggle" checked onchange="window.setLaserPointer(this.checked)" />
-          <span>Show Presenter Laser Pointer on TV when hovering laptop map</span>
+          <span>Show Presenter Laser Pointer dot on TV when moving mouse across laptop map</span>
         </label>
       </div>
 
@@ -540,6 +826,54 @@ function createCastModalElement() {
     </div>
   `;
   return div;
+}
+
+/**
+ * Prompt receiver screen for room code if opened without ?room= parameter.
+ */
+function promptReceiverRoomCode() {
+  if (typeof document === 'undefined') return;
+  let prompt = document.getElementById('receiverRoomPrompt');
+  if (prompt) return;
+
+  prompt = document.createElement('div');
+  prompt.id = 'receiverRoomPrompt';
+  prompt.className = 'receiver-room-prompt';
+  prompt.innerHTML = `
+    <div class="rrp-box">
+      <div class="rrp-title">KWIBUKA // TV PRESENTATION RECEIVER</div>
+      <div class="rrp-subtitle">Enter the 6-character Presentation Room Code shown on your controller laptop:</div>
+      <div class="rrp-input-row">
+        <input type="text" id="rrpCodeInput" placeholder="e.g. KWB-7492" maxlength="12" autofocus />
+        <button class="rrp-btn" id="rrpConnectBtn">CONNECT DISPLAY</button>
+      </div>
+      <div class="rrp-hint">Or open the direct URL from your laptop: <code>?cast=receiver&room=KWB-XXXX</code></div>
+    </div>
+  `;
+  document.body.appendChild(prompt);
+
+  const btn = document.getElementById('rrpConnectBtn');
+  const input = document.getElementById('rrpCodeInput');
+
+  const doConnect = () => {
+    const code = input?.value?.trim();
+    if (code) {
+      connectWebRtcReceiver(code);
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', code);
+      window.history.replaceState({}, '', url.toString());
+    }
+  };
+
+  btn?.addEventListener('click', doConnect);
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') doConnect();
+  });
+}
+
+function hideReceiverRoomPrompt() {
+  const prompt = document.getElementById('receiverRoomPrompt');
+  if (prompt) prompt.remove();
 }
 
 /**
@@ -601,10 +935,10 @@ function createReceiverUiBadge() {
   if (typeof document === 'undefined') return;
   const badge = document.createElement('div');
   badge.id = 'receiverLiveBadge';
-  badge.className = 'receiver-live-badge live';
+  badge.className = 'receiver-live-badge';
   badge.innerHTML = `
     <span class="rl-dot"></span>
-    <span class="rl-text">LIVE PRESENTATION DISPLAY</span>
+    <span class="rl-text">DISPLAY // CONNECTING...</span>
     <button class="rl-fs-btn" onclick="window.toggleReceiverFullscreen()" title="Toggle Fullscreen (F)">⛶</button>
   `;
   document.body.appendChild(badge);
@@ -626,13 +960,16 @@ function createReceiverUiBadge() {
   }
 }
 
-function updateReceiverBadgeStatus(isLive) {
+function updateReceiverBadgeStatus(isLive, customText = null) {
   if (typeof document === 'undefined') return;
   const badge = document.getElementById('receiverLiveBadge');
   if (badge) {
     badge.classList.toggle('live', isLive);
     const text = badge.querySelector('.rl-text');
-    if (text) text.textContent = isLive ? 'LIVE PRESENTATION DISPLAY' : 'DISPLAY // CONNECTING...';
+    if (text) {
+      if (customText) text.textContent = customText;
+      else text.textContent = isLive ? 'LIVE PRESENTATION DISPLAY' : 'DISPLAY // CONNECTING...';
+    }
   }
 }
 

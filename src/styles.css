@@ -3778,3 +3778,388 @@ body.display-4k .test-pg-info { font-size: 11px; }
   body.cast-receiver-mode:not(.display-4k) .hctr { font-size: 28px; }
   body.cast-receiver-mode:not(.display-4k) .dc-val { font-size: 32px; }
 }
+
+/* ══════════════════════════════════════════════════════
+   REAL-TIME PRESENTATION CAST MODAL & P2P STYLING
+   ══════════════════════════════════════════════════════ */
+.cast-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+}
+.cast-modal.vis {
+  display: flex;
+}
+.cast-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 14, 0.85);
+  backdrop-filter: blur(8px);
+}
+.cast-modal-panel {
+  position: relative;
+  width: 92%;
+  max-width: 580px;
+  background: #080f1a;
+  border: 1px solid rgba(0, 255, 136, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85), 0 0 24px rgba(0, 255, 136, 0.15);
+  padding: 22px 26px;
+  color: var(--tx0);
+  font-family: var(--mono);
+  border-radius: 4px;
+}
+.cast-modal-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+}
+.cast-modal-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #00ff88;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cast-modal-close {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--tx1);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.cast-modal-close:hover {
+  color: #fff;
+  border-color: #fff;
+}
+.cast-modal-status {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--tx1);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 10px;
+  border-left: 3px solid #00ff88;
+}
+.cast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb800;
+  box-shadow: 0 0 8px #ffb800;
+}
+.cast-dot.live {
+  background: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+  animation: castPulse 1.8s infinite ease-in-out;
+}
+@keyframes castPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.2); }
+}
+
+/* Room Banner & QR Code */
+.cast-room-banner {
+  display: flex;
+  gap: 16px;
+  background: rgba(0, 255, 136, 0.04);
+  border: 1px dashed rgba(0, 255, 136, 0.3);
+  padding: 14px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.cast-room-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.cast-room-lbl {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--amb);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.cast-room-code-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.cast-room-code {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #00ff88;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 10px;
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  border-radius: 3px;
+}
+.cast-room-btn {
+  background: #00ff88;
+  color: #04080e;
+  border: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.cast-room-btn.alt {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--tx0);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.cast-room-btn:hover {
+  filter: brightness(1.15);
+}
+.cast-room-hint {
+  font-size: 9px;
+  color: var(--tx2);
+  line-height: 1.4;
+}
+.cast-qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #080f1a;
+  padding: 8px;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 3px;
+}
+.cast-qr-box img {
+  border-radius: 2px;
+}
+.cast-qr-lbl {
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: var(--tx2);
+  margin-top: 4px;
+}
+
+.cast-modal-section {
+  margin-bottom: 14px;
+}
+.cast-section-label {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--tx1);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.cast-section-desc {
+  font-size: 10px;
+  color: var(--tx2);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.cast-url-box {
+  display: flex;
+  gap: 6px;
+}
+.cast-url-box input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--tx0);
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 6px 8px;
+  border-radius: 2px;
+}
+.cast-copy-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--tx0);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 0 12px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+.cast-copy-btn:hover {
+  background: #00ff88;
+  color: #04080e;
+  border-color: #00ff88;
+}
+.cast-btn-row {
+  display: flex;
+  gap: 10px;
+}
+.cast-modal-options {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cast-opt-label {
+  font-size: 9px;
+  color: var(--tx1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.cast-modal-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Receiver UI Components */
+.receiver-live-badge {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 999999;
+  background: rgba(4, 8, 14, 0.88);
+  border: 1px solid rgba(255, 184, 0, 0.4);
+  color: var(--amb);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 6px 12px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(6px);
+}
+.receiver-live-badge.live {
+  border-color: rgba(0, 255, 136, 0.6);
+  color: #00ff88;
+}
+.receiver-live-badge .rl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb800;
+}
+.receiver-live-badge.live .rl-dot {
+  background: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
+  animation: castPulse 1.8s infinite;
+}
+.receiver-live-badge .rl-fs-btn {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+/* Receiver Laser Pointer Dot */
+.receiver-laser-dot {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ff2244;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(255, 34, 68, 0.3), 0 0 16px 4px rgba(255, 0, 0, 0.8);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99999;
+  transition: opacity 0.15s ease-out;
+}
+
+/* TV On-Screen Room Code Prompt */
+.receiver-room-prompt {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  background: rgba(3, 7, 14, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+}
+.rrp-box {
+  width: 90%;
+  max-width: 520px;
+  background: #080f1a;
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.9), 0 0 32px rgba(0, 255, 136, 0.2);
+  padding: 32px 28px;
+  text-align: center;
+  border-radius: 6px;
+}
+.rrp-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #00ff88;
+  margin-bottom: 12px;
+}
+.rrp-subtitle {
+  font-size: 11px;
+  color: var(--tx1);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.rrp-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.rrp-input-row input {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(0, 255, 136, 0.4);
+  color: #00ff88;
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  outline: none;
+}
+.rrp-input-row input:focus {
+  border-color: #00ff88;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.3);
+}
+.rrp-btn {
+  background: #00ff88;
+  color: #04080e;
+  border: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 0 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.rrp-btn:hover {
+  filter: brightness(1.2);
+}
+.rrp-hint {
+  font-size: 9px;
+  color: var(--tx2);
+}
+.rrp-hint code {
+  color: var(--amb);
+}
+
+body.hide-cursor {
+  cursor: none !important;
+}
+
